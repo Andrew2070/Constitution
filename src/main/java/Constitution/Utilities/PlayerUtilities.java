@@ -1,11 +1,7 @@
 package Constitution.Utilities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,16 +10,25 @@ import javax.annotation.Nullable;
 
 import com.mojang.authlib.GameProfile;
 
-import Constitution.Constitution;
+import Constitution.ConstitutionMain;
+import Constitution.Exceptions.PermissionCommandException;
+import Constitution.Localization.LocalizationManager;
 import Constitution.Permissions.ConstitutionBridge;
 import Constitution.Permissions.Group;
 import Constitution.Permissions.PermissionProxy;
-import Constitution.Permissions.User;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class PlayerUtilities {
 	
+	protected static UUID getUUIDFromUsername(String username) {
+		UUID uuid = PlayerUtilities.getUUIDFromName(username);
+		if (uuid == null) {
+			throw new PermissionCommandException("Constitution.perm.cmd.err.player.notExist",
+					LocalizationManager.get("Constitution.format.user.short", username));
+		}
+		return uuid;
+	}
 	public static ConstitutionBridge getManager() {
 		return (ConstitutionBridge) PermissionProxy.getPermissionManager();
 	}
@@ -53,12 +58,12 @@ public class PlayerUtilities {
 					if (player != null) {
 						GameProfile profile = player.getGameProfile();
 						Integer permissionLevelOP = VanillaUtilities.getMinecraftServer().getOpPermissionLevel();
-						Constitution.logger.info("Multiplayer detected: Player: " + player.getDisplayNameString() + " isOP: " + VanillaUtilities.getMinecraftServer().getPlayerList().canSendCommands(profile));
+						ConstitutionMain.logger.info("Multiplayer detected: Player: " + player.getDisplayNameString() + " isOP: " + VanillaUtilities.getMinecraftServer().getPlayerList().canSendCommands(profile));
 						return VanillaUtilities.getMinecraftServer().getPlayerList().canSendCommands(profile);
 					}
 				}
 			} else {
-			Constitution.logger.info("Singleplayer Detected: Op Status True");
+			ConstitutionMain.logger.info("Singleplayer Detected: Op Status True");
 			return true;
 			}
 		}	
