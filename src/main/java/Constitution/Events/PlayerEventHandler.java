@@ -3,42 +3,31 @@ package Constitution.Events;
 import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.mojang.authlib.GameProfile;
 
-import Constitution.Permissions.ConstitutionBridge;
-import Constitution.Permissions.Group;
-import Constitution.Permissions.User;
-import Constitution.Utilities.PlayerUtilities;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.event.HoverEvent;
-import net.minecraft.world.GameType;
-import net.minecraftforge.client.event.RenderTooltipEvent;
-import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
-import Constitution.Constitution;
+import Constitution.ConstitutionMain;
 import Constitution.Chat.ChatComponentBorders;
 import Constitution.Chat.ChatComponentFormatted;
 import Constitution.Configuration.Config;
 import Constitution.Localization.LocalizationManager;
+import Constitution.Permissions.ConstitutionBridge;
+import Constitution.Permissions.Group;
+import Constitution.Permissions.User;
+import Constitution.Utilities.PlayerUtilities;
 import Constitution.Utilities.VanillaUtilities;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.GameType;
+import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 
 /**
  * @author Andrew2070
@@ -105,7 +94,7 @@ public class PlayerEventHandler {
 								Group defaultGroup = manager.groups.get(Config.instance.defaultGroupName.get());
 								defaultGroup.setUser(playerUUID);
 								manager.saveGroups();
-								Constitution.logger.info("New User Created For: " + displayName);
+								ConstitutionMain.logger.info("New User Created For: " + displayName);
 							} else {
 								//Case 2: UUID exists (Existing User Returning):
 								if(manager.users.contains(playerUUID)) {
@@ -114,7 +103,7 @@ public class PlayerEventHandler {
 									if(!manager.users.contains(displayName)) {
 										existingUser.setLastPlayerName(existingUser.getUserName());
 										existingUser.setUserName(displayName);
-										Constitution.logger.info("Existing User Modified For Alt: " + displayName);
+										ConstitutionMain.logger.info("Existing User Modified For Alt: " + displayName);
 									}
 									//Do a bunch of stuff for returning User:
 									if (Config.instance.setLastGameMode.get() == true) {
@@ -162,7 +151,7 @@ public class PlayerEventHandler {
 					Group defaultGroup = manager.groups.get(Config.instance.defaultGroupName.get());
 					defaultGroup.setUser(playerUUID);
 					manager.saveGroups();
-					Constitution.logger.info("New User Created For: " + displayName);
+					ConstitutionMain.logger.info("New User Created For: " + displayName);
 				} 
 				//Case 6: Returning Join on SinglePlayer or Developer Environment With This UUID (Mod Testing Purposes):
 				else {
@@ -205,7 +194,7 @@ public class PlayerEventHandler {
 		if (event.getPlayer() instanceof EntityPlayerMP) {
 
 			if (manager.users != null) {
-				EntityPlayerMP player = (EntityPlayerMP) event.getPlayer();
+				EntityPlayerMP player = event.getPlayer();
 				String playerName = player.getDisplayNameString();
 				User user = manager.users.get(player.getUniqueID());
 				Group group = user.getDominantGroup();

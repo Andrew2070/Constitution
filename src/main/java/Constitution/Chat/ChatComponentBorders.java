@@ -1,8 +1,5 @@
 package Constitution.Chat;
 
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-
 public class ChatComponentBorders {
 
 	public static String borderEditor(String string) {

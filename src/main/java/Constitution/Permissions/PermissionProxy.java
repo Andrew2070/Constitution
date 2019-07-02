@@ -1,7 +1,7 @@
 package Constitution.Permissions;
 
+import Constitution.ConstitutionMain;
 import Constitution.Configuration.Config;
-import Constitution.Constitution;
 public class PermissionProxy {
 	public static final String PERM_SYSTEM_CONSTITUTION = "$Constitution";
 
@@ -19,7 +19,7 @@ public class PermissionProxy {
 		if (Config.instance.permissionSystem.get().equals(PERM_SYSTEM_CONSTITUTION)) {
 			permissionManager = new ConstitutionBridge();
 			((ConstitutionBridge) permissionManager).loadConfigs();
-			Constitution.logger.info("Currently using built-in permission system.");
+			ConstitutionMain.logger.info("Currently using built-in permission system.");
 		}
 	}
 }

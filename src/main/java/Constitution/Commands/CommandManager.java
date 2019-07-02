@@ -9,13 +9,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import Constitution.ConstitutionMain;
 import Constitution.Commands.Registrar.ICommandRegistrar;
 import Constitution.Commands.Registrar.VanillaCommandRegistrar;
 import Constitution.Exceptions.CommandException;
 import Constitution.Localization.Localization;
 import Constitution.Permissions.IPermissionBridge;
 import net.minecraft.command.ICommandSender;
-import Constitution.Constitution;
 public class CommandManager {
 
 	/**
@@ -37,9 +37,7 @@ public class CommandManager {
 	public static void registerCommands(Class clazz, String rootPerm, Localization local, IPermissionBridge customManager) {
 		CommandTreeNode root = null;
 		CommandTree commandTree = rootPerm == null ? null : getTree(rootPerm);
-
 		Map<Command, Method> nodes = new HashMap<Command, Method>();
-
 		for (final Method method : clazz.getDeclaredMethods()) {
 			if (method.isAnnotationPresent(Command.class)) {
 				if (isMethodValid(method)) {
@@ -54,12 +52,11 @@ public class CommandManager {
 						nodes.put(command, method);
 					}
 				} else {
-					Constitution.instance.logger.info("Method " + method.getName() + " from class " + clazz.getName()
+					ConstitutionMain.logger.info("Method " + method.getName() + " from class " + clazz.getName()
 							+ " is not valid for command usage");
 				}
 			}
 		}
-
 		if (commandTree == null) {
 			if (root == null) {
 				throw new CommandException("Class " + clazz.getName() + " has no root command.");
@@ -75,7 +72,7 @@ public class CommandManager {
 		constructTree(commandTree.getRoot(), nodes);
 
 		for (Map.Entry<Command, Method> entry : nodes.entrySet()) {
-			Constitution.instance.logger.info("Missing parent: " + entry.getKey().permission() + " |<-| " + entry.getKey().parentName());
+			ConstitutionMain.logger.info("Missing parent: " + entry.getKey().permission() + " |<-| " + entry.getKey().parentName());
 		}
 	}
 
@@ -129,7 +126,7 @@ public class CommandManager {
 				if (parent != null) {
 					parent.addChild(new CommandTreeNode(parent, entry.getKey(), entry.getValue()));
 					if (!root.getLocal().hasLocalization(entry.getKey().permission() + ".help")) {
-						Constitution.instance.logger.info("Missing help: " + entry.getKey().permission() + ".help"); 
+						ConstitutionMain.logger.info("Missing help: " + entry.getKey().permission() + ".help"); 
 					}
 					it.remove();
 				}
@@ -147,7 +144,6 @@ public class CommandManager {
 		if (!(method.getParameterTypes()[0].equals(ICommandSender.class)
 				&& method.getParameterTypes()[1].equals(List.class)))
 			return false;
-
 		return true;
 	}
 

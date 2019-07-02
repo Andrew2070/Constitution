@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import Constitution.ConstitutionMain;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
-import Constitution.Constitution;
 /**
  * Config class which contains most of the basic functionality needed in a
  * config. All the fields of the type ConfigProperty inside the extended class
@@ -92,9 +92,9 @@ public abstract class ConfigTemplate {
 				try {
 					properties.add((ConfigProperty) field.get(this));
 				} catch (IllegalAccessException ex) {
-					Constitution.logger.info("Failed to access " + field.getName() + " while binding to config "
+					ConstitutionMain.logger.info("Failed to access " + field.getName() + " while binding to config "
 							+ config.getConfigFile().getName());
-					Constitution.logger.info(ExceptionUtils.getStackTrace(ex));
+					ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(ex));
 
 				}
 			}
@@ -122,9 +122,9 @@ public abstract class ConfigTemplate {
 				property.set(forgeProp.getStringList());
 			}
 		} catch (RuntimeException ex) {
-			Constitution.logger.info("Config value of " + property.name + " in category " + property.category
+			ConstitutionMain.logger.info("Config value of " + property.name + " in category " + property.category
 					+ " was not of the proper type!");
-			Constitution.logger.info(ExceptionUtils.getStackTrace(ex));
+			ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(ex));
 			throw ex;
 		}
 	}

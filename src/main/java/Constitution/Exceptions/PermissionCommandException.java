@@ -1,7 +1,7 @@
 package Constitution.Exceptions;
-import Constitution.Constitution;
+import Constitution.ConstitutionMain;
 public class PermissionCommandException extends CommandException {
 	public PermissionCommandException(String localKey, Object... args) {
-		super(Constitution.instance.LOCAL.getLocalization(localKey, args).getUnformattedText());
+		super(ConstitutionMain.instance.LOCAL.getLocalization(localKey, args).getUnformattedText());
 	}
 }

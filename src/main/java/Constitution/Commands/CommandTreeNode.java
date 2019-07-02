@@ -11,6 +11,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
+import Constitution.ConstitutionMain;
 import Constitution.Chat.ChatComponentHelpMenu;
 import Constitution.Chat.ChatManager;
 import Constitution.Exceptions.CommandException;
@@ -20,7 +21,6 @@ import Constitution.Utilities.StringUtilities;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
-import Constitution.Constitution;
 
 public class CommandTreeNode extends TreeNode<CommandTreeNode> {
 
@@ -103,10 +103,10 @@ public class CommandTreeNode extends TreeNode<CommandTreeNode> {
 			} else if (e.getCause() instanceof RuntimeException) {
 				throw (RuntimeException) e.getCause();
 			} else {
-				Constitution.logger.info(ExceptionUtils.getStackTrace(e));
+				ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(e));
 			}
 		} catch (IllegalAccessException e) {
-			Constitution.logger.info(ExceptionUtils.getStackTrace(e));
+			ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(e));
 		}
 	}
 

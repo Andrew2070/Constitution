@@ -14,10 +14,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
-import Constitution.Constitution;
+import Constitution.ConstitutionMain;
 import Constitution.Chat.ChatComponentFormatted;
+import net.minecraft.util.text.ITextComponent;
 /**
  * Loads and handles Localization files
  */
@@ -35,22 +34,22 @@ public class Localization {
 		this.lang = lang;
 		this.classPath = classPath;
 		this.clazz = clazz;
-		Constitution.logger.info(filePath);
-		Constitution.logger.info(lang);
-		Constitution.logger.info(classPath);
-		Constitution.logger.info(clazz.toString());
+		ConstitutionMain.logger.info(filePath);
+		ConstitutionMain.logger.info(lang);
+		ConstitutionMain.logger.info(classPath);
+		ConstitutionMain.logger.info(clazz.toString());
 		
 		load();
 	}
 
 	private Reader getReader() throws FileNotFoundException {
 		InputStream is = null;
-		Constitution.logger.info(filePath.toString());
+		ConstitutionMain.logger.info(filePath.toString());
 		if (filePath != null) {
-			Constitution.logger.info("FilePath not null");
+			ConstitutionMain.logger.info("FilePath not null");
 			File file = new File(filePath + lang + ".lang");
 			if (file.exists() && !file.isDirectory()) {
-				Constitution.logger.info("Localization File Exists");
+				ConstitutionMain.logger.info("Localization File Exists");
 				is = new FileInputStream(file);
 			}
 		}
@@ -59,7 +58,7 @@ public class Localization {
 
 			
 			is = clazz.getResourceAsStream(classPath + lang + ".lang");
-			Constitution.logger.info("Reverting to en_US.lang because " + lang + ".lang does not exist");
+			ConstitutionMain.logger.info("Reverting to en_US.lang because " + lang + ".lang does not exist");
 			
 		}
 		} catch (NullPointerException e) {
@@ -93,8 +92,8 @@ public class Localization {
 			}
 			br.close();
 		} catch (IOException ex) {
-			Constitution.logger.info("Failed to load localization file!");
-			Constitution.logger.info(ExceptionUtils.getStackTrace(ex));
+			ConstitutionMain.logger.info("Failed to load localization file!");
+			ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(ex));
 		}
 	}
 

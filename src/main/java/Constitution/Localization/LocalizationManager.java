@@ -5,7 +5,6 @@ import java.util.Map;
 
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.text.ITextComponent;
-import Constitution.Constitution;
 /**
  * Centralized localization access
  */

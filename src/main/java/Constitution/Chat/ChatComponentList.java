@@ -1,6 +1,5 @@
 package Constitution.Chat;
 
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 
 public class ChatComponentList extends  net.minecraft.util.text.TextComponentString  {

@@ -1,8 +1,6 @@
 package Constitution.Chat;
 
 
-import java.util.List;
-
 import Constitution.Localization.LocalizationManager;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;

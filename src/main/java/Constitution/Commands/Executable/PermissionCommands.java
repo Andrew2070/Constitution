@@ -3,12 +3,10 @@ package Constitution.Commands.Executable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import Constitution.Constitution;
+
+import Constitution.ConstitutionMain;
 import Constitution.Chat.ChatComponentBorders;
 import Constitution.Chat.ChatComponentFormatted;
-import Constitution.Chat.ChatComponentGroupList;
-import Constitution.Chat.ChatComponentList;
-import Constitution.Chat.ChatComponentMultiPage;
 import Constitution.Chat.ChatManager;
 import Constitution.Commands.Command;
 import Constitution.Commands.CommandResponse;
@@ -20,14 +18,12 @@ import Constitution.Permissions.ConstitutionBridge;
 import Constitution.Permissions.Group;
 import Constitution.Permissions.PermissionProxy;
 import Constitution.Permissions.User;
-import Constitution.Utilities.ColorUtilities;
 import Constitution.Utilities.PlayerUtilities;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
 
-public class CoreCommands {
+public class PermissionCommands {
 	
 	private static ConstitutionBridge getManager() {
 		return (ConstitutionBridge) PermissionProxy.getPermissionManager();
@@ -50,7 +46,7 @@ public class CoreCommands {
 		}
 		return uuid;
 	}
-//Misc Commands:
+	
 		@Command(name = "cperm",
 				permission = "Constitution.perm.cmd",
 				syntax = "/cperm <command>",
@@ -74,7 +70,7 @@ public class CoreCommands {
 				syntax = "/cperm config reload",
 				description = "Reloads Configuration Files")
 		public static CommandResponse configReloadCommand(ICommandSender sender, List<String> args) {
-			Constitution.instance.loadConfig();
+			ConstitutionMain.instance.loadConfig();
 			// REF: Change these to localized versions of themselves
 			ChatManager.send(sender, "Constitution.notification.config.reloaded");
 			if (PermissionProxy.getPermissionManager() instanceof ConstitutionBridge) {

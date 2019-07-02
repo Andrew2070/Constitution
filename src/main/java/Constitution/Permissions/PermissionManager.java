@@ -7,10 +7,8 @@ import Constitution.Utilities.PlayerUtilities;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.command.server.CommandBanPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CommandEvent;
@@ -51,7 +49,7 @@ public final class PermissionManager {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void commandEvent(CommandEvent event) {
 		if (!checkPermission(event.getSender(), event.getCommand())) {
-			Constitution.Constitution.logger.info("Command Canceled For:" + event.getSender().toString() + ": Command: " + event.getCommand().toString());
+			Constitution.ConstitutionMain.logger.info("Command Canceled For:" + event.getSender().toString() + ": Command: " + event.getCommand().toString());
 			event.setCanceled(true);
 			ITextComponent msg = TextComponentHelper.createComponentTranslation(event.getSender(), "commands.generic.permission", new Object[0]);
 			msg.getStyle().setColor(TextFormatting.RED);

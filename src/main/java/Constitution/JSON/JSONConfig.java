@@ -15,7 +15,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import Constitution.Constitution;
+
+import Constitution.ConstitutionMain;
 
 /**
  * An abstract class for all JSON configs.
@@ -70,10 +71,10 @@ public abstract class JSONConfig<T, L extends List<T>> {
             Writer writer = new FileWriter(path);
             gson.toJson(initialItems, gsonType, writer);
             writer.close();
-            Constitution.logger.info("Created new " + name + " file successfully!");
+            ConstitutionMain.logger.info("Created new " + name + " file successfully!");
         } catch (IOException ex) {
-            Constitution.logger.info(ExceptionUtils.getStackTrace(ex));
-            Constitution.logger.info("Failed to create " + name + " file!");
+            ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(ex));
+            ConstitutionMain.logger.info("Failed to create " + name + " file!");
             
         }
     }
@@ -90,10 +91,10 @@ public abstract class JSONConfig<T, L extends List<T>> {
             Writer writer = new FileWriter(path);
             gson.toJson(items, gsonType, writer);
             writer.close();
-            Constitution.logger.info("Updated the " + name + " file successfully!");
+            ConstitutionMain.logger.info("Updated the " + name + " file successfully!");
         } catch (IOException ex) {
-            Constitution.logger.info(ExceptionUtils.getStackTrace(ex));
-            Constitution.logger.info("Failed to update " + name + " file!");
+            ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(ex));
+            ConstitutionMain.logger.info("Failed to update " + name + " file!");
         }
     }
 
@@ -106,14 +107,14 @@ public abstract class JSONConfig<T, L extends List<T>> {
             Reader reader = new FileReader(path);
             items = gson.fromJson(reader, gsonType);
             reader.close();
-            Constitution.logger.info(path);
-            Constitution.logger.info(reader.toString());
-            Constitution.logger.info(gsonType.toString());
+            ConstitutionMain.logger.info(path);
+            ConstitutionMain.logger.info(reader.toString());
+            ConstitutionMain.logger.info(gsonType.toString());
             
-            Constitution.logger.info("Loaded " + name + " successfully!");
+            ConstitutionMain.logger.info("Loaded " + name + " successfully!");
         } catch (IOException ex) {
-            Constitution.logger.info(ExceptionUtils.getStackTrace(ex));
-            Constitution.logger.info("Failed to read from " + name + " file!");
+            ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(ex));
+            ConstitutionMain.logger.info("Failed to read from " + name + " file!");
         }
         	if (!validate(items)) {
         		write(items);

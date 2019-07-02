@@ -13,8 +13,8 @@ public class ConstitutionBridge implements IPermissionBridge {
 	public final Group.Container groups = new Group.Container();
 	public final User.Container users = new User.Container();
 
-	public final GroupConfig groupConfig = new GroupConfig(Constitution.Constitution.CONFIG_FOLDER + "JSON/Groups.json", this);
-	public final UserConfig userConfig = new UserConfig(Constitution.Constitution.CONFIG_FOLDER + "JSON/Users.json", this);
+	public final GroupConfig groupConfig = new GroupConfig(Constitution.ConstitutionMain.CONFIG_FOLDER + "JSON/Groups.json", this);
+	public final UserConfig userConfig = new UserConfig(Constitution.ConstitutionMain.CONFIG_FOLDER + "JSON/Users.json", this);
 
 	public ConstitutionBridge() {
 	}
