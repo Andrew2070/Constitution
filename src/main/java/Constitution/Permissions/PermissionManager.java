@@ -3,6 +3,7 @@ package Constitution.Permissions;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import Constitution.ConstitutionMain;
 import Constitution.Utilities.PlayerUtilities;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
@@ -49,7 +50,7 @@ public final class PermissionManager {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void commandEvent(CommandEvent event) {
 		if (!checkPermission(event.getSender(), event.getCommand())) {
-			Constitution.ConstitutionMain.logger.info("Command Canceled For:" + event.getSender().toString() + ": Command: " + event.getCommand().toString());
+			ConstitutionMain.logger.info("Command Canceled For:" + event.getSender().toString() + ": Command: " + event.getCommand().toString());
 			event.setCanceled(true);
 			ITextComponent msg = TextComponentHelper.createComponentTranslation(event.getSender(), "commands.generic.permission", new Object[0]);
 			msg.getStyle().setColor(TextFormatting.RED);
