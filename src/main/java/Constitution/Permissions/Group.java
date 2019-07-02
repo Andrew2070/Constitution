@@ -18,13 +18,11 @@ import Constitution.Chat.ChatComponentBorders;
 import Constitution.Chat.ChatComponentFormatted;
 import Constitution.Chat.IChatFormat;
 import Constitution.Configuration.Config;
-import Constitution.Events.PlayerEventHandler;
 import Constitution.JSON.SerializerTemplate;
 import Constitution.Localization.LocalizationManager;
 import Constitution.Utilities.PlayerUtilities;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 
 
