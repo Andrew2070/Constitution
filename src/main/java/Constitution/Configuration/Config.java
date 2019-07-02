@@ -112,6 +112,21 @@ public class Config extends ConfigTemplate {
 			"Allows editing chat messages, includes different Mod support",
 			"[ExampleMod][GroupPrefix][UserPrefix] PlayerName [UserSuffix][GroupSuffix]: message");
 	
+	public ConfigProperty<String> defaultWarnMessage= new ConfigProperty<String>(
+			"defaultWarnDuration", "BanManager",
+			"When no warn message is specified, what message should be sent to the warned player?",
+			"You Have Been Warned!");
+	
+	public ConfigProperty<String> defaultBanMessage = new ConfigProperty<String>(
+			"defaultBanMessage", "BanManager",
+			"When no ban message is specified, what message should be sent to the banned player?",
+			"The Ban Hammer Has Spoken!");
+	
+	public ConfigProperty<String> defaultBanDuration = new ConfigProperty<String>(
+			"defaultBanDuration", "BanManager",
+			"When no tempban duration is specified, how long should the player be banned by default?",
+			"1h");
+	
 	
 			
 			

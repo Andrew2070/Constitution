@@ -51,6 +51,8 @@ public class User implements IChatFormat {
 	private					Integer							XPTotal				 = 0;
 	private 				String 							Prefix 				 = "";
 	private 				String						 	Suffix 				 = "";
+	private					String							BanReason			 = Config.instance.defaultBanMessage.get();
+	private					Date							BanDuration			 = new Date();
 	private					Boolean							Banned				 = false;
 	private					Boolean							IPBanned			 = false;
 	public final			List<Group> 					Groups 				 = new ArrayList<Group>();
@@ -80,7 +82,6 @@ public class User implements IChatFormat {
 		this.setDominantGroup(PlayerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
 		this.Operator = PlayerUtilities.isOP(player.getPersistentID());
 	}
-
 
 	public User(UUID uuid) {
 		this.uuid = uuid;
@@ -163,6 +164,10 @@ public class User implements IChatFormat {
 	public String getIP() {
 		return this.IPAddress;
 	}
+	
+//	public Long getBanDuration() {
+	//	return this.BanDuration;
+	//}
 
 	public Boolean canFly() {
 		return this.canFly;
@@ -214,6 +219,10 @@ public class User implements IChatFormat {
 
 	public Group getDominantGroup() {
 		return this.DominantGroup;
+	}
+	
+	public String getBanReason() {
+		return this.BanReason;
 	}
 
 	//Set Methods:
@@ -318,8 +327,16 @@ public class User implements IChatFormat {
 		this.Banned = val;
 	}
 
+	//public void setBanDuration(Long long) {
+	//	this.BanDuration = long;
+	//}
+	
 	public void setIPBanned(Boolean val) {
 		this.IPBanned = val;
+	}
+	
+	public void setBanReason(String reason) {
+		this.BanReason = reason;
 	}
 
 	public void setDominantGroup() {
@@ -355,7 +372,7 @@ public class User implements IChatFormat {
 
 	@Override
 	public ITextComponent toChatMessage() {
-		String location = "X: " + this.getLocation().getX() + " Y: " + this.getLocation().getY() + " Z:" + this.getLocation().getZ();
+		String location = "X: " + this.getLocation().getX() + " Y: " + this.getLocation().getY() + " Z: " + this.getLocation().getZ();
 		String modifiedUUID = this.getUUID().toString().replace("-", ""); //Decrease the Character Count by removing "-" between characters.
 
 		ITextComponent header = LocalizationManager.get("Constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover(this.getUserName())));
@@ -430,20 +447,19 @@ public class User implements IChatFormat {
 			user.setDimension(jsonObject.get("Dimension").getAsInt());
 			user.setLocation(new BlockPos(jsonObject.get("LocationX").getAsInt(),jsonObject.get("LocationY").getAsInt(), jsonObject.get("LocationZ").getAsInt()));
 			user.setLastActivity(jsonObject.get("LastActivity").getAsLong());
+			user.setBanReason(jsonObject.get("BanReason").getAsString());
 			try {
 				user.setJoinDate(new SimpleDateFormat().parse(jsonObject.get("JoinDate").getAsString()));
 				user.setLastOnline(new SimpleDateFormat().parse(jsonObject.get("LastOnline").getAsString()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-
 			return user;
 		}
 
 		@Override
 		public JsonElement serialize(User user, Type typeOfSrc, JsonSerializationContext context) {
 			JsonObject json = new JsonObject();
-
 			json.addProperty("UUID", user.uuid.toString());
 			if (user.getUserName() != null) {
 				json.addProperty("Player", user.getUserName());
@@ -470,7 +486,7 @@ public class User implements IChatFormat {
 			json.add("IPBanned", context.serialize(user.isIPBanned()));
 			json.add("Prefix", context.serialize(user.getPrefix()));
 			json.add("Suffix", context.serialize(user.getSuffix()));
-			
+			json.add("BanReason", context.serialize(user.getBanReason()));
 			if (!user.Groups.isEmpty()) {
 				List<String> GroupNames = new ArrayList<String>();
 				for (Group group : user.Groups) {
