@@ -45,7 +45,7 @@ public class ConstitutionMain
     public static 						   File                jsonFile           = null;
     public static 						   String 			   CONFIG_FOLDER 	  = "";
 	public static						   String 			   DATABASE_FOLDER 	  = "";
-	public static						   String			   COMMAND_FOLDER     = "";
+	public static						   String			   COMMAND_FOLDER     = "constitution.commands.executable";
     public static 					       Logger              logger             = Logger.getLogger(MODID);
     public static boolean                  debug             					  = false;
     private final List<JSONConfig> 		   jsonConfigs 							  = new ArrayList<JSONConfig>();
@@ -94,13 +94,12 @@ public class ConstitutionMain
     @EventHandler
     public void preInitializationEvent(FMLPreInitializationEvent event) {
     	//CONFIGURATION:
-    	COMMAND_FOLDER = "Constitution.Commands.Executable";
     	CONFIG_FOLDER = event.getModConfigurationDirectory().getPath() + "/Constitution/";
 		DATABASE_FOLDER = event.getModConfigurationDirectory().getParent() + "/databases/";
     	Config.instance.init(CONFIG_FOLDER + "/Constitution.cfg", "Constitution");
     	LOCAL = new Localization(CONFIG_FOLDER + "/Localization/", Config.instance.localization.get(),
 				"/Constitution/Localization/", ConstitutionMain.class);
-    	LocalizationManager.register(LOCAL, "Constitution");
+    	LocalizationManager.register(LOCAL, "constitution");
 		MinecraftForge.EVENT_BUS.register(PlayerEventHandler.instance);
     }
  
@@ -114,8 +113,7 @@ public class ConstitutionMain
     	loadConfig();
     	logger.info("Constitution Started");
     	if (PermissionProxy.getPermissionManager() instanceof ConstitutionBridge) {
-			CommandManager.registerCommands(PermissionCommands.class, "Constitution.perm.cmd", ConstitutionMain.instance.LOCAL, null);
-    		//CommandManager.registerCommands(ExecutiveCommands.class, "Constitution.exec.cmd", ConstitutionMain.instance.LOCAL, null);
+			CommandManager.registerCommands(PermissionCommands.class, "constitution.perm.cmd", ConstitutionMain.instance.LOCAL, null);
 			//registerCommands();
 		}
     }
@@ -136,9 +134,9 @@ public class ConstitutionMain
     public static void registerCommands() {
     	//Needs Work (CommandManager is persistent on each Command Class Having A Root Command);
     	List<Class<?>> commandClazzes = (ClassUtilities.getClassesInPackage(COMMAND_FOLDER));
-		String rootPerm = "Constitution.perm.cmd";
     	for (Class<?> clazz : commandClazzes) {
-    		logger.info("Class: " + clazz.getSimpleName());
+    		String rootPerm = 
+    		logger.info("Class: " + clazz.getSimpleName()); 
     		CommandManager.registerCommands(clazz, rootPerm, ConstitutionMain.instance.LOCAL, null);
     	}
     }
