@@ -11,9 +11,9 @@ import java.util.logging.Logger;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 
-import Constitution.Commands.CommandManager;
 import Constitution.Commands.ArchivedCommands.ExecutiveCommands;
-import Constitution.Commands.Executable.PermissionCommands;
+import Constitution.Commands.Engine.CommandManager;
+import Constitution.Commands.ServerCommands.Permissions.PermissionCommands;
 import Constitution.Configuration.Config;
 import Constitution.Events.PlayerEventHandler;
 import Constitution.JSON.JSONConfig;
