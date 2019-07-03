@@ -1,14 +1,14 @@
-package Constitution.Configuration;
+package constitution.configuration;
 
 
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.GsonBuilder;
 
-import Constitution.JSON.JSONConfig;
-import Constitution.Permissions.ConstitutionBridge;
-import Constitution.Permissions.Group;
-import Constitution.Permissions.Meta;
+import constitution.configuration.json.JSONConfig;
+import constitution.permissions.ConstitutionBridge;
+import constitution.permissions.Group;
+import constitution.permissions.Meta;
 
 public class GroupConfig extends JSONConfig<Group, Group.Container> {
 

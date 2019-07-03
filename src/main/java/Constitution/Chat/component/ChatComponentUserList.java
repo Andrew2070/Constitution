@@ -1,6 +1,6 @@
-package Constitution.Chat;
+package constitution.chat.component;
 
-import Constitution.Permissions.User;
+import constitution.permissions.User;
 
 public class ChatComponentUserList extends ChatComponentMultiPage {
 	private User.Container users;

@@ -1,4 +1,4 @@
-package Constitution.Utilities;
+package constitution.utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +10,12 @@ import javax.annotation.Nullable;
 
 import com.mojang.authlib.GameProfile;
 
-import Constitution.ConstitutionMain;
-import Constitution.Exceptions.PermissionCommandException;
-import Constitution.Localization.LocalizationManager;
-import Constitution.Permissions.ConstitutionBridge;
-import Constitution.Permissions.Group;
-import Constitution.Permissions.PermissionProxy;
+import constitution.ConstitutionMain;
+import constitution.exceptions.PermissionCommandException;
+import constitution.localization.LocalizationManager;
+import constitution.permissions.ConstitutionBridge;
+import constitution.permissions.Group;
+import constitution.permissions.PermissionProxy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 

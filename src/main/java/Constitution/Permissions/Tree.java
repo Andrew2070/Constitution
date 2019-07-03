@@ -1,4 +1,4 @@
-package Constitution.Permissions;
+package constitution.permissions;
 
 public class Tree<T extends TreeNode> {
 	private T root;

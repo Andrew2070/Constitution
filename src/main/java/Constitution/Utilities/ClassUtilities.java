@@ -1,4 +1,4 @@
-package Constitution.Utilities;
+package constitution.utilities;
 
 import java.io.File;
 import java.io.FileInputStream;

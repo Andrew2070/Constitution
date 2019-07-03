@@ -1,4 +1,4 @@
-package Constitution.Commands.Engine;
+package constitution.commands.engine;
 
 public enum CommandResponse {
 

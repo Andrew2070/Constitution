@@ -1,13 +1,13 @@
-package Constitution.Configuration;
+package constitution.configuration;
 import java.util.UUID;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.GsonBuilder;
 
-import Constitution.JSON.JSONConfig;
-import Constitution.Permissions.ConstitutionBridge;
-import Constitution.Permissions.Meta;
-import Constitution.Permissions.User;
+import constitution.configuration.json.JSONConfig;
+import constitution.permissions.ConstitutionBridge;
+import constitution.permissions.Meta;
+import constitution.permissions.User;
 
 public class UserConfig extends JSONConfig<User, User.Container> {
 	UUID uuid = UUID.randomUUID();

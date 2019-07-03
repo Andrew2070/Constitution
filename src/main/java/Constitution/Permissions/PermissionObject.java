@@ -1,4 +1,4 @@
-package Constitution.Permissions;
+package constitution.permissions;
 
 
 public interface PermissionObject {

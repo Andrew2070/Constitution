@@ -1,4 +1,4 @@
-package Constitution.Datasource.Bridge;
+package constitution.datasource.bridge;
 
 /**
  * Used for handling connection to a database through a database engine

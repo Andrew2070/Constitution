@@ -1,4 +1,4 @@
-package Constitution.Permissions;
+package constitution.permissions;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;

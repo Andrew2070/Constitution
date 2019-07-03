@@ -1,4 +1,4 @@
-package Constitution.Commands.Engine;
+package constitution.commands.engine;
 
 
 
@@ -9,12 +9,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import Constitution.ConstitutionMain;
-import Constitution.Commands.Engine.Registrar.ICommandRegistrar;
-import Constitution.Commands.Engine.Registrar.VanillaCommandRegistrar;
-import Constitution.Exceptions.CommandException;
-import Constitution.Localization.Localization;
-import Constitution.Permissions.IPermissionBridge;
+import constitution.ConstitutionMain;
+import constitution.commands.engine.registrar.ICommandRegistrar;
+import constitution.commands.engine.registrar.VanillaCommandRegistrar;
+import constitution.exceptions.CommandException;
+import constitution.localization.Localization;
+import constitution.permissions.IPermissionBridge;
 import net.minecraft.command.ICommandSender;
 public class CommandManager {
 

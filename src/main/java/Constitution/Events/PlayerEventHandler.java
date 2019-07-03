@@ -1,4 +1,4 @@
-package Constitution.Events;
+package constitution.events;
 
 import java.net.SocketAddress;
 import java.util.ArrayList;
@@ -8,16 +8,16 @@ import java.util.UUID;
 
 import com.mojang.authlib.GameProfile;
 
-import Constitution.ConstitutionMain;
-import Constitution.Chat.ChatComponentBorders;
-import Constitution.Chat.ChatComponentFormatted;
-import Constitution.Configuration.Config;
-import Constitution.Localization.LocalizationManager;
-import Constitution.Permissions.ConstitutionBridge;
-import Constitution.Permissions.Group;
-import Constitution.Permissions.User;
-import Constitution.Utilities.PlayerUtilities;
-import Constitution.Utilities.VanillaUtilities;
+import constitution.ConstitutionMain;
+import constitution.chat.component.ChatComponentBorders;
+import constitution.chat.component.ChatComponentFormatted;
+import constitution.configuration.Config;
+import constitution.localization.LocalizationManager;
+import constitution.permissions.ConstitutionBridge;
+import constitution.permissions.Group;
+import constitution.permissions.User;
+import constitution.utilities.PlayerUtilities;
+import constitution.utilities.VanillaUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;

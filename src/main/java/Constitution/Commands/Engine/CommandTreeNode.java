@@ -1,4 +1,4 @@
-package Constitution.Commands.Engine;
+package constitution.commands.engine;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -11,13 +11,13 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
-import Constitution.ConstitutionMain;
-import Constitution.Chat.ChatComponentHelpMenu;
-import Constitution.Chat.ChatManager;
-import Constitution.Exceptions.CommandException;
-import Constitution.Localization.Localization;
-import Constitution.Permissions.TreeNode;
-import Constitution.Utilities.StringUtilities;
+import constitution.ConstitutionMain;
+import constitution.chat.ChatManager;
+import constitution.chat.component.ChatComponentHelpMenu;
+import constitution.exceptions.CommandException;
+import constitution.localization.Localization;
+import constitution.permissions.TreeNode;
+import constitution.utilities.StringUtilities;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;

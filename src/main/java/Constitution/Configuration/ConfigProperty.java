@@ -1,4 +1,4 @@
-package Constitution.Configuration;
+package constitution.configuration;
 
 
 import java.util.Map;

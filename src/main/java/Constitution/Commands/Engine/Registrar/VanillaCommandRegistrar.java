@@ -1,4 +1,4 @@
-package Constitution.Commands.Engine.Registrar;
+package constitution.commands.engine.registrar;
 
 import net.minecraft.command.CommandHandler;
 import net.minecraft.command.ICommand;
@@ -10,7 +10,7 @@ public class VanillaCommandRegistrar implements ICommandRegistrar {
 	protected CommandHandler commandHandler;
 
 	public VanillaCommandRegistrar() {
-		this.commandHandler = (CommandHandler) Constitution.Utilities.VanillaUtilities.getMinecraftServer().getCommandManager();
+		this.commandHandler = (CommandHandler) constitution.utilities.VanillaUtilities.getMinecraftServer().getCommandManager();
 	}
 
 	@Override

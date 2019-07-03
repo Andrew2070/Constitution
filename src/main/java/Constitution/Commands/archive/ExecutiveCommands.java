@@ -1,20 +1,20 @@
-package Constitution.Commands.ArchivedCommands;
+package constitution.commands.archive;
 
 import java.util.List;
 import java.util.UUID;
 
-import Constitution.Chat.ChatManager;
-import Constitution.Commands.Engine.Command;
-import Constitution.Commands.Engine.CommandResponse;
-import Constitution.Configuration.Config;
-import Constitution.Exceptions.PermissionCommandException;
-import Constitution.Localization.LocalizationManager;
-import Constitution.Permissions.ConstitutionBridge;
-import Constitution.Permissions.Group;
-import Constitution.Permissions.PermissionProxy;
-import Constitution.Permissions.User;
-import Constitution.Utilities.PlayerUtilities;
-import Constitution.Utilities.VanillaUtilities;
+import constitution.chat.ChatManager;
+import constitution.commands.engine.Command;
+import constitution.commands.engine.CommandResponse;
+import constitution.configuration.Config;
+import constitution.exceptions.PermissionCommandException;
+import constitution.localization.LocalizationManager;
+import constitution.permissions.ConstitutionBridge;
+import constitution.permissions.Group;
+import constitution.permissions.PermissionProxy;
+import constitution.permissions.User;
+import constitution.utilities.PlayerUtilities;
+import constitution.utilities.VanillaUtilities;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;

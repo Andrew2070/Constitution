@@ -1,4 +1,4 @@
-package Constitution;
+package constitution;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,18 +11,18 @@ import java.util.logging.Logger;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 
-import Constitution.Commands.ArchivedCommands.ExecutiveCommands;
-import Constitution.Commands.Engine.CommandManager;
-import Constitution.Commands.ServerCommands.Permissions.PermissionCommands;
-import Constitution.Configuration.Config;
-import Constitution.Events.PlayerEventHandler;
-import Constitution.JSON.JSONConfig;
-import Constitution.Localization.Localization;
-import Constitution.Localization.LocalizationManager;
-import Constitution.Permissions.ConstitutionBridge;
-import Constitution.Permissions.PermissionProxy;
-import Constitution.Utilities.ClassUtilities;
-import Constitution.Utilities.LogFormatter;
+import constitution.commands.archive.ExecutiveCommands;
+import constitution.commands.engine.CommandManager;
+import constitution.commands.servercommands.permissions.PermissionCommands;
+import constitution.configuration.Config;
+import constitution.configuration.json.JSONConfig;
+import constitution.events.PlayerEventHandler;
+import constitution.localization.Localization;
+import constitution.localization.LocalizationManager;
+import constitution.permissions.ConstitutionBridge;
+import constitution.permissions.PermissionProxy;
+import constitution.utilities.ClassUtilities;
+import constitution.utilities.LogFormatter;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;

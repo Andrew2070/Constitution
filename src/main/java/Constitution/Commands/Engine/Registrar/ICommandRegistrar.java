@@ -1,4 +1,4 @@
-package Constitution.Commands.Engine.Registrar;
+package constitution.commands.engine.registrar;
 import net.minecraft.command.ICommand;
 
 public interface ICommandRegistrar {

@@ -1,4 +1,4 @@
-package Constitution.Utilities;
+package constitution.utilities;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,12 +1,12 @@
-package Constitution.Commands.Engine;
+package constitution.commands.engine;
 
 import java.util.Arrays;
 import java.util.List;
 
-import Constitution.Permissions.ConstitutionBridge;
-import Constitution.Permissions.PermissionLevel;
-import Constitution.Permissions.PermissionObject;
-import Constitution.Permissions.PermissionProxy;
+import constitution.permissions.ConstitutionBridge;
+import constitution.permissions.PermissionLevel;
+import constitution.permissions.PermissionObject;
+import constitution.permissions.PermissionProxy;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;

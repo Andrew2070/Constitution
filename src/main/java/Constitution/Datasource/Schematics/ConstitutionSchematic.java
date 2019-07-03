@@ -1,6 +1,6 @@
-package Constitution.Datasource.Schematics;
+package constitution.datasource.schematics;
 
-import Constitution.Datasource.Bridge.BridgeSQL;
+import constitution.datasource.bridge.BridgeSQL;
 
 public class ConstitutionSchematic extends BaseSchematic {
 

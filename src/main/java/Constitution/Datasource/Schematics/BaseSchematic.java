@@ -1,9 +1,9 @@
-package Constitution.Datasource.Schematics;
+package constitution.datasource.schematics;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Constitution.Datasource.Bridge.BridgeSQL;
+import constitution.datasource.bridge.BridgeSQL;
 
 public abstract class BaseSchematic {
 	/**

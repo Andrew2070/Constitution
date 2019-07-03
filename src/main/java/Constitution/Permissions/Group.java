@@ -1,4 +1,4 @@
-package Constitution.Permissions;
+package constitution.permissions;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -14,13 +14,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
-import Constitution.Chat.ChatComponentBorders;
-import Constitution.Chat.ChatComponentFormatted;
-import Constitution.Chat.IChatFormat;
-import Constitution.Configuration.Config;
-import Constitution.JSON.SerializerTemplate;
-import Constitution.Localization.LocalizationManager;
-import Constitution.Utilities.PlayerUtilities;
+import constitution.chat.IChatFormat;
+import constitution.chat.component.ChatComponentBorders;
+import constitution.chat.component.ChatComponentFormatted;
+import constitution.configuration.Config;
+import constitution.configuration.json.SerializerTemplate;
+import constitution.localization.LocalizationManager;
+import constitution.utilities.PlayerUtilities;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 

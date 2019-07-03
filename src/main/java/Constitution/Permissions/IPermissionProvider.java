@@ -1,4 +1,4 @@
-package Constitution.Permissions;
+package constitution.permissions;
 
 /**
  * Interface for permission management systems to implement

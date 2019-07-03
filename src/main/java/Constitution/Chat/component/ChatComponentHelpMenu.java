@@ -1,7 +1,7 @@
-package Constitution.Chat;
+package constitution.chat.component;
 
-import Constitution.Commands.Engine.CommandTreeNode;
-import Constitution.Localization.LocalizationManager;
+import constitution.commands.engine.CommandTreeNode;
+import constitution.localization.LocalizationManager;
 
 public class ChatComponentHelpMenu extends ChatComponentMultiPage {
 

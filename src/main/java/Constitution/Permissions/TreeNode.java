@@ -1,4 +1,4 @@
-package Constitution.Permissions;
+package constitution.permissions;
 
 import java.util.ArrayList;
 import java.util.List;

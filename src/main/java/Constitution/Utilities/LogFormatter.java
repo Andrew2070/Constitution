@@ -1,4 +1,4 @@
-package Constitution.Utilities;
+package constitution.utilities;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

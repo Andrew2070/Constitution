@@ -1,7 +1,7 @@
-package Constitution.Permissions;
+package constitution.permissions;
 
-import Constitution.ConstitutionMain;
-import Constitution.Configuration.Config;
+import constitution.ConstitutionMain;
+import constitution.configuration.Config;
 public class PermissionProxy {
 	public static final String PERM_SYSTEM_CONSTITUTION = "$Constitution";
 

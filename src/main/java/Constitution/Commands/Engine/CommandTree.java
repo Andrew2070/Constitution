@@ -1,12 +1,12 @@
-package Constitution.Commands.Engine;
+package constitution.commands.engine;
 
 import java.util.List;
 import java.util.UUID;
 
-import Constitution.Localization.Localization;
-import Constitution.Permissions.IPermissionBridge;
-import Constitution.Permissions.PermissionProxy;
-import Constitution.Permissions.Tree;
+import constitution.localization.Localization;
+import constitution.permissions.IPermissionBridge;
+import constitution.permissions.PermissionProxy;
+import constitution.permissions.Tree;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;

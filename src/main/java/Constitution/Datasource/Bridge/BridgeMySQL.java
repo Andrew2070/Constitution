@@ -1,16 +1,17 @@
-package Constitution.Datasource.Bridge;
+package constitution.datasource.bridge;
 
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import Constitution.ConstitutionMain;
+
 import com.mysql.jdbc.Driver;
 
-import Constitution.Configuration.Config;
-import Constitution.Configuration.ConfigProperty;
-import Constitution.Configuration.ConfigTemplate;
+import constitution.ConstitutionMain;
+import constitution.configuration.Config;
+import constitution.configuration.ConfigProperty;
+import constitution.configuration.ConfigTemplate;
 
 public class BridgeMySQL extends BridgeSQL {
 

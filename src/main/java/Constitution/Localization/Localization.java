@@ -1,4 +1,4 @@
-package Constitution.Localization;
+package constitution.localization;
 
 
 import java.io.BufferedReader;
@@ -14,8 +14,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import Constitution.ConstitutionMain;
-import Constitution.Chat.ChatComponentFormatted;
+import constitution.ConstitutionMain;
+import constitution.chat.component.ChatComponentFormatted;
 import net.minecraft.util.text.ITextComponent;
 /**
  * Loads and handles Localization files

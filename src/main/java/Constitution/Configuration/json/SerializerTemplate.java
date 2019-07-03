@@ -1,4 +1,4 @@
-package Constitution.JSON;
+package constitution.configuration.json;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;

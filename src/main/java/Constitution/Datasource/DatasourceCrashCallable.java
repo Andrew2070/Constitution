@@ -1,4 +1,4 @@
-package Constitution.Datasource;
+package constitution.datasource;
 
 
 import java.sql.Connection;

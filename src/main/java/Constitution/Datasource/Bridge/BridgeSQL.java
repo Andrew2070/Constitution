@@ -1,4 +1,4 @@
-package Constitution.Datasource.Bridge;
+package constitution.datasource.bridge;
 
 
 import java.sql.Connection;

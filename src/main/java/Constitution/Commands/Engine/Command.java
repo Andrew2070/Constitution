@@ -1,4 +1,4 @@
-package Constitution.Commands.Engine;
+package constitution.commands.engine;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

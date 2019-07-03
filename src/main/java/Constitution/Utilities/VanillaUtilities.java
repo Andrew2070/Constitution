@@ -1,4 +1,4 @@
-package Constitution.Utilities;
+package constitution.utilities;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;

@@ -1,10 +1,10 @@
-package Constitution.Permissions;
+package constitution.permissions;
 
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import Constitution.ConstitutionMain;
-import Constitution.Utilities.PlayerUtilities;
+import constitution.ConstitutionMain;
+import constitution.utilities.PlayerUtilities;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;

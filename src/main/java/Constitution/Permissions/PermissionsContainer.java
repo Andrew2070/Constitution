@@ -1,13 +1,13 @@
-package Constitution.Permissions;
+package constitution.permissions;
 
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import Constitution.Chat.ChatComponentFormatted;
-import Constitution.Chat.ChatComponentList;
-import Constitution.Chat.IChatFormat;
-import Constitution.Localization.LocalizationManager;
+import constitution.chat.IChatFormat;
+import constitution.chat.component.ChatComponentFormatted;
+import constitution.chat.component.ChatComponentList;
+import constitution.localization.LocalizationManager;
 import net.minecraft.util.text.ITextComponent;
 
 public class PermissionsContainer extends ArrayList<String> implements IChatFormat {

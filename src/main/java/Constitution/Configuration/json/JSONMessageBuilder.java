@@ -1,5 +1,5 @@
 
-package Constitution.JSON;
+package constitution.configuration.json;
 
 
 import com.google.gson.JsonArray;

@@ -1,4 +1,4 @@
-package Constitution.Chat;
+package constitution.chat;
 
 import net.minecraft.util.text.ITextComponent;
 

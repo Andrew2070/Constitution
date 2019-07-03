@@ -1,4 +1,4 @@
-package Constitution.Localization;
+package constitution.localization;
 
 import java.util.HashMap;
 import java.util.Map;

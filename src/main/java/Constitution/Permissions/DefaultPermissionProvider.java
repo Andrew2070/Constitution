@@ -1,4 +1,4 @@
-package Constitution.Permissions;
+package constitution.permissions;
 
 
 
@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.mojang.authlib.GameProfile;
 
-import Constitution.Utilities.VanillaUtilities;
+import constitution.utilities.VanillaUtilities;
 import net.minecraft.server.management.UserListOpsEntry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 

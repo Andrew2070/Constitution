@@ -1,6 +1,5 @@
-package Constitution.Datasource.Schematics;
+package constitution.datasource.schematics;
 
-import Constitution.ConstitutionMain;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,12 +11,13 @@ import java.util.List;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.Logger;
 
-import Constitution.Configuration.Config;
-import Constitution.Configuration.ConfigProperty;
-import Constitution.Configuration.ConfigTemplate;
-import Constitution.Datasource.Bridge.BridgeMySQL;
-import Constitution.Datasource.Bridge.BridgeSQL;
-import Constitution.Datasource.Bridge.BridgeSQLite;
+import constitution.ConstitutionMain;
+import constitution.configuration.Config;
+import constitution.configuration.ConfigProperty;
+import constitution.configuration.ConfigTemplate;
+import constitution.datasource.bridge.BridgeMySQL;
+import constitution.datasource.bridge.BridgeSQL;
+import constitution.datasource.bridge.BridgeSQLite;
 
 /**
  * Datasource class which contains most functionality needed for a database

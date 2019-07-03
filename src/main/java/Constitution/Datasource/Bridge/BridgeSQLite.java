@@ -1,4 +1,4 @@
-package Constitution.Datasource.Bridge;
+package constitution.datasource.bridge;
 
 
 import java.io.File;
@@ -8,10 +8,10 @@ import java.sql.SQLException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.sqlite.JDBC;
 
-import Constitution.Configuration.Config;
-import Constitution.Configuration.ConfigProperty;
-import Constitution.Configuration.ConfigTemplate;
-import Constitution.ConstitutionMain;
+import constitution.ConstitutionMain;
+import constitution.configuration.Config;
+import constitution.configuration.ConfigProperty;
+import constitution.configuration.ConfigTemplate;
 public class BridgeSQLite extends BridgeSQL {
 
 	public ConfigProperty<String> dbPath = Config.instance.DBPath;

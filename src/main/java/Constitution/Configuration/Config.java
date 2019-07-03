@@ -1,4 +1,4 @@
-package Constitution.Configuration;
+package constitution.configuration;
 
 /**
  * @author Andrew2070

@@ -1,4 +1,4 @@
-package Constitution.Chat;
+package constitution.chat.component;
 
 import net.minecraft.command.ICommandSender;
 

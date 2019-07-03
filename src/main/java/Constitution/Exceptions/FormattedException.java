@@ -1,5 +1,5 @@
-package Constitution.Exceptions;
-import Constitution.Localization.LocalizationManager;
+package constitution.exceptions;
+import constitution.localization.LocalizationManager;
 import net.minecraft.util.text.ITextComponent;
 
 public abstract class FormattedException extends RuntimeException {

@@ -1,7 +1,7 @@
-package Constitution.Chat;
+package constitution.chat;
 
 
-import Constitution.Localization.LocalizationManager;
+import constitution.localization.LocalizationManager;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;

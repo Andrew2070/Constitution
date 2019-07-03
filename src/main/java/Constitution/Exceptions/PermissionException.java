@@ -1,4 +1,4 @@
-package Constitution.Exceptions;
+package constitution.exceptions;
 
 public class PermissionException extends RuntimeException {
 

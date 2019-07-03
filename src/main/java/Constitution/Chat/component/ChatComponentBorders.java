@@ -1,4 +1,4 @@
-package Constitution.Chat;
+package constitution.chat.component;
 
 public class ChatComponentBorders {
 
