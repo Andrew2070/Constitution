@@ -14,14 +14,14 @@ constitution.format.group.parent={c|%s}
 constitution.format.user.short={c|%s}
 constitution.format.permission={7| - %s}
 constitution.format.list.header={%s}
-constitution.format.user.long={%s}{9N|-----------------------------------------------------}{2N|UUID: {3|%s}{2N|Prefix: %s}{2N|Suffix: %s}{2N|Location: {1|%s}{2N|Group(s): }{%s}{2N|IPAddress: {c|%s}{2N|Permissions: }{3N|%s}{9N|-----------------------------------------------------}
-constitution.format.user.long.hover={%s}{2N|ID: {3|%s}{2N|Prefix: %s}{2N|Suffix: %s}{2N|Location: {6|%s}{2N|Group(s): }{%s}{2N|IPAddress: {c|%s}{2N|Permissions: {3N|%s}
+constitution.format.user.long={%s}{9N|-----------------------------------------------------}{2N|UUID: {3|%s}{2N|Prefix: %s}{2N|Suffix: %s}{2N|Location: {1|%s}{2N|Group(s): }{%s}{2N|IP Address: {c|%s}{2N|Permissions: }{3N|%s}{9N|-----------------------------------------------------}
+constitution.format.user.long.hover={%s}{2N|ID: {3|%s}{2N|Prefix: %s}{2N|Suffix: %s}{2N|Location: {6|%s}{2N|Group(s): }{%s}{2N|IP Address: {c|%s}{2N|Permissions: {3N|%s}
 constitution.format.user.list={%s}{2N|%s}
 constitution.format.short={6|%s << %s}
 #=================================================Errors=============================================================
-constitution.perm.cmd.err.group.notExist={6|[CN] }{c|The Group }{%s}{c| Does Not Exist}
-Constituion.perm.cmd.err.player.notExist={6|[CN] }{c|The Player }{%s}{c| Does Not Exist}
-constitution.perm.cmd.err.entity.notPlayer={6|[CN] }{c|Not A Valid Player}
+constitution.cmd.perm.err.group.notExist={6|[CN] }{c|The Group }{%s}{c| Does Not Exist}
+constituion.perm.cmd.err.player.notExist={6|[CN] }{c|The Player }{%s}{c| Does Not Exist}
+constitution.cmd.perm.err.entity.notPlayer={6|[CN] }{c|Not A Valid Player}
 
 #==============================================Notifications=========================================================
 constitution.notification.permissions.config.reloaded={6|[CN] }{a|Successfully reloaded permissions configurations}
@@ -42,44 +42,44 @@ constitution.notification.user.suffix.added={6|[CN] }{a|Suffix: }{%s}{a| Added T
 constitution.notification.user.suffix.removed{6|[CN] }{a|Suffix Restored To Default For User: }{%s}
 #==============================================Command Help========================================================== 
 #>>>>>>>>>>>>>>>>>>>>>Miscellaneous:
-constitution.perm.cmd.help={6|[CN] }{a|Root Command For All Permission Commands}
-constitution.perm.cmd.config.help={6|[CN] }{a|Base Configuration Parent Command}
-constitution.perm.cmd.config.reload.help={6|[CN] }{a|Reloads Configuration Files}
+constitution.cmd.perm.help={6|[CN] }{a|Root Command For All Permission Commands}
+constitution.cmd.perm.config.help={6|[CN] }{a|Base Configuration Parent Command}
+constitution.cmd.perm.config.reload.help={6|[CN] }{a|Reloads Configuration Files}
 #>>>>>>>>>>>>>>>>>>>>>Groups:
-constitution.perm.cmd.group.help={6|[CN] }{a|Base Group Command/Parent Command For Group Sub Commands}
-constitution.perm.cmd.group.info.help={6|[CN] }{a|Shows In-Depth Properties of Sender or Targeted Group}
-constitution.perm.cmd.group.list.help={6|[CN] }{a|Displays a List of Existing Groups and Their Properties}
-constitution.perm.cmd.group.add.help={6|[CN] }{a|Creates Group With Provided Name and Optional ParentGroup}
-constitution.perm.cmd.group.delete.help={6|[CN] }{a|Deletes A Selected Group}
-constitution.perm.cmd.group.rename.help={6|[CN] }{a|Renames A Selected Group}
-constitution.perm.cmd.group.desc.help={6|[CN] }{a|Sets/Overwrites the Description of Target Group}
-constitution.perm.cmd.group.perm.help={6|[CN] }{a|Base Group Permission Editing Command}
-constitution.perm.cmd.group.perm.add.help={6|[CN] }{a|Adds Selected Permission Node To A Defined Group}
-constitution.perm.cmd.group.perm.remove.help={6|[CN] }{a|Removes Selected Permission Node From a Defined Group}
-constitution.perm.cmd.group.perm.list.help={6|[CN] }{a|Lists The Permission Nodes of A Selected Group}
-constitution.perm.cmd.group.prefix.help={6|[CN] }{a|Base Group Prefix Editing Command}
-constitution.perm.cmd.group.prefix.add.help={6|[CN] }{a|Creates Prefix For Specified Group}
-constitution.perm.cmd.group.prefix.remove.help={6|[CN] }{a|Removes/Clears The Specified Group's Prefix}
-constitution.perm.cmd.group.suffix.help={6|[CN] }{a|Base Group Suffix Editing Command}
-constitution.perm.cmd.group.suffix.add.help={6|[CN] }{a|Creates Suffix For Specified Group}
-constitution.perm.cmd.group.suffix.remove.help={6|[CN] }{a|Removes/Clears The Specified Group's Suffix}
+constitution.cmd.perm.group.help={6|[CN] }{a|Base Group Command/Parent Command For Group Sub Commands}
+constitution.cmd.perm.group.info.help={6|[CN] }{a|Shows In-Depth Properties of Sender or Targeted Group}
+constitution.cmd.perm.group.list.help={6|[CN] }{a|Displays a List of Existing Groups and Their Properties}
+constitution.cmd.perm.group.add.help={6|[CN] }{a|Creates Group With Provided Name and Optional ParentGroup}
+constitution.cmd.perm.group.delete.help={6|[CN] }{a|Deletes A Selected Group}
+constitution.cmd.perm.group.rename.help={6|[CN] }{a|Renames A Selected Group}
+constitution.cmd.perm.group.desc.help={6|[CN] }{a|Sets/Overwrites the Description of Target Group}
+constitution.cmd.perm.group.perm.help={6|[CN] }{a|Base Group Permission Editing Command}
+constitution.cmd.perm.group.perm.add.help={6|[CN] }{a|Adds Selected Permission Node To A Defined Group}
+constitution.cmd.perm.group.perm.remove.help={6|[CN] }{a|Removes Selected Permission Node From a Defined Group}
+constitution.cmd.perm.group.perm.list.help={6|[CN] }{a|Lists The Permission Nodes of A Selected Group}
+constitution.cmd.perm.group.prefix.help={6|[CN] }{a|Base Group Prefix Editing Command}
+constitution.cmd.perm.group.prefix.add.help={6|[CN] }{a|Creates Prefix For Specified Group}
+constitution.cmd.perm.group.prefix.remove.help={6|[CN] }{a|Removes/Clears The Specified Group's Prefix}
+constitution.cmd.perm.group.suffix.help={6|[CN] }{a|Base Group Suffix Editing Command}
+constitution.cmd.perm.group.suffix.add.help={6|[CN] }{a|Creates Suffix For Specified Group}
+constitution.cmd.perm.group.suffix.remove.help={6|[CN] }{a|Removes/Clears The Specified Group's Suffix}
 #>>>>>>>>>>>>>>>>>>>>>>Users:
-constitution.perm.cmd.user.help={6|[CN] }{a|Base User Editing Command}
-constitution.perm.cmd.user.info.help={6|[CN] }{a|Shows In-Depth Properties of Sender or Targeted User}
-constitution.perm.cmd.user.list.help={6|[CN] }{a|Displays a List of Existing Users and Their Properties}
-constitution.perm.cmd.user.group.help={6|[CN] }{a|Base Group Editing Command}
-constitution.perm.cmd.user.group.show.help={6|[CN] }{a|Displays The Groups of A Selected User}
-constitution.perm.cmd.user.group.set.help={6|[CN] }{a|Sets The Selected User To A Defined Group}
-constitution.perm.cmd.user.prefix.help={6|[CN] }{a|Base User Prefix Editing Command}
-constitution.perm.cmd.user.prefix.add.help={6|[CN] }{a|Creates Prefix For Specified User}
-constitution.perm.cmd.user.prefix.remove.help={6|[CN] }{a|Removes/Clears The Specified User's Prefix}
-constitution.perm.cmd.user.suffix.help={6|[CN] }{a|Base User Suffix Editing Command}
-constitution.perm.cmd.user.suffix.add.help={6|[CN] }{a|Creates Suffix For Specified User}
-constitution.perm.cmd.user.suffix.remove.help={6|[CN] }{a|Removes/Clears The Specified User's Suffix}
-constitution.perm.cmd.user.perm.help={6|[CN] }{a|Base Permission Editing Command}
-constitution.perm.cmd.user.perm.add.help={6|[CN] }{a|Adds Selected Permission Nodes to Users}
-constitution.perm.cmd.user.perm.remove.help={6|[CN] }{a|Removes Selected Permission Nodes From Users}
-constitution.perm.cmd.user.perm.list.help={6|[CN] }{a|Lists Permission Nodes of Selected User}
+constitution.cmd.perm.user.help={6|[CN] }{a|Base User Editing Command}
+constitution.cmd.perm.user.info.help={6|[CN] }{a|Shows In-Depth Properties of Sender or Targeted User}
+constitution.cmd.perm.user.list.help={6|[CN] }{a|Displays a List of Existing Users and Their Properties}
+constitution.cmd.perm.user.group.help={6|[CN] }{a|Base Group Editing Command}
+constitution.cmd.perm.user.group.show.help={6|[CN] }{a|Displays The Groups of A Selected User}
+constitution.cmd.perm.user.group.set.help={6|[CN] }{a|Sets The Selected User To A Defined Group}
+constitution.cmd.perm.user.prefix.help={6|[CN] }{a|Base User Prefix Editing Command}
+constitution.cmd.perm.user.prefix.add.help={6|[CN] }{a|Creates Prefix For Specified User}
+constitution.cmd.perm.user.prefix.remove.help={6|[CN] }{a|Removes/Clears The Specified User's Prefix}
+constitution.cmd.perm.user.suffix.help={6|[CN] }{a|Base User Suffix Editing Command}
+constitution.cmd.perm.user.suffix.add.help={6|[CN] }{a|Creates Suffix For Specified User}
+constitution.cmd.perm.user.suffix.remove.help={6|[CN] }{a|Removes/Clears The Specified User's Suffix}
+constitution.cmd.perm.user.perm.help={6|[CN] }{a|Base Permission Editing Command}
+constitution.cmd.perm.user.perm.add.help={6|[CN] }{a|Adds Selected Permission Nodes to Users}
+constitution.cmd.perm.user.perm.remove.help={6|[CN] }{a|Removes Selected Permission Nodes From Users}
+constitution.cmd.perm.user.perm.list.help={6|[CN] }{a|Lists Permission Nodes of Selected User}
 
 
 
