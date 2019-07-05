@@ -148,15 +148,15 @@ public class Group implements IChatFormat {
 	}
 	@Override
     public ITextComponent toChatMessage() {
-    	ITextComponent header = LocalizationManager.get("Constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover((this.getName()))));
-        ITextComponent hoverComponent = ((ChatComponentFormatted)LocalizationManager.get("Constitution.format.group.long.hover",
+    	ITextComponent header = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover((this.getName()))));
+        ITextComponent hoverComponent = ((ChatComponentFormatted)LocalizationManager.get("constitution.format.group.long.hover",
         		header,
         		this.getDesc(),
         		this.getRank(),
         		this.getPrefix(),
         		this.getSuffix(),
         		this.getNodes())).applyDelimiter("\n");
-        return LocalizationManager.get("Constitution.format.short", this.getName(), hoverComponent);
+        return LocalizationManager.get("constitution.format.short", this.getName(), hoverComponent);
     }
     
 	public static class Serializer extends SerializerTemplate<Group> {

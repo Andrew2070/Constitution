@@ -42,6 +42,7 @@ public class User implements IChatFormat {
 	private					String 							IPAddress 			 = "";
 	private					Integer							Dimension			 = null;
 	private					BlockPos						Location			 = null;
+	private					Double							Balance				 = Config.instance.defaultUserBalance.get();
 	private 				Boolean 						Operator 			 = false;
 	private 				Boolean 						FakePlayer 			 = false;
 	private					Boolean							GodMode				 = false;
@@ -375,8 +376,8 @@ public class User implements IChatFormat {
 		String location = "X: " + this.getLocation().getX() + " Y: " + this.getLocation().getY() + " Z: " + this.getLocation().getZ();
 		String modifiedUUID = this.getUUID().toString().replace("-", ""); //Decrease the Character Count by removing "-" between characters.
 
-		ITextComponent header = LocalizationManager.get("Constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover(this.getUserName())));
-		ITextComponent hoverComponent = ((ChatComponentFormatted)LocalizationManager.get("Constitution.format.user.long.hover",
+		ITextComponent header = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover(this.getUserName())));
+		ITextComponent hoverComponent = ((ChatComponentFormatted)LocalizationManager.get("constitution.format.user.long.hover",
 				header, 						
 				modifiedUUID,
 				this.getPrefix(),
@@ -385,7 +386,7 @@ public class User implements IChatFormat {
 				this.getGroups().toChatMessage(),
 				this.getIP(),
 				this.getNodes())).applyDelimiter("\n");
-		return LocalizationManager.get("Constitution.format.short", this.getUserName(), hoverComponent);
+		return LocalizationManager.get("constitution.format.short", this.getUserName(), hoverComponent);
 	}
 
 	public static class Serializer extends SerializerTemplate<User> {

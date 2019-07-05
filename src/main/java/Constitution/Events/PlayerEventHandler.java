@@ -192,7 +192,6 @@ public class PlayerEventHandler {
 	public void serverChatEvent(ServerChatEvent event) {
 		ConstitutionBridge manager = PlayerUtilities.getManager();
 		if (event.getPlayer() instanceof EntityPlayerMP) {
-
 			if (manager.users != null) {
 				EntityPlayerMP player = event.getPlayer();
 				String playerName = player.getDisplayNameString();
@@ -210,15 +209,15 @@ public class PlayerEventHandler {
 					}
 				}
 
-				ITextComponent header = LocalizationManager.get("Constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover((group.getName()))));
-				ITextComponent hoverComponent = ((ChatComponentFormatted)LocalizationManager.get("Constitution.format.group.long.hover",
+				ITextComponent header = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover((group.getName()))));
+				ITextComponent hoverComponent = ((ChatComponentFormatted)LocalizationManager.get("constitution.format.group.long.hover",
 						header,
 						group.getDesc(),
 						group.getRank(),
 						group.getPrefix(),
 						group.getSuffix(),
 						group.getNodes())).applyDelimiter("\n");
-				ITextComponent hc = LocalizationManager.get("Constitution.format.short", group.getPrefix(), hoverComponent);
+				ITextComponent hc = LocalizationManager.get("constitution.format.short", group.getPrefix(), hoverComponent);
 
 				ITextComponent finalComponent = new TextComponentString("")
 						.appendSibling(new TextComponentString(modifiedComponent))
@@ -251,10 +250,10 @@ public class PlayerEventHandler {
 			String originalComponent = event.getComponent().getFormattedText();
 			Integer playerNameIndex = originalComponent.indexOf(playerName);
 			String modifiedComponent = originalComponent.substring(0, playerNameIndex-3);
-
+			String optUsernameFormattingCode = "";
+			
 			ITextComponent modifiedTextComponent = new TextComponentString(modifiedComponent);
 			ITextComponent userName = new TextComponentString(player.getDisplayNameString());
-			ITextComponent userNameHover = user.toChatMessage();
 			ITextComponent groupPrefix = new TextComponentString(group.getPrefix());
 			ITextComponent groupSuffix = new TextComponentString(group.getSuffix());
 			ITextComponent userPrefix = new TextComponentString(user.getPrefix());
@@ -263,22 +262,39 @@ public class PlayerEventHandler {
 			ITextComponent Colon = new TextComponentString(": ");
 			ITextComponent message = new TextComponentString(event.getMessage().replaceAll("\u0026([\\da-fk-or])", "\u00A7$1"));
 			
-			ITextComponent header = LocalizationManager.get("Constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover((group.getName()))));
-			ITextComponent hoverComponent = ((ChatComponentFormatted)LocalizationManager.get("Constitution.format.group.long.hover",
+			ITextComponent header = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover((group.getName()))));
+			ITextComponent hoverComponent = ((ChatComponentFormatted)LocalizationManager.get("constitution.format.group.long.hover",
 					header,
 					group.getDesc(),
 					group.getRank(),
 					group.getPrefix(),
 					group.getSuffix(),
 					group.getNodes())).applyDelimiter("\n");
-			ITextComponent groupPrefixHover = LocalizationManager.get("Constitution.format.short", group.getPrefix(), hoverComponent);
-			ITextComponent groupSuffixHover = LocalizationManager.get("Constitution.format.short", group.getSuffix(), hoverComponent);
+			ITextComponent groupPrefixHover = LocalizationManager.get("constitution.format.short", group.getPrefix(), hoverComponent);
+			ITextComponent groupSuffixHover = LocalizationManager.get("constitution.format.short", group.getSuffix(), hoverComponent);
+			ITextComponent userNameHover = user.toChatMessage();
+			
+			if (!group.getPrefix().equals("")) {
+					//Apply group prefix color to username:
+				optUsernameFormattingCode = groupPrefix.getStyle().getFormattingCode();
+				if (!user.getPrefix().equals("")) {
+					//Apply user prefix color to username:
+				optUsernameFormattingCode = userPrefix.getStyle().getFormattingCode();
+				}
+			} else {
+				if (!user.getPrefix().equals("")) {
+					//Apply user prefix color to username:
+				optUsernameFormattingCode = userPrefix.getStyle().getFormattingCode();
+				}
+			}
+			
 			
 			ITextComponent finalComponentWithHover = new TextComponentString("")
 					.appendSibling(modifiedTextComponent)
 					.appendSibling(groupPrefixHover)
 					.appendSibling(userPrefix)
 					.appendSibling(singleSpace)
+					.appendSibling(new TextComponentString(optUsernameFormattingCode))
 					.appendSibling(userNameHover)
 					.appendSibling(userSuffix)
 					.appendSibling(groupSuffixHover)
@@ -300,7 +316,7 @@ public class PlayerEventHandler {
 			for (EntityPlayerMP playerMP : playerList) {
 				if (manager.users.get(playerMP.getUniqueID())!=null) {
 					User playerMPUser = manager.users.get(playerMP.getUniqueID());
-					if (playerMPUser.permsContainer.contains("Constitution.perm.cmd.hover.event")) {
+					if (playerMPUser.permsContainer.contains("constitution.cmd.perm.hover.event")) {
 						//TODO: Swap this check with hasPermission check after testing
 						playerMP.sendMessage(finalComponentWithHover);
 					} else {

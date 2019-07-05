@@ -127,9 +127,9 @@ public class Config extends ConfigTemplate {
 			"When no tempban duration is specified, how long should the player be banned by default?",
 			"1h");
 	
-	
-			
-			
-    
-    
+	public ConfigProperty<Double> defaultUserBalance = new ConfigProperty<Double>(
+			"defaultUserBalance", "Economy",
+			"Default financial balance of players, must be in decimal format ie (0.00)",
+			0.0);
+ 
 }

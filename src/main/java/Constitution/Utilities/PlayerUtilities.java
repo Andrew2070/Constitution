@@ -24,8 +24,8 @@ public class PlayerUtilities {
 	protected static UUID getUUIDFromUsername(String username) {
 		UUID uuid = PlayerUtilities.getUUIDFromName(username);
 		if (uuid == null) {
-			throw new PermissionCommandException("Constitution.perm.cmd.err.player.notExist",
-					LocalizationManager.get("Constitution.format.user.short", username));
+			throw new PermissionCommandException("constitution.cmd.perm.err.player.notExist",
+					LocalizationManager.get("constitution.format.user.short", username));
 		}
 		return uuid;
 	}

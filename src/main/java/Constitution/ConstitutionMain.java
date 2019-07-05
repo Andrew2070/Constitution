@@ -113,7 +113,7 @@ public class ConstitutionMain
     	loadConfig();
     	logger.info("Constitution Started");
     	if (PermissionProxy.getPermissionManager() instanceof ConstitutionBridge) {
-			CommandManager.registerCommands(PermissionCommands.class, "constitution.perm.cmd", ConstitutionMain.instance.LOCAL, null);
+			CommandManager.registerCommands(PermissionCommands.class, "constitution.cmd.perm", ConstitutionMain.instance.LOCAL, null);
 			//registerCommands();
 		}
     }
@@ -135,9 +135,9 @@ public class ConstitutionMain
     	//Needs Work (CommandManager is persistent on each Command Class Having A Root Command);
     	List<Class<?>> commandClazzes = (ClassUtilities.getClassesInPackage(COMMAND_FOLDER));
     	for (Class<?> clazz : commandClazzes) {
-    		String rootPerm = 
-    		logger.info("Class: " + clazz.getSimpleName()); 
-    		CommandManager.registerCommands(clazz, rootPerm, ConstitutionMain.instance.LOCAL, null);
+    		//String rootPerm = 
+    		//logger.info("Class: " + clazz.getSimpleName()); 
+    		//CommandManager.registerCommands(clazz, rootPerm, ConstitutionMain.instance.LOCAL, null);
     	}
     }
     public void loadConfig() {
