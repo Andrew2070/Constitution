@@ -26,21 +26,21 @@ public class ExecutiveCommands {
 	protected static Group getGroupFromName(String name) {
 		Group group = getManager().groups.get(name);
 		if (group == null) {
-			throw new PermissionCommandException("Constitution.perm.cmd.err.group.notExist",
-					LocalizationManager.get("Constitution.format.group.short", name));
+			throw new PermissionCommandException("constitution.perm.cmd.err.group.notExist",
+					LocalizationManager.get("constitution.format.group.short", name));
 		}
 		return group;
 	}
 	protected static UUID getUUIDFromUsername(String username) {
 		UUID uuid = PlayerUtilities.getUUIDFromName(username);
 		if (uuid == null) {
-			throw new PermissionCommandException("Constitution.perm.cmd.err.player.notExist",
-					LocalizationManager.get("Constitution.format.user.short", username));
+			throw new PermissionCommandException("constitution.perm.cmd.err.player.notExist",
+					LocalizationManager.get("constitution.format.user.short", username));
 		}
 		return uuid;
 	}
 	@Command(name = "cnx",
-			permission = "Constitution.exec.cmd",
+			permission = "constitution.exec.cmd",
 			syntax = "/cnx <command>",
 			alias = {},
 			description = "Root Command For All Executive Commands")
@@ -48,7 +48,7 @@ public class ExecutiveCommands {
 		return CommandResponse.SEND_HELP_MESSAGE;
 	}
 	@Command(name = "warn",
-			permission = "Constitution.exec.cmd.warn",
+			permission = "constitution.exec.cmd.warn",
 			
 			syntax = "/cnx warn <username> <reason>",
 			alias = {"Warn"},
@@ -63,16 +63,16 @@ public class ExecutiveCommands {
 		} else {
 			if (args.size() == 2) {
 				reason = args.get(1);
-				ChatManager.send(sender, "Constitution.notification.user.warned", user.toChatMessage(), reason);
-				ChatManager.send(target, "Constitution.notification.punish.warning", user.toChatMessage(), reason);
+				ChatManager.send(sender, "constitution.notification.user.warned", user.toChatMessage(), reason);
+				ChatManager.send(target, "constitution.notification.punish.warning", user.toChatMessage(), reason);
 				return CommandResponse.DONE;
 			} 
 		}
-		ChatManager.send(sender, "Constitution.notification.user.warned", user.toChatMessage(), reason);
+		ChatManager.send(sender, "constitution.notification.user.warned", user.toChatMessage(), reason);
 		return CommandResponse.DONE;
 	}
 	@Command(name = "ban",
-			permission = "Constitution.exec.cmd.ban",
+			permission = "constitution.exec.cmd.ban",
 			
 			syntax = "/cnx ban <username> <reason>",
 			alias = {"Ban"},
@@ -87,18 +87,18 @@ public class ExecutiveCommands {
 				user.setBanned(true);
 				user.setBanReason(args.get(1));
 				target.connection.disconnect(new TextComponentString(user.getBanReason()));
-				ChatManager.send(sender, "Constitution.notification.user.banned", user.toChatMessage());
+				ChatManager.send(sender, "constitution.notification.user.banned", user.toChatMessage());
 				return CommandResponse.DONE;
 			} 
 		}
 		user.setBanned(true);
 		target.connection.disconnect(new TextComponentString(user.getBanReason()));
-		ChatManager.send(sender, "Constitution.notification.user.banned", user.toChatMessage());
+		ChatManager.send(sender, "constitution.notification.user.banned", user.toChatMessage());
 		return CommandResponse.DONE;
 	}
 	
 	@Command(name = "tempban",
-			permission = "Constitution.exec.cmd.tempban",
+			permission = "constitution.exec.cmd.tempban",
 			
 			syntax = "/cnx tempban <username> <reason> <yy:mm:dd:hh:mm:ss>",
 			alias = {"Tempban", "TempBan"},
@@ -114,18 +114,18 @@ public class ExecutiveCommands {
 				//user.setBanDuration(time);
 				user.setBanReason(args.get(1));
 				target.connection.disconnect(new TextComponentString(user.getBanReason()));
-				ChatManager.send(sender, "Constitution.notification.user.tempBanned", user.toChatMessage());
+				ChatManager.send(sender, "constitution.notification.user.tempBanned", user.toChatMessage());
 				return CommandResponse.DONE;
 			} 
 		}
 		user.setBanned(true);
 		target.connection.disconnect(new TextComponentString(user.getBanReason()));
-		ChatManager.send(sender, "Constitution.notification.user.tempBanned", user.toChatMessage());
+		ChatManager.send(sender, "constitution.notification.user.tempBanned", user.toChatMessage());
 		return CommandResponse.DONE;
 	}
 
 	@Command(name = "ipban",
-			permission = "Constitution.exec.cmd.ipban",
+			permission = "constitution.exec.cmd.ipban",
 			syntax = "/cnx ipban <username> <reason>",
 			alias = {"IPBAN", "IPban", "ipBan", "Ipban"},
 			description = "Permanently Ban Selected Player")
@@ -140,19 +140,19 @@ public class ExecutiveCommands {
 				user.setIPBanned(true);
 				user.setBanReason(args.get(1));
 				target.connection.disconnect(new TextComponentString(user.getBanReason()));
-				ChatManager.send(sender, "Constitution.notification.user.ipbanned", user.getUserName());
+				ChatManager.send(sender, "constitution.notification.user.ipbanned", user.getUserName());
 				return CommandResponse.DONE;
 			} 
 		}
 		user.setBanned(true);
 		user.setIPBanned(true);
 		target.connection.disconnect(new TextComponentString(user.getBanReason()));
-		ChatManager.send(sender, "Constitution.notification.user.ipbanned", user.getUserName());
+		ChatManager.send(sender, "constitution.notification.user.ipbanned", user.getUserName());
 		return CommandResponse.DONE;
 	}
 	
 	@Command(name = "unban",
-			permission = "Constitution.exec.cmd.ipban",
+			permission = "constitution.exec.cmd.ipban",
 			
 			syntax = "/cnx unban <username> <reason>",
 			alias = {"Unban, UNban, UNBAN"},
@@ -165,7 +165,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "mute",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -177,7 +177,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "kick",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -189,7 +189,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "immobalize",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -201,7 +201,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "afk",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -213,7 +213,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "back",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -225,7 +225,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "burn",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -237,7 +237,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "kill",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -249,7 +249,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "clearinventory",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -261,7 +261,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "clearchat",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -273,7 +273,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "enderchest",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -285,7 +285,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "fly",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -297,7 +297,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "god",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -309,7 +309,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "heal",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -321,7 +321,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "item",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -333,7 +333,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "ignore",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -345,7 +345,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -357,7 +357,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			
 			syntax = "/cnx ",
 			alias = {},
@@ -370,7 +370,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "ping",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -382,7 +382,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "socialspy",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -394,7 +394,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "suicide",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			
 			syntax = "/cnx ",
 			alias = {},
@@ -407,7 +407,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "tp",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -419,7 +419,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "tphere",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -431,7 +431,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "tpa",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -443,7 +443,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "tpahere",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -455,7 +455,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "tpacancel",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			
 			syntax = "/cnx ",
 			alias = {},
@@ -468,7 +468,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "tpaccept",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -480,7 +480,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "tpall",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -492,7 +492,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "tpdeny",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			
 			syntax = "/cnx ",
 			alias = {},
@@ -505,7 +505,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "tpo",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -517,7 +517,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "tpohere",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -529,7 +529,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "tppos",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -541,7 +541,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "tptoggle",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -553,7 +553,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "vanish",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			
 			syntax = "/cnx ",
 			alias = {},
@@ -566,7 +566,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "workbench",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -578,7 +578,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "sudo",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			
 			syntax = "/cnx ",
 			alias = {},
@@ -591,7 +591,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "speed",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -603,7 +603,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "mob",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -615,7 +615,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "repair",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			
 			syntax = "/cnx ",
 			alias = {},
@@ -628,7 +628,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "kickall",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -640,7 +640,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "fireball",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			
 			syntax = "/cnx ",
 			alias = {},
@@ -653,7 +653,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "feed",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -665,7 +665,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "exp",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -677,7 +677,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "enchant",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -689,7 +689,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "depth",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			
 			syntax = "/cnx ",
 			alias = {},
@@ -702,7 +702,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "broadcast",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -714,7 +714,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "broadcastall",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -726,7 +726,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "sethome",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			
 			syntax = "/cnx ",
 			alias = {},
@@ -739,7 +739,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "delhome",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -751,7 +751,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "home",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			
 			syntax = "/cnx ",
 			alias = {},
@@ -764,7 +764,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "hat",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -776,7 +776,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "world",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -788,7 +788,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "reply",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {"r"},
 			description = "")
@@ -800,7 +800,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "getpos",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -812,7 +812,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "break",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
@@ -824,7 +824,7 @@ public class ExecutiveCommands {
 		return CommandResponse.DONE;
 	}
 	@Command(name = "break",
-			permission = "Constitution.exec.cmd.",
+			permission = "constitution.exec.cmd.",
 			syntax = "/cnx ",
 			alias = {},
 			description = "")
