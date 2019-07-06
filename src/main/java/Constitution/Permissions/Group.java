@@ -46,7 +46,11 @@ public class Group implements IChatFormat {
 	}
 	
 	public Group(String name) {
-		this.name = name;
+		this.name = Config.instance.defaultGroupName.get();
+		this.rank = Config.instance.defaultGroupRank.get();
+		this.desc = Config.instance.defaultGroupDesc.get();
+		this.prefix = Config.instance.defaultGroupPrefix.get();
+		this.suffix = Config.instance.defaultGroupSuffix.get();
 	}
 	
 	public Group(String name, Integer rank, String desc, String prefix, String suffix) {	
