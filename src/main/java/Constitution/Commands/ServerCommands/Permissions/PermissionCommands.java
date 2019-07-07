@@ -16,6 +16,7 @@ import constitution.exceptions.PermissionCommandException;
 import constitution.localization.LocalizationManager;
 import constitution.permissions.ConstitutionBridge;
 import constitution.permissions.Group;
+import constitution.permissions.PermissionLevel;
 import constitution.permissions.PermissionProxy;
 import constitution.permissions.User;
 import constitution.utilities.PlayerUtilities;
@@ -349,7 +350,8 @@ public class PermissionCommands {
 				return CommandResponse.DONE;
 			}
 			Group group = getGroupFromName(args.get(0));
-			group.permsContainer.add(args.get(1));
+			String node = args.get(1);
+			group.permsContainer.add(node);
 			getManager().saveGroups();
 			ChatManager.send(sender, LocalizationManager.get("constitution.notification.perm.added", args.get(1), "Group", group.getName()));
 			return CommandResponse.DONE;
