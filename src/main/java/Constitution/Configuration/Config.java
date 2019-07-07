@@ -131,5 +131,10 @@ public class Config extends ConfigTemplate {
 			"defaultUserBalance", "Economy",
 			"Default financial balance of players, must be in decimal format ie (0.00)",
 			0.0);
+	
+	public ConfigProperty<String> defaultChatChannel = new ConfigProperty<String>(
+			"defaultChatChannel", "Chat",
+			"Specify the default chat channel name",
+			"Global");
  
 }
