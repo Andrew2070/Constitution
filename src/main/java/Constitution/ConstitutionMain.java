@@ -16,7 +16,7 @@ import constitution.commands.engine.CommandManager;
 import constitution.commands.servercommands.permissions.PermissionCommands;
 import constitution.configuration.Config;
 import constitution.configuration.json.JSONConfig;
-import constitution.events.PlayerEventHandler;
+import constitution.events.ChatEvent;
 import constitution.localization.Localization;
 import constitution.localization.LocalizationManager;
 import constitution.permissions.ConstitutionBridge;
@@ -100,7 +100,7 @@ public class ConstitutionMain
     	LOCAL = new Localization(CONFIG_FOLDER + "/Localization/", Config.instance.localization.get(),
 				"/Constitution/Localization/", ConstitutionMain.class);
     	LocalizationManager.register(LOCAL, "constitution");
-		MinecraftForge.EVENT_BUS.register(PlayerEventHandler.instance);
+		MinecraftForge.EVENT_BUS.register(ChatEvent.instance);
     }
  
     @EventHandler
