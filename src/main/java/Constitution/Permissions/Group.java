@@ -18,7 +18,7 @@ import constitution.chat.IChatFormat;
 import constitution.chat.component.ChatComponentBorders;
 import constitution.chat.component.ChatComponentFormatted;
 import constitution.configuration.Config;
-import constitution.configuration.json.SerializerTemplate;
+import constitution.configuration.json.JSONSerializerTemplate;
 import constitution.localization.LocalizationManager;
 import constitution.utilities.PlayerUtilities;
 import net.minecraft.util.text.ITextComponent;
@@ -163,7 +163,7 @@ public class Group implements IChatFormat {
         return LocalizationManager.get("constitution.format.short", this.getName(), hoverComponent);
     }
     
-	public static class Serializer extends SerializerTemplate<Group> {
+	public static class Serializer extends JSONSerializerTemplate<Group> {
 		
 		@Override
 		public void register(GsonBuilder builder) {

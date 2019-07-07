@@ -10,7 +10,7 @@ import com.google.gson.JsonSerializer;
  * the Gson object. This will diminish greatly the amount of code when
  * instantiating Gson object with lots of Serializers.
  */
-public abstract class SerializerTemplate<T> implements JsonSerializer<T>, JsonDeserializer<T> {
+public abstract class JSONSerializerTemplate<T> implements JsonSerializer<T>, JsonDeserializer<T> {
 
 	public GsonBuilder createBuilder() {
 		GsonBuilder builder = new GsonBuilder();

@@ -11,7 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
-import constitution.configuration.json.SerializerTemplate;
+import constitution.configuration.json.JSONSerializerTemplate;
 
 /**
  * Variables inside permission strings.
@@ -41,7 +41,7 @@ public class Meta {
 		 * Since Meta is represented by a "key":value format in Json it needs to
 		 * stay in the Container rather than in the Meta class
 		 */
-		public static class Serializer extends SerializerTemplate<Container> {
+		public static class Serializer extends JSONSerializerTemplate<Container> {
 
 			@Override
 			public void register(GsonBuilder builder) {
