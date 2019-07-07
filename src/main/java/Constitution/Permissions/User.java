@@ -21,7 +21,7 @@ import constitution.chat.IChatFormat;
 import constitution.chat.component.ChatComponentBorders;
 import constitution.chat.component.ChatComponentFormatted;
 import constitution.configuration.Config;
-import constitution.configuration.json.SerializerTemplate;
+import constitution.configuration.json.JSONSerializerTemplate;
 import constitution.localization.LocalizationManager;
 import constitution.utilities.PlayerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -52,6 +52,7 @@ public class User implements IChatFormat {
 	private					Integer							XPTotal				 = 0;
 	private 				String 							Prefix 				 = "";
 	private 				String						 	Suffix 				 = "";
+	private					String							Channel				 = Config.instance.defaultChatChannel.get();
 	private					String							BanReason			 = Config.instance.defaultBanMessage.get();
 	private					Date							BanDuration			 = new Date();
 	private					Boolean							Banned				 = false;
@@ -226,10 +227,17 @@ public class User implements IChatFormat {
 		return this.BanReason;
 	}
 
+	public String getChannel() {
+		return this.Channel;
+	}
 	//Set Methods:
 
 	public void setUUID(UUID uuid) {
 		this.uuid = uuid;
+	}
+	
+	public void setChannel(String channel) {
+		this.Channel = channel;
 	}
 
 	public void setIP(EntityPlayerMP player) {
@@ -389,7 +397,7 @@ public class User implements IChatFormat {
 		return LocalizationManager.get("constitution.format.short", this.getUserName(), hoverComponent);
 	}
 
-	public static class Serializer extends SerializerTemplate<User> {
+	public static class Serializer extends JSONSerializerTemplate<User> {
 
 		@Override
 		public void register(GsonBuilder builder) {
