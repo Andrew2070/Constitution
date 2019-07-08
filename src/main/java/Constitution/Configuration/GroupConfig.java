@@ -38,10 +38,12 @@ public class GroupConfig extends JSONConfig<Group, Group.Container> {
 	@Override
 	public Group.Container read() {
 		Group.Container groups = super.read();
-
-		permissionManager.groups.addAll(groups);
-
-		return groups;
+		if (groups==null) {
+		return new Group.Container();
+		} else {
+			permissionManager.groups.addAll(groups);
+		}
+	return null;
 	}
 
 	@Override

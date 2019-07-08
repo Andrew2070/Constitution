@@ -32,13 +32,11 @@ public class UserConfig extends JSONConfig<User, User.Container> {
 	@Override
 	public User.Container read() {
 	    User.Container users = super.read();
-
 	    if (users == null) {
 	    	 return new User.Container();
 	    }
 	    else {
 	        permissionsManager.users.addAll(users);
-
 	    }
 	    return users;
 	}

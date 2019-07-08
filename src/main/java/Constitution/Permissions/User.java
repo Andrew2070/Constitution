@@ -18,6 +18,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
 import constitution.chat.IChatFormat;
+import constitution.chat.channels.Channel;
 import constitution.chat.component.ChatComponentBorders;
 import constitution.chat.component.ChatComponentFormatted;
 import constitution.configuration.Config;
@@ -227,8 +228,16 @@ public class User implements IChatFormat {
 		return this.BanReason;
 	}
 
-	public String getChannel() {
+	public String getChannelName() {
 		return this.Channel;
+	}
+	public Channel getChannelObject() {
+		return PlayerUtilities.getManager().channels.get(this.Channel);
+	}
+	
+	public String getLocationAsString() {
+		String location = "X: " + this.getLocation().getX() + " Y: " + this.getLocation().getY() + " Z: " + this.getLocation().getZ();
+		return location;
 	}
 	//Set Methods:
 
@@ -238,6 +247,12 @@ public class User implements IChatFormat {
 	
 	public void setChannel(String channel) {
 		this.Channel = channel;
+		if (PlayerUtilities.getManager().channels.contains(channel)) {
+			if (!PlayerUtilities.getManager().channels.get(channel).users.contains(this)) {
+				PlayerUtilities.getManager().channels.get(channel).users.add(this);
+				PlayerUtilities.getManager().saveChannels();
+			}
+		}
 	}
 
 	public void setIP(EntityPlayerMP player) {
@@ -526,7 +541,7 @@ public class User implements IChatFormat {
 						? ((ConstitutionBridge) PermissionProxy.getPermissionManager()).groups.get("default")
 								: defaultGroup;
 						User newUser = new User(uuid, group);
-						add(newUser);
+						super.add(newUser);
 						return true;
 			}
 			return false;

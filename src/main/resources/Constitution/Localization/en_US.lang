@@ -18,6 +18,7 @@ constitution.format.user.long={%s}{9N|------------------------------------------
 constitution.format.user.long.hover={%s}{2N|ID: {3|%s}{2N|Prefix: %s}{2N|Suffix: %s}{2N|Location: {6|%s}{2N|Group(s): }{%s}{2N|IP Address: {c|%s}{2N|Permissions: {3N|%s}
 constitution.format.user.list={%s}{2N|%s}
 constitution.format.short={6|%s << %s}
+constitution.format.channel.long.hover={%s}{2N|Enabled: {4|%s}{2N|Forced: {4|%s}{2N|Hidden: {4|%s}{2N|Verbose: {4|%s}{2N|Dimensions: {4|%s}{2N|Password: {4|%s}{2N|User(s): }{%s}{2N|Moderators: }{%s}{2N|MuteList: }{%s}{2N|BlackList: }{%s}{2N|WhiteList: }{%s}
 #=================================================Errors=============================================================
 constitution.cmd.perm.err.group.notExist={6|[CN] }{c|The Group }{%s}{c| Does Not Exist}
 constituion.perm.cmd.err.player.notExist={6|[CN] }{c|The Player }{%s}{c| Does Not Exist}
@@ -81,7 +82,12 @@ constitution.cmd.perm.user.perm.add.help={6|[CN] }{a|Adds Selected Permission No
 constitution.cmd.perm.user.perm.remove.help={6|[CN] }{a|Removes Selected Permission Nodes From Users}
 constitution.cmd.perm.user.perm.list.help={6|[CN] }{a|Lists Permission Nodes of Selected User}
 
-
+#>>>>>>>>>>>>>>>>>>>>>>Other:
+constitution.cmd.channel.help={6|[CN] }{a|Base Channel Command}
+constitution.cmd.channel.create.help={6|[CN] }{a|Creates a Channel}
+constitution.cmd.channel.prefix.help={6|[CN] }{a|Base Channel Prefix Editing Command}
+constitution.cmd.channel.prefix.set.help={6|[CN] }{a|Set The Selected Channel's Prefix}
+constitution.cmd.channel.prefix.remove.help={6|[CN] }{a|Clear The Selected Channel's Prefix}
 
 
 

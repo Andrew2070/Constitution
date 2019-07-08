@@ -1,14 +1,17 @@
 package constitution.events;
+import java.net.SocketAddress;
+import java.util.Date;
+import java.util.UUID;
+
+import com.mojang.authlib.GameProfile;
+
 import constitution.ConstitutionMain;
-import constitution.commands.engine.Command;
-import constitution.commands.engine.CommandResponse;
 import constitution.configuration.Config;
 import constitution.permissions.ConstitutionBridge;
 import constitution.permissions.Group;
 import constitution.permissions.User;
 import constitution.utilities.PlayerUtilities;
 import constitution.utilities.VanillaUtilities;
-import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -16,13 +19,6 @@ import net.minecraft.world.GameType;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-
-import java.net.SocketAddress;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
-import com.mojang.authlib.GameProfile;
 public class LoginEvent {
 	
 	public static final  LoginEvent instance = new  LoginEvent();
@@ -52,6 +48,7 @@ public class LoginEvent {
 							//Case 1: UUID and DisplayName don't exist in array:
 							if (!manager.users.contains(playerUUID) || !manager.users.contains(displayName)) {
 								User newUser = new User(player, new Date(System.currentTimeMillis()), System.currentTimeMillis());
+								newUser.setChannel(Config.instance.defaultChatChannel.get());
 								manager.users.add(newUser);
 								manager.saveUsers();
 
@@ -63,6 +60,9 @@ public class LoginEvent {
 								//Case 2: UUID exists (Existing User Returning):
 								if(manager.users.contains(playerUUID)) {
 									User existingUser = manager.users.get(playerUUID);
+									if (Config.instance.forceDefaultChannelLogin.get() == true) {
+										existingUser.setChannel(Config.instance.defaultChatChannel.get());
+									}
 									//Case 3: UUID exists but DisplayName is different (Alternative Account or Player Changed Their Username):
 									if(!manager.users.contains(displayName)) {
 										existingUser.setLastPlayerName(existingUser.getUserName());
@@ -109,9 +109,9 @@ public class LoginEvent {
 				if (!manager.users.contains(playerUUID)) {
 					User newUser = new User(player, new Date(System.currentTimeMillis()), System.currentTimeMillis());
 					newUser.setOP(true);
+					newUser.setChannel(Config.instance.defaultChatChannel.get());
 					manager.users.add(newUser);
 					manager.saveUsers();
-
 					Group defaultGroup = manager.groups.get(Config.instance.defaultGroupName.get());
 					defaultGroup.setUser(playerUUID);
 					manager.saveGroups();
@@ -121,6 +121,9 @@ public class LoginEvent {
 				else {
 					//Do stuff for returning player:
 					User existingUser = manager.users.get(playerUUID);
+					if (Config.instance.forceDefaultChannelLogin.get() == true) {
+						existingUser.setChannel(Config.instance.defaultChatChannel.get());
+					}
 					if (Config.instance.setLastGameMode.get() == true) {
 						if (existingUser.isCreative() == true) {
 							player.setGameType(GameType.CREATIVE);

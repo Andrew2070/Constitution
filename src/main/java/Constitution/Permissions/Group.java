@@ -193,11 +193,16 @@ public class Group implements IChatFormat {
 					}
 				}
 			}
-			
+			if (jsonObject.has("Users")) {
+				List<String> usersUUIDS = new ArrayList<String>(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("Users"), String[].class)));	
+				for (String uuid : usersUUIDS) {
+					UUID userID = UUID.fromString(uuid);
+					group.setUser(userID);
+				}
+			}
 			group.setRank(jsonObject.get("Rank").getAsInt());
 		    group.setPrefix(jsonObject.get("Prefix").getAsString());
 		    group.setSuffix(jsonObject.get("Suffix").getAsString());
-		    group.setUser(UUID.fromString(jsonObject.get("Users").getAsString()));
 		    return group;
 		}
 
@@ -233,6 +238,16 @@ public class Group implements IChatFormat {
 	
 	public static class Container extends ArrayList<Group> implements IChatFormat {
 
+		@Override
+		public boolean add(Group group) {
+			if (PlayerUtilities.getManager().groups.contains(group)) {
+				return true;
+			} else {
+				super.add(group);
+				return false;
+			}
+		}
+
 		public void remove(String groupName) {
 			for (Iterator<Group> it = iterator(); it.hasNext();) {
 				Group group = it.next();
@@ -242,7 +257,6 @@ public class Group implements IChatFormat {
 				}
 			}
 		}
-
 		public boolean contains(String groupName) {
 			for (Group group : this) {
 				if (group.getName().equals(groupName))

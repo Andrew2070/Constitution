@@ -1,9 +1,9 @@
 package constitution.commands.servercommands.administrative;
+import java.util.List;
+
 import constitution.commands.engine.Command;
 import constitution.commands.engine.CommandResponse;
-import constitution.utilities.PlayerUtilities;
 import net.minecraft.command.ICommandSender;
-import java.util.List;
 public class enchant {
 	@Command(name = "enchant", permission = "constitution.cmd.perm.enchant", syntax = "/enchant", alias = {}, description = "")
 	public static CommandResponse enchantCommandMethod(ICommandSender sender, List<String> args) {

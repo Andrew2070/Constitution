@@ -1,10 +1,5 @@
 package constitution.datasource;
 
-
-import java.sql.Connection;
-import java.sql.SQLWarning;
-import net.minecraftforge.fml.common.ICrashCallable;
-
 // TODO Add more info about the datasource?
 
 /**

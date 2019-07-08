@@ -16,7 +16,6 @@ import constitution.exceptions.PermissionCommandException;
 import constitution.localization.LocalizationManager;
 import constitution.permissions.ConstitutionBridge;
 import constitution.permissions.Group;
-import constitution.permissions.PermissionLevel;
 import constitution.permissions.PermissionProxy;
 import constitution.permissions.User;
 import constitution.utilities.PlayerUtilities;

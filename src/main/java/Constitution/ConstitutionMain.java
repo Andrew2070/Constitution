@@ -11,12 +11,14 @@ import java.util.logging.Logger;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 
-import constitution.commands.archive.ExecutiveCommands;
 import constitution.commands.engine.CommandManager;
+import constitution.commands.servercommands.administrative.channel;
 import constitution.commands.servercommands.permissions.PermissionCommands;
 import constitution.configuration.Config;
 import constitution.configuration.json.JSONConfig;
 import constitution.events.ChatEvent;
+import constitution.events.LoginEvent;
+import constitution.events.LogoutEvent;
 import constitution.localization.Localization;
 import constitution.localization.LocalizationManager;
 import constitution.permissions.ConstitutionBridge;
@@ -101,6 +103,9 @@ public class ConstitutionMain
 				"/Constitution/Localization/", ConstitutionMain.class);
     	LocalizationManager.register(LOCAL, "constitution");
 		MinecraftForge.EVENT_BUS.register(ChatEvent.instance);
+		MinecraftForge.EVENT_BUS.register(LoginEvent.instance);
+		MinecraftForge.EVENT_BUS.register(LogoutEvent.instance);
+		
     }
  
     @EventHandler
@@ -114,6 +119,7 @@ public class ConstitutionMain
     	logger.info("Constitution Started");
     	if (PermissionProxy.getPermissionManager() instanceof ConstitutionBridge) {
 			CommandManager.registerCommands(PermissionCommands.class, "constitution.cmd.perm", ConstitutionMain.instance.LOCAL, null);
+			CommandManager.registerCommands(channel.class, "constitution.cmd.channel", ConstitutionMain.instance.LOCAL, null);
 			//registerCommands();
 		}
     }

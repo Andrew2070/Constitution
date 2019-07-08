@@ -1,16 +1,12 @@
 package constitution.events;
-import constitution.commands.engine.Command;
-import constitution.commands.engine.CommandResponse;
+import java.util.UUID;
+
 import constitution.permissions.ConstitutionBridge;
 import constitution.permissions.User;
 import constitution.utilities.PlayerUtilities;
-import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
-
-import java.util.List;
-import java.util.UUID;
 public class LogoutEvent {
 	
 	public static final LogoutEvent instance = new LogoutEvent();
