@@ -381,19 +381,15 @@ public class User implements IChatFormat {
 	}
 
 	public boolean hasPermission(String permission) {
-		Level permLevel = permsContainer.hasPermission(permission);
-
-		if (permLevel == Level.ALLOWED) {
+		Boolean permLevel = this.permsContainer.hasPermission(permission);
+		if (permLevel == true) {
 			return true;
-		} else if (permLevel == Level.DENIED) {
-			return false;
-		}
-		Group group = getGroups();
-		return (group != null && group.hasPermission(permission) == Level.ALLOWED)
+		} else {
+		//IF nothing is found search groups and their parent groups.
+		return (getGroups() != null && getGroups().hasPermission(permission) == true)
 				|| (Config.instance.fullAccessForOPS.get() && isOP(uuid));
+		}
 	}
-
-
 	@Override
 	public ITextComponent toChatMessage() {
 		String location = "X: " + this.getLocation().getX() + " Y: " + this.getLocation().getY() + " Z: " + this.getLocation().getZ();
@@ -434,7 +430,7 @@ public class User implements IChatFormat {
 			}
 			JsonElement dominantGroup = jsonObject.get("DominantGroup");
 			if (dominantGroup != null) {
-				user.setDominantGroup(((ConstitutionBridge) PermissionProxy.getPermissionManager()).groups.get(jsonObject.get("DominantGroup").getAsString()));
+				user.setDominantGroup(PlayerUtilities.getManager().groups.get(jsonObject.get("DominantGroup").getAsString()));
 			} else {
 				user.setDominantGroup();
 			}
@@ -538,7 +534,7 @@ public class User implements IChatFormat {
 		public boolean add(UUID uuid) {
 			if (get(uuid) == null) {
 				Group group = (defaultGroup == null)
-						? ((ConstitutionBridge) PermissionProxy.getPermissionManager()).groups.get("default")
+						? PlayerUtilities.getManager().groups.get("default")
 								: defaultGroup;
 						User newUser = new User(uuid, group);
 						super.add(newUser);

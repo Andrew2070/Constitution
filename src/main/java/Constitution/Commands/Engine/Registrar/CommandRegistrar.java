@@ -6,10 +6,10 @@ import net.minecraft.command.ICommand;
 /**
  * Standard vanilla command registrar
  */
-public class VanillaCommandRegistrar implements ICommandRegistrar {
+public class CommandRegistrar implements ICommandRegistrar {
 	protected CommandHandler commandHandler;
 
-	public VanillaCommandRegistrar() {
+	public CommandRegistrar() {
 		this.commandHandler = (CommandHandler) constitution.utilities.VanillaUtilities.getMinecraftServer().getCommandManager();
 	}
 

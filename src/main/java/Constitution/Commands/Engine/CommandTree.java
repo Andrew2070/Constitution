@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import constitution.localization.Localization;
-import constitution.permissions.IPermissionBridge;
-import constitution.permissions.PermissionProxy;
+import constitution.permissions.PermissionManager;
 import constitution.permissions.Tree;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -13,20 +12,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.rcon.RConConsoleSource;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.CommandBlockBaseLogic;
-
 public class CommandTree extends Tree<CommandTreeNode> {
 
 	private Localization local;
-	private IPermissionBridge customManager;
+	private PermissionManager permissionManager;
 
 	public CommandTree(CommandTreeNode root, Localization local) {
 		super(root);
 		this.local = local;
 	}
 
-	public CommandTree(CommandTreeNode root, Localization local, IPermissionBridge customManager) {
+	public CommandTree(CommandTreeNode root, Localization local, PermissionManager  permissionManager) {
 		this(root, local);
-		this.customManager = customManager;
+		this.permissionManager = permissionManager;
 	}
 
 	public void commandCall(ICommandSender sender, List<String> args) throws CommandException {
@@ -85,9 +83,8 @@ public class CommandTree extends Tree<CommandTreeNode> {
 		if (sender instanceof EntityPlayer) {
 			UUID uuid = ((EntityPlayer) sender).getUniqueID();
 			String permission = node.getAnnotation().permission();
-
-			if (PermissionProxy.getPermissionManager().hasPermission(uuid, permission)
-					|| (customManager != null && customManager.hasPermission(uuid, permission))) {
+			if (PermissionManager.hasPermission(uuid, permission)
+					|| (permissionManager != null && PermissionManager.hasPermission(uuid, permission))) {
 				return true;
 			}
 			throw new CommandException("commands.generic.permission");

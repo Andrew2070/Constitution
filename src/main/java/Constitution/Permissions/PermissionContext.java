@@ -6,8 +6,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.minecraftforge.server.permission.context.ContextKey;
+import net.minecraftforge.server.permission.context.ContextKeys;
+import net.minecraftforge.server.permission.context.IContext;
 
-public class PermissionContext {
+public class PermissionContext implements IContext {
 
 	private EntityPlayer player;
 
@@ -28,6 +32,8 @@ public class PermissionContext {
 	private Entity sourceEntity;
 
 	private Entity targetEntity;
+	
+	private World world;
 
 	public PermissionContext() {
 	}
@@ -51,6 +57,7 @@ public class PermissionContext {
 		return sender;
 	}
 
+	@Override
 	public EntityPlayer getPlayer() {
 		return player;
 	}
@@ -145,6 +152,39 @@ public class PermissionContext {
 
 	public boolean isPlayer() {
 		return player instanceof EntityPlayer;
+	}
+
+	@Override
+	public World getWorld() {
+		return this.world;
+	}
+
+	@Override
+	public <T> T get(ContextKey<T> key) {
+		if (key.equals(ContextKeys.TARGET)) {
+			return (T) targetEntity;
+		}
+		if (key.equals(ContextKeys.POS)) {
+			return (T) sourceEntity.getPosition();
+		}
+		String unknownKey = "invalid key";
+		return (T) unknownKey;
+	}
+
+	@Override
+	public boolean has(ContextKey<?> key) {
+		if (key.equals(ContextKeys.TARGET)) {
+			if (targetEntity!=null) {
+				return true;
+			}
+		}
+		
+		if (key.equals(ContextKeys.POS)) {
+			if (sourceEntity.getPosition()!=null) {
+				return false;
+			}
+		}
+		return false;
 	}
 
 }

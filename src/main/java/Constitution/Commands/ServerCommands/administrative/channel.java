@@ -4,13 +4,13 @@ import java.util.List;
 import constitution.chat.channels.Channel;
 import constitution.commands.engine.Command;
 import constitution.commands.engine.CommandResponse;
-import constitution.permissions.ConstitutionBridge;
-import constitution.permissions.PermissionProxy;
+import constitution.permissions.PermissionManager;
+import constitution.utilities.PlayerUtilities;
 import net.minecraft.command.ICommandSender;
 public class channel {
 	
-	private static ConstitutionBridge getManager() {
-		return (ConstitutionBridge) PermissionProxy.getPermissionManager();
+	private static PermissionManager getManager() {
+		return PlayerUtilities.getManager();
 	}
 	
 	@Command(name = "channel", permission = "constitution.cmd.channel", syntax = "/channel", alias = {"ch", "CH", "Ch"}, description = "")

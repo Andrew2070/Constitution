@@ -8,9 +8,6 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-
 import constitution.commands.engine.CommandManager;
 import constitution.commands.servercommands.administrative.channel;
 import constitution.commands.servercommands.permissions.PermissionCommands;
@@ -21,8 +18,7 @@ import constitution.events.LoginEvent;
 import constitution.events.LogoutEvent;
 import constitution.localization.Localization;
 import constitution.localization.LocalizationManager;
-import constitution.permissions.ConstitutionBridge;
-import constitution.permissions.PermissionProxy;
+import constitution.permissions.PermissionManager;
 import constitution.utilities.ClassUtilities;
 import constitution.utilities.LogFormatter;
 import net.minecraftforge.common.MinecraftForge;
@@ -51,23 +47,7 @@ public class ConstitutionMain
     public static 					       Logger              logger             = Logger.getLogger(MODID);
     public static boolean                  debug             					  = false;
     private final List<JSONConfig> 		   jsonConfigs 							  = new ArrayList<JSONConfig>();
-
-    static ExclusionStrategy               exclusion          = new ExclusionStrategy()
-                                                              {
-                                                                  @Override
-                                                                  public boolean shouldSkipField(FieldAttributes f)
-                                                                  {
-                                                                      String name = f.getName();
-                                                                      return name.startsWith("_");
-                                                                  }
-
-                                                                  @Override
-                                                                  public boolean shouldSkipClass(Class<?> clazz)
-                                                                  {
-                                                                      return false;
-                                                                  }
-                                                              };
-
+    public static PermissionManager permissionManager = new PermissionManager();
     public ConstitutionMain() {
         initLogger();
     }
@@ -105,6 +85,7 @@ public class ConstitutionMain
 		MinecraftForge.EVENT_BUS.register(ChatEvent.instance);
 		MinecraftForge.EVENT_BUS.register(LoginEvent.instance);
 		MinecraftForge.EVENT_BUS.register(LogoutEvent.instance);
+		PermissionManager.preInitialization();
 		
     }
  
@@ -116,12 +97,11 @@ public class ConstitutionMain
     @EventHandler
     public void serverLoadEvent(FMLServerStartingEvent event) {
     	loadConfig();
+    	permissionManager.serverLoad();
     	logger.info("Constitution Started");
-    	if (PermissionProxy.getPermissionManager() instanceof ConstitutionBridge) {
 			CommandManager.registerCommands(PermissionCommands.class, "constitution.cmd.perm", ConstitutionMain.instance.LOCAL, null);
 			CommandManager.registerCommands(channel.class, "constitution.cmd.channel", ConstitutionMain.instance.LOCAL, null);
 			//registerCommands();
-		}
     }
     
     @EventHandler
@@ -141,17 +121,17 @@ public class ConstitutionMain
     	//Needs Work (CommandManager is persistent on each Command Class Having A Root Command);
     	List<Class<?>> commandClazzes = (ClassUtilities.getClassesInPackage(COMMAND_FOLDER));
     	for (Class<?> clazz : commandClazzes) {
-    		//String rootPerm = 
-    		//logger.info("Class: " + clazz.getSimpleName()); 
-    		//CommandManager.registerCommands(clazz, rootPerm, ConstitutionMain.instance.LOCAL, null);
     	}
     }
     public void loadConfig() {
 		Config.instance.reload();
-		PermissionProxy.init();
 		LOCAL.load();
 		for (JSONConfig jsonConfig : jsonConfigs) {
 			jsonConfig.init();
 		}
 	}
+    
+    public static PermissionManager getPermissionManager() {
+    	return permissionManager;
+    }
 }

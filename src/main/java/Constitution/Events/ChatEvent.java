@@ -1,7 +1,7 @@
 package constitution.events;
 
 import constitution.chat.ChatManager;
-import constitution.permissions.ConstitutionBridge;
+import constitution.permissions.PermissionManager;
 import constitution.utilities.PlayerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
@@ -20,7 +20,7 @@ public class ChatEvent {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
 	public void serverChatEvent(ServerChatEvent event) {
-		ConstitutionBridge manager = PlayerUtilities.getManager();
+		PermissionManager manager = PlayerUtilities.getManager();
 		if (manager.users != null) {
 				event.setCanceled(true);
 				EntityPlayerMP player = event.getPlayer();

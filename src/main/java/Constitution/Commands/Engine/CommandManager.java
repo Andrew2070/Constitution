@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import constitution.ConstitutionMain;
+import constitution.commands.engine.registrar.CommandRegistrar;
 import constitution.commands.engine.registrar.ICommandRegistrar;
-import constitution.commands.engine.registrar.VanillaCommandRegistrar;
 import constitution.exceptions.CommandException;
 import constitution.localization.Localization;
-import constitution.permissions.IPermissionBridge;
+import constitution.permissions.PermissionManager;
 import net.minecraft.command.ICommandSender;
 public class CommandManager {
 
@@ -34,7 +34,7 @@ public class CommandManager {
 	/**
 	 * It is enforced that the class has to contain ONE root command .
 	 */
-	public static void registerCommands(Class clazz, String rootPerm, Localization local, IPermissionBridge customManager) {
+	public static void registerCommands(Class<?> clazz, String rootPerm, Localization local, PermissionManager permissionManager) {
 		CommandTreeNode root = null;
 		CommandTree commandTree = rootPerm == null ? null : getTree(rootPerm);
 		Map<Command, Method> nodes = new HashMap<Command, Method>();
@@ -61,7 +61,7 @@ public class CommandManager {
 			if (root == null) {
 				throw new CommandException("Class " + clazz.getName() + " has no root command.");
 			} else {
-				commandTree = new CommandTree(root, local, customManager);
+				commandTree = new CommandTree(root, local, permissionManager);
 				commandTrees.add(commandTree);
 			}
 		}
@@ -100,6 +100,16 @@ public class CommandManager {
 			}
 		}
 		return null;
+	}
+	
+	
+	public static String getDescriptionForCommand(String commandName) {
+		for (CommandTree tree : commandTrees) {
+			if (tree.getRoot().getLocalizedName().equals(commandName)) {
+				return tree.getRoot().getAnnotation().description();
+			}
+		}
+	return "No Description Found";
 	}
 
 	private static CommandTreeNode findNode(CommandTreeNode root, String perm) {
@@ -148,6 +158,6 @@ public class CommandManager {
 	}
 
 	private static ICommandRegistrar makeRegistrar() {
-			return new VanillaCommandRegistrar();
+			return new CommandRegistrar();
 	}
 }

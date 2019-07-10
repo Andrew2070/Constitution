@@ -8,8 +8,8 @@ import constitution.chat.channels.Channel;
 import constitution.chat.component.ChatComponentBorders;
 import constitution.chat.component.ChatComponentFormatted;
 import constitution.localization.LocalizationManager;
-import constitution.permissions.ConstitutionBridge;
 import constitution.permissions.Group;
+import constitution.permissions.PermissionManager;
 import constitution.permissions.User;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -30,7 +30,6 @@ public class ChatManager {
 	 * ChatComponentList then only its siblings are sent, omitting the root
 	 * component
 	 */
-	@SuppressWarnings("unchecked")
 	public static void send(ICommandSender sender, ITextComponent message) {
 		if (sender == null) {
 			return;
@@ -67,7 +66,7 @@ public class ChatManager {
 		}
 	}
 
-	public static void sendUniversalChanneledMessage(ConstitutionBridge manager, EntityPlayerMP player, ITextComponent component, String msg) {
+	public static void sendUniversalChanneledMessage(PermissionManager manager, EntityPlayerMP player, ITextComponent component, String msg) {
 		if (player!=null) {
 			if (msg!=null && !msg.isEmpty()) {
 				String playerName = player.getDisplayNameString();
@@ -91,19 +90,6 @@ public class ChatManager {
 				ITextComponent Colon = new TextComponentString(": ");
 				ITextComponent message = new TextComponentString(msg.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1"));
 
-				if (!group.getPrefix().equals("")) {
-					int index = group.getPrefix().lastIndexOf("§")-1;
-					colorCode = group.getPrefix().substring(index, index+1);
-					if (!user.getPrefix().equals("")) {
-						index = user.getPrefix().lastIndexOf("§")-1;
-						colorCode = user.getPrefix().substring(index, index+1);
-					}
-				} else {
-					if (!user.getPrefix().equals("")) {
-						int index = user.getPrefix().lastIndexOf("§")-1;
-						colorCode = user.getPrefix().substring(index, index+1);
-					}
-				}
 				ConstitutionMain.logger.info(userName);
 				ITextComponent channelHeader = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover((channel.getName().toString()))));
 				ITextComponent channelHoverComponent =  ((ChatComponentFormatted)LocalizationManager.get("constitution.format.channel.long.hover",

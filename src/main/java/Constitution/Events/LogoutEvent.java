@@ -1,7 +1,7 @@
 package constitution.events;
 import java.util.UUID;
 
-import constitution.permissions.ConstitutionBridge;
+import constitution.permissions.PermissionManager;
 import constitution.permissions.User;
 import constitution.utilities.PlayerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,7 +13,7 @@ public class LogoutEvent {
 	
 	@SubscribeEvent
 	public void AuthenticatePlayerLogout(PlayerLoggedOutEvent event) {
-		ConstitutionBridge manager = PlayerUtilities.getManager();
+		PermissionManager manager = PlayerUtilities.getManager();
 		if (event.player instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP) event.player;
 			UUID uuid = player.getUniqueID();

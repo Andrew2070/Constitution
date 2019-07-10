@@ -11,31 +11,28 @@ import constitution.localization.LocalizationManager;
 import net.minecraft.util.text.ITextComponent;
 
 public class PermissionsContainer extends ArrayList<String> implements IChatFormat {
-	
 
-	public Level hasPermission(String permission) {
-		Level permLevel = Level.NONE;
+	public Boolean hasPermission(String permission) {
+		Boolean permLevel = false;
 		if (contains(permission)) {
-			permLevel = Level.ALLOWED;
+			permLevel = true;
 		}
 
 		for (String p : this) {
-			//net.minecraftforge.server.permission.PermissionAPI.haspermission
 			if (p.endsWith("*")) {
 				if (permission.startsWith(p.substring(0, p.length() - 1))) {
-					permLevel = Level.ALLOWED;
+					permLevel = true;
 				} else if (p.startsWith("-") && permission.startsWith(p.substring(1, p.length() - 1))) {
-					permLevel = Level.DENIED;
+					permLevel = false;
 				}
 			} else {
 				if (permission.equals(p)) {
-					permLevel = Level.ALLOWED;
+					permLevel = true;
 				} else if (p.startsWith("-") && permission.equals(p.substring(1))) {
-					permLevel = Level.DENIED;
+					permLevel = false;
 				}
 			}
 		}
-
 		return permLevel;
 	}
 

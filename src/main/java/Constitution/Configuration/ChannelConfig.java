@@ -1,18 +1,19 @@
-package constitution.configuration.json;
+package constitution.configuration;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.GsonBuilder;
 
 import constitution.chat.channels.Channel;
-import constitution.permissions.ConstitutionBridge;
+import constitution.configuration.json.JSONConfig;
 import constitution.permissions.Meta;
+import constitution.permissions.PermissionManager;
 import constitution.permissions.User;
+import constitution.utilities.PlayerUtilities;
 public class ChannelConfig extends JSONConfig<Channel, Channel.Container> {
 
-	private ConstitutionBridge permissionsManager;
+	private PermissionManager permissionsManager = PlayerUtilities.getManager();
 
-	public ChannelConfig(String path, ConstitutionBridge permissionsManager) {
+	public ChannelConfig(String path) {
 		super(path, "Channels");
-		this.permissionsManager = permissionsManager;
 		this.gsonType = new TypeToken<Channel.Container>() {
 		}.getType();
 		JSONConfig.gson = new GsonBuilder().registerTypeAdapter(User.class, new User.Serializer())

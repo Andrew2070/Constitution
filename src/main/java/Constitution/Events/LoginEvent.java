@@ -7,8 +7,8 @@ import com.mojang.authlib.GameProfile;
 
 import constitution.ConstitutionMain;
 import constitution.configuration.Config;
-import constitution.permissions.ConstitutionBridge;
 import constitution.permissions.Group;
+import constitution.permissions.PermissionManager;
 import constitution.permissions.User;
 import constitution.utilities.PlayerUtilities;
 import constitution.utilities.VanillaUtilities;
@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 public class LoginEvent {
 	
-	public static final  LoginEvent instance = new  LoginEvent();
+	public static final LoginEvent instance = new  LoginEvent();
 	/**
 	 * @param AuthenticatePlayerLogIn
 	 * Check For Non Existing User Status:
@@ -32,7 +32,7 @@ public class LoginEvent {
 	 */
 	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
 	public void AuthenticatePlayerLogIn(PlayerLoggedInEvent event) {
-		ConstitutionBridge manager = PlayerUtilities.getManager();
+		PermissionManager manager = PlayerUtilities.getManager();
 		if (event.player instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP) event.player;
 			String displayName = player.getDisplayNameString();
@@ -137,8 +137,7 @@ public class LoginEvent {
 		}
 	}
 	public Boolean isPlayerBanned(EntityPlayerMP player) {
-		ConstitutionBridge manager = PlayerUtilities.getManager();
-		String displayName = player.getDisplayNameString();
+		PermissionManager manager = PlayerUtilities.getManager();
 		UUID playerUUID = player.getPersistentID();
 		GameProfile profile = player.getGameProfile();
 		SocketAddress socketAddress = player.connection.getNetworkManager().getRemoteAddress();

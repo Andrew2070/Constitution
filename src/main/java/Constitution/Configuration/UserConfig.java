@@ -5,18 +5,18 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.GsonBuilder;
 
 import constitution.configuration.json.JSONConfig;
-import constitution.permissions.ConstitutionBridge;
 import constitution.permissions.Meta;
+import constitution.permissions.PermissionManager;
 import constitution.permissions.User;
+import constitution.utilities.PlayerUtilities;
 
 public class UserConfig extends JSONConfig<User, User.Container> {
 	UUID uuid = UUID.randomUUID();
 	User user = new User(uuid);
-	private ConstitutionBridge permissionsManager;
+	private PermissionManager permissionsManager = PlayerUtilities.getManager();
 
-	public UserConfig(String path, ConstitutionBridge permissionsManager) {
+	public UserConfig(String path) {
 		super(path, "Users");
-		this.permissionsManager = permissionsManager;
 		this.gsonType = new TypeToken<User.Container>() {
 		}.getType();
 		JSONConfig.gson = new GsonBuilder().registerTypeAdapter(User.class, new User.Serializer())

@@ -1,6 +1,6 @@
 package constitution.permissions;
 
-public class Tree<T extends TreeNode> {
+public class Tree<T extends TreeNode<?>> {
 	private T root;
 
 	public Tree(T root) {

@@ -27,9 +27,9 @@ public class Localization {
 	private String filePath;
 	private String lang;
 	private String classPath;
-	private Class clazz;
+	private Class<?> clazz;
 
-	public Localization(String filePath, String lang, String classPath, Class clazz) {
+	public Localization(String filePath, String lang, String classPath, Class<?> clazz) {
 		this.filePath = filePath;
 		this.lang = lang;
 		this.classPath = classPath;

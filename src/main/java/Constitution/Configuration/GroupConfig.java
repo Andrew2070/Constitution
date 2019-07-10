@@ -6,17 +6,17 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.GsonBuilder;
 
 import constitution.configuration.json.JSONConfig;
-import constitution.permissions.ConstitutionBridge;
 import constitution.permissions.Group;
 import constitution.permissions.Meta;
+import constitution.permissions.PermissionManager;
+import constitution.utilities.PlayerUtilities;
 
 public class GroupConfig extends JSONConfig<Group, Group.Container> {
 
-	private ConstitutionBridge permissionManager;
+	private PermissionManager permissionManager = PlayerUtilities.getManager();
 
-	public GroupConfig(String path, ConstitutionBridge permissionManager) {
+	public GroupConfig(String path) {
 		super(path, "Groups");
-		this.permissionManager = permissionManager;
 		this.gsonType = new TypeToken<Group.Container>() {
 		}.getType();
 		JSONConfig.gson = new GsonBuilder().registerTypeAdapter(Group.class, new Group.Serializer())

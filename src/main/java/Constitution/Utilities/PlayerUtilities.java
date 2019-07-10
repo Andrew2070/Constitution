@@ -13,13 +13,13 @@ import com.mojang.authlib.GameProfile;
 import constitution.ConstitutionMain;
 import constitution.exceptions.PermissionCommandException;
 import constitution.localization.LocalizationManager;
-import constitution.permissions.ConstitutionBridge;
 import constitution.permissions.Group;
-import constitution.permissions.PermissionProxy;
+import constitution.permissions.PermissionManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class PlayerUtilities {
+	
 	
 	protected static UUID getUUIDFromUsername(String username) {
 		UUID uuid = PlayerUtilities.getUUIDFromName(username);
@@ -29,8 +29,8 @@ public class PlayerUtilities {
 		}
 		return uuid;
 	}
-	public static ConstitutionBridge getManager() {
-		return (ConstitutionBridge) PermissionProxy.getPermissionManager();
+	public static PermissionManager getManager() {
+		return ConstitutionMain.getPermissionManager();
 	}
 	
 	public static Group getGroupFromName(String name) {

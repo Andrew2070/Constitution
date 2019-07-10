@@ -3,16 +3,16 @@ package constitution.commands.engine;
 import java.util.Arrays;
 import java.util.List;
 
-import constitution.permissions.ConstitutionBridge;
-import constitution.permissions.PermissionLevel;
+import constitution.permissions.PermissionManager;
 import constitution.permissions.PermissionObject;
-import constitution.permissions.PermissionProxy;
+import constitution.utilities.PlayerUtilities;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.server.permission.DefaultPermissionLevel;
 
 /**
  * @author Andrew2070:
@@ -70,7 +70,8 @@ public class CommandTemplate extends CommandBase implements ICommand, Permission
 
 	@Override
 	public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-		return PermissionProxy.getPermissionManager().hasPermission(sender.getCommandSenderEntity().getUniqueID(), commandTree.getRoot().getAnnotation().permission());
+		PlayerUtilities.getManager();
+		return PermissionManager.hasPermission(sender.getCommandSenderEntity().getUniqueID(), commandTree.getRoot().getAnnotation().permission());
 	}
 
 	@Override
@@ -96,8 +97,8 @@ public class CommandTemplate extends CommandBase implements ICommand, Permission
 	}
 
 	@Override
-	public PermissionLevel getPermissionLevel() {
-		return PermissionLevel.fromBoolean(!(PermissionProxy.getPermissionManager() instanceof ConstitutionBridge));
+	public DefaultPermissionLevel getPermissionLevel() {
+		return DefaultPermissionLevel.ALL;
 	}
 
 }

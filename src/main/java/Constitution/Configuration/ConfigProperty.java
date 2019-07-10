@@ -40,7 +40,7 @@ public class ConfigProperty<T> {
 		return value;
 	}
 
-	public boolean isClassType(Class clazz) {
+	public boolean isClassType(Class<?> clazz) {
 		return value.getClass().isAssignableFrom(clazz);
 	}
 

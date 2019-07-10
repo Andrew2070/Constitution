@@ -14,9 +14,8 @@ import constitution.configuration.json.JSONMessageBuilder;
 import constitution.exceptions.CommandException;
 import constitution.exceptions.PermissionCommandException;
 import constitution.localization.LocalizationManager;
-import constitution.permissions.ConstitutionBridge;
 import constitution.permissions.Group;
-import constitution.permissions.PermissionProxy;
+import constitution.permissions.PermissionManager;
 import constitution.permissions.User;
 import constitution.utilities.PlayerUtilities;
 import net.minecraft.command.ICommandSender;
@@ -25,8 +24,8 @@ import net.minecraft.util.text.ITextComponent;
 
 public class PermissionCommands {
 	
-	private static ConstitutionBridge getManager() {
-		return (ConstitutionBridge) PermissionProxy.getPermissionManager();
+	private static PermissionManager getManager() {
+		return PlayerUtilities.getManager();
 	}
 
 	protected static Group getGroupFromName(String name) {
@@ -73,12 +72,8 @@ public class PermissionCommands {
 			ConstitutionMain.instance.loadConfig();
 			// REF: Change these to localized versions of themselves
 			ChatManager.send(sender, "constitution.notification.config.reloaded");
-			if (PermissionProxy.getPermissionManager() instanceof ConstitutionBridge) {
-				((ConstitutionBridge) PermissionProxy.getPermissionManager()).loadConfigs();
+					getManager().loadConfigs();
 					ChatManager.send(sender, "constitution.notification.permissions.config.reloaded");
-				} else {
-					ChatManager.send(sender, "constitution.notification.permissions.third_party");
-				}
 			return CommandResponse.DONE;
 		}
 //Group Commands:

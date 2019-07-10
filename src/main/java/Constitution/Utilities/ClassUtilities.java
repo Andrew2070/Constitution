@@ -29,6 +29,7 @@ public class ClassUtilities {
 	                            String classPath = name.substring(0, entry.getName().length() - 6);
 	                            classPath = classPath.replaceAll("[\\|/]", ".");
 	                            classes.add(Class.forName(classPath));
+	                            is.close();
 	                        }
 	                    }
 	                }
@@ -48,7 +49,7 @@ public class ClassUtilities {
 	            }
 	        }
 	    }
-
+	    
 	    return classes;
 	}
 }
