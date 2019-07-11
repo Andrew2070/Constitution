@@ -128,9 +128,21 @@ public class User implements IChatFormat {
 	public Boolean isOp() {
 		return this.Operator;
 	}
+	
+	public Boolean isBanned() {
+		return this.Banned;
+	}
 
+	public Boolean isIPBanned() {
+		return this.IPBanned;
+	}
+	
 	public Boolean isfakePlayer() {
 		return this.FakePlayer;
+	}
+
+	public Boolean isCreative() {
+		return this.Creative;
 	}
 
 	public String getNodes() {
@@ -167,10 +179,6 @@ public class User implements IChatFormat {
 	public String getIP() {
 		return this.IPAddress;
 	}
-	
-//	public Long getBanDuration() {
-	//	return this.BanDuration;
-	//}
 
 	public Boolean canFly() {
 		return this.canFly;
@@ -179,19 +187,6 @@ public class User implements IChatFormat {
 	public Boolean godMode() {
 		return this.GodMode;
 	}
-
-	public Boolean isCreative() {
-		return this.Creative;
-	}
-
-	public Boolean isBanned() {
-		return this.Banned;
-	}
-
-	public Boolean isIPBanned() {
-		return this.IPBanned;
-	}
-
 	public Date joinDate() {
 		return this.JoinDate;
 	}
@@ -351,10 +346,6 @@ public class User implements IChatFormat {
 		this.Banned = val;
 	}
 
-	//public void setBanDuration(Long long) {
-	//	this.BanDuration = long;
-	//}
-	
 	public void setIPBanned(Boolean val) {
 		this.IPBanned = val;
 	}
@@ -378,17 +369,6 @@ public class User implements IChatFormat {
 
 	public Boolean isOP(UUID uuid) {
 		return PlayerUtilities.isOP(uuid);
-	}
-
-	public boolean hasPermission(String permission) {
-		Boolean permLevel = this.permsContainer.hasPermission(permission);
-		if (permLevel == true) {
-			return true;
-		} else {
-		//IF nothing is found search groups and their parent groups.
-		return (getGroups() != null && getGroups().hasPermission(permission) == true)
-				|| (Config.instance.fullAccessForOPS.get() && isOP(uuid));
-		}
 	}
 	@Override
 	public ITextComponent toChatMessage() {

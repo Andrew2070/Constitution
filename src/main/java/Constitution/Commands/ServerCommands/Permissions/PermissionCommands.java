@@ -71,7 +71,6 @@ public class PermissionCommands {
 		public static CommandResponse configReloadCommand(ICommandSender sender, List<String> args) {
 			ConstitutionMain.instance.loadConfig();
 			// REF: Change these to localized versions of themselves
-			ChatManager.send(sender, "constitution.notification.config.reloaded");
 					getManager().loadConfigs();
 					ChatManager.send(sender, "constitution.notification.permissions.config.reloaded");
 			return CommandResponse.DONE;

@@ -109,21 +109,13 @@ public class Channel {
 	}
 	public User getModerators() {
 		for (User user : users) {
-			if (user!=null) {
-				if (user.hasPermission("constitution.perm.chat.channel.admin" + this.name)) {
-					return user;
-				}
+				return user;
 			}
-		}
 		return null;
-	}
+		}
 	public UUID getModeratorUUIDs() {
 		for (User user : users) {
-			if (user!=null) {
-				if (user.hasPermission("constitution.perm.chat.channel.admin" + this.name)) {
-					return user.getUUID();
-				}
-			}
+			return user.getUUID();
 		}
 		return null;
 	}
@@ -239,9 +231,7 @@ public class Channel {
 	}
 
 	public void setModerator(User user) {
-		if (user.hasPermission("constitution.perm.chat.channel.admin" + this.name)) {
-			this.moderators.add(user);
-		}
+		this.moderators.add(user);
 	}
 
 	public void setBlackListedUser(User user) {
@@ -316,10 +306,8 @@ public class Channel {
 				for (String uuid : modUUIDS) {
 					UUID modID = UUID.fromString(uuid);
 					if (PlayerUtilities.getManager().users != null && !PlayerUtilities.getManager().users.isEmpty()) {
-						User user = PlayerUtilities.getManager().users.get(modID);
-						if (user.hasPermission("constitution.perm.chat.channel.admin" +	channel.name)) {
-							channel.setModerator(user);
-						}
+						User moderator = PlayerUtilities.getManager().users.get(modID);
+						channel.setModerator(moderator);
 					}
 				}
 			}
@@ -328,8 +316,8 @@ public class Channel {
 				for (String uuid : blackList) {
 					UUID userID = UUID.fromString(uuid);
 					if (PlayerUtilities.getManager().users != null && !PlayerUtilities.getManager().users.isEmpty()) {
-						User user = PlayerUtilities.getManager().users.get(userID);
-						channel.setUser(user);
+						User blackListedUser = PlayerUtilities.getManager().users.get(userID);
+						channel.setUser(blackListedUser);
 					}
 				}
 			}
@@ -338,8 +326,8 @@ public class Channel {
 				for (String uuid : whiteList) {
 					UUID userID = UUID.fromString(uuid);
 					if (PlayerUtilities.getManager().users != null && !PlayerUtilities.getManager().users.isEmpty()) {
-						User user = PlayerUtilities.getManager().users.get(userID);
-						channel.setUser(user);
+						User whiteListedUser = PlayerUtilities.getManager().users.get(userID);
+						channel.setUser(whiteListedUser);
 					}
 				}
 			}
@@ -348,8 +336,8 @@ public class Channel {
 				for (String uuid : muteList) {
 					UUID userID = UUID.fromString(uuid);
 					if (PlayerUtilities.getManager().users != null && !PlayerUtilities.getManager().users.isEmpty()) {
-						User user = PlayerUtilities.getManager().users.get(userID);
-						channel.setUser(user);
+						User mutedUser = PlayerUtilities.getManager().users.get(userID);
+						channel.setUser(mutedUser);
 					}
 				}
 			}

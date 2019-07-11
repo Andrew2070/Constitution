@@ -77,9 +77,29 @@ public class ChatManager {
 				Integer playerNameIndex = originalComponent.indexOf(playerName);
 				String modifiedComponent = originalComponent.substring(0, playerNameIndex-3);
 				String colorCode = "";
-				String modifiedUUID = user.getUUID().toString().replace("-", ""); //Decrease the Character Count by removing "-" between characters.
 				Channel channel = user.getChannelObject();
 				String userName = colorCode + player.getDisplayNameString();
+				
+				//Access Control Strings:
+				
+				//User:
+				String userPrefixAC = user.getPrefix();
+				String userSuffixAC = user.getSuffix();
+				String userNodesAC = user.getNodes();
+				String userUUIDAC = user.getUUID().toString().replace("-", "");
+				String userLocationAC = user.getLocationAsString();
+				String userIPAC = user.getIP();
+				Group userGroupsAC = user.getGroups();
+				
+				//Group:
+				Integer groupRankAC = group.getRank();
+				String groupDescAC = group.getDesc();
+				String groupPrefixAC = group.getPrefix();
+				String groupSuffixAC = group.getSuffix();
+				String groupNodesAC = group.getNodes();
+				
+				//TODO: Channel?
+
 				ITextComponent channelPrefix = new TextComponentString(channel.getPrefix());
 				ITextComponent modifiedTextComponent = new TextComponentString(modifiedComponent);
 				ITextComponent groupPrefix = new TextComponentString(group.getPrefix());
@@ -100,29 +120,29 @@ public class ChatManager {
 						channel.getVerbose(),
 						channel.getDimensions(),
 						channel.getPassword(),
-						channel.getUsers().toChatMessage(),
 						channel.getModerators(),
 						channel.getMutedUsers(),
 						channel.getBlackListedUsers(),
-						channel.getWhiteListedUsers())).applyDelimiter("\n");
+						channel.getWhiteListedUsers(),
+						channel.getUsers().toChatMessage())).applyDelimiter("\n");
 				ITextComponent groupHeader = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover((group.getName()))));
 				ITextComponent groupHoverComponent = ((ChatComponentFormatted)LocalizationManager.get("constitution.format.group.long.hover",
 						groupHeader,
-						group.getDesc(),
-						group.getRank(),
-						group.getPrefix(),
-						group.getSuffix(),
-						group.getNodes())).applyDelimiter("\n");
+						groupDescAC,
+						groupRankAC,
+						groupPrefixAC,
+						groupSuffixAC,
+						groupNodesAC)).applyDelimiter("\n");
 				ITextComponent userHeader = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover(user.getUserName())));
 				ITextComponent userHoverComponent = ((ChatComponentFormatted)LocalizationManager.get("constitution.format.user.long.hover",
 						userHeader, 						
-						modifiedUUID,
-						user.getPrefix(),
-						user.getSuffix(),
-						user.getLocationAsString(),
-						user.getGroups().toChatMessage(),
-						user.getIP(),
-						user.getNodes())).applyDelimiter("\n");
+						userUUIDAC,
+						userPrefixAC,
+						userSuffixAC,
+						userLocationAC,
+						userGroupsAC,
+						userIPAC,
+						userNodesAC)).applyDelimiter("\n");
 				ITextComponent groupPrefixHover = LocalizationManager.get("constitution.format.short", group.getPrefix(), groupHoverComponent);
 				ITextComponent groupSuffixHover = LocalizationManager.get("constitution.format.short", group.getSuffix(), groupHoverComponent);
 				ITextComponent userNameHover = LocalizationManager.get("constitution.format.short", userName, userHoverComponent);
@@ -151,10 +171,19 @@ public class ChatManager {
 						.appendSibling(message);
 
 				for (User receivers : channel.users) {
-					if (receivers.hasPermission("constitution.perm.hover.event")) {
+					if (manager.checkPermission(player, "constitution.cmd.perm.list")) {
 						channel.sendMessage(finalComponentWithHover);
 					} else {
+						if (manager.checkPermission(player, "constitution.cmd.perm.user.list.partial")) {
+							userUUIDAC = "Insufficient Viewership Permissions";
+							userIPAC = "Insufficient Viewership Permissions";
+							userLocationAC = "Insufficient Viewership Permissions";
+							userNodesAC = "Insufficient Viewership Permissions";
+							groupNodesAC ="Insufficient Viewership Permissions";
+							channel.sendMessage(finalComponentWithHover);
+						} else {
 						channel.sendMessage(finalComponentWithoutHover);
+						}
 					}
 				}
 			}

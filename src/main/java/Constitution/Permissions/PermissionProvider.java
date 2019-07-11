@@ -7,6 +7,9 @@ import java.util.Map;
 
 import com.mojang.authlib.GameProfile;
 
+import constitution.ConstitutionMain;
+import constitution.configuration.Config;
+import constitution.utilities.PlayerUtilities;
 import constitution.utilities.VanillaUtilities;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.UserListOpsEntry;
@@ -39,19 +42,54 @@ public class PermissionProvider implements IPermissionHandler{
 	}
 	@Override
 	public boolean hasPermission(GameProfile profile, String node, IContext context) {
-		PermissionContext cxt = new PermissionContext(context.getPlayer().getCommandSenderEntity());
-
-		// Special permission checks from EntityPlayerMP:
-		if (PERM_SEED.equals(node) && ! VanillaUtilities.getMinecraftServer().isDedicatedServer())
-			return true;
-		if (PERM_TELL.equals(node) || PERM_HELP.equals(node) || PERM_ME.equals(node))
-			return true;
-		DefaultPermissionLevel level = permissions.get(node);
-		if (level == null)
-			return true;
-		int opLevel = cxt.isPlayer() ? getOpLevel(context.getPlayer().getGameProfile()) : 0;
-		return 4 <= opLevel;
-
+		Boolean permLevel = false;
+		PermissionManager manager = PlayerUtilities.getManager();
+		if (profile.getId() == context.getPlayer().getUniqueID()) {
+			User user = manager.users.get(profile.getId());
+			if (!user.permsContainer.isEmpty() && user.permsContainer!=null & user.permsContainer.contains(node)) {
+				if (searchNodes(user.permsContainer, node)) {
+					permLevel = true;
+				} else {
+					if (user.getDominantGroup()!=null && manager.groups.contains(user.getDominantGroup())) {
+						Group group = user.getDominantGroup();
+						if (searchNodes(group.permsContainer, node)) {
+							permLevel = true;
+						} else {
+							for (Group parent : group.parents) {
+								if (searchNodes(parent.permsContainer, node)) {
+									permLevel = true;
+								}
+							}
+						}
+					} else {
+						if (manager.groups.contains(user.getGroups())) {
+							Group group = user.getGroups();
+							if (searchNodes(group.permsContainer, node)) {
+								permLevel = true;
+							} else {
+								for (Group parent : group.parents) {
+									if (searchNodes(parent.permsContainer, node)) {
+										permLevel = true;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			//FailSafes For (Non-Authorized) Users with (Non-Problematic) context(s) or exceptions:
+			if (PERM_SEED.equals(node) && ! VanillaUtilities.getMinecraftServer().isDedicatedServer()) {
+				permLevel = true;
+			}
+			if (PERM_TELL.equals(node) || PERM_HELP.equals(node) || PERM_ME.equals(node)) {
+				permLevel = true;
+			}
+			if (Config.instance.fullAccessForOPS.get() && PlayerUtilities.isOP(profile.getId())) {
+				ConstitutionMain.logger.warning(("Operator: " + profile.getName() + " Exempted From Permission Checking!"));
+				permLevel = true;
+			}
+		} 
+	return permLevel;
 	}
 	@Override
 	public String getNodeDescription(String node) {
@@ -65,5 +103,27 @@ public class PermissionProvider implements IPermissionHandler{
 		UserListOpsEntry entry = server.getPlayerList().getOppedPlayers().getEntry(gameProfile);
 		return entry != null ? entry.getPermissionLevel() : server.getServer().getOpPermissionLevel();
 	}
-
+	
+	protected boolean searchNodes(PermissionsContainer container, String permission) {
+		Boolean permLevel = false;
+		if (container.contains(permission)) {
+			permLevel = true;
+		}
+		for (String p : container) {
+			if (p.endsWith("*")) {
+				if (permission.startsWith(p.substring(0, p.length() - 1))) {
+					permLevel = true;
+				} else if (p.startsWith("-") && permission.startsWith(p.substring(1, p.length() - 1))) {
+					permLevel = false;
+				}
+			} else {
+				if (permission.equals(p)) {
+					permLevel = true;
+				} else if (p.startsWith("-") && permission.equals(p.substring(1))) {
+					permLevel = false;
+				}
+			}
+		}
+		return permLevel;
+	}
 }	

@@ -150,22 +150,7 @@ public class Group implements IChatFormat {
 	public void setParent(Group group) {
 		this.parents.add(group);
 	}
-	public Boolean hasPermission(String permission) {
-		Boolean permLevel = permsContainer.hasPermission(permission);
-		if (permLevel = true) {
-			return true;
-		} else {
-		// If nothing was found search the inherited permissions
-			for (Group parent : parents) {
-				if (parent.hasPermission(permission) == true) {
-					permLevel = true;
-				} else  {
-					permLevel = false;
-				}
-			}
-		}
-		return permLevel;
-	}
+
 	@Override
     public ITextComponent toChatMessage() {
     	ITextComponent header = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover((this.getName()))));

@@ -22,7 +22,7 @@ public class CommandTree extends Tree<CommandTreeNode> {
 		this.local = local;
 	}
 
-	public CommandTree(CommandTreeNode root, Localization local, PermissionManager  permissionManager) {
+	public CommandTree(CommandTreeNode root, Localization local, PermissionManager permissionManager) {
 		this(root, local);
 		this.permissionManager = permissionManager;
 	}
@@ -83,8 +83,8 @@ public class CommandTree extends Tree<CommandTreeNode> {
 		if (sender instanceof EntityPlayer) {
 			UUID uuid = ((EntityPlayer) sender).getUniqueID();
 			String permission = node.getAnnotation().permission();
-			if (PermissionManager.hasPermission(uuid, permission)
-					|| (permissionManager != null && PermissionManager.hasPermission(uuid, permission))) {
+			if (permissionManager.hasPermission(uuid, permission)
+					|| (permissionManager != null && permissionManager.hasPermission(uuid, permission))) {
 				return true;
 			}
 			throw new CommandException("commands.generic.permission");

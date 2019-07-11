@@ -16,6 +16,7 @@ import constitution.configuration.json.JSONConfig;
 import constitution.events.ChatEvent;
 import constitution.events.LoginEvent;
 import constitution.events.LogoutEvent;
+import constitution.events.SendCommandEvent;
 import constitution.localization.Localization;
 import constitution.localization.LocalizationManager;
 import constitution.permissions.PermissionManager;
@@ -85,7 +86,8 @@ public class ConstitutionMain
 		MinecraftForge.EVENT_BUS.register(ChatEvent.instance);
 		MinecraftForge.EVENT_BUS.register(LoginEvent.instance);
 		MinecraftForge.EVENT_BUS.register(LogoutEvent.instance);
-		PermissionManager.preInitialization();
+		MinecraftForge.EVENT_BUS.register(SendCommandEvent.instance);
+		permissionManager.preInitialization();
 		
     }
  
@@ -99,8 +101,8 @@ public class ConstitutionMain
     	loadConfig();
     	permissionManager.serverLoad();
     	logger.info("Constitution Started");
-			CommandManager.registerCommands(PermissionCommands.class, "constitution.cmd.perm", ConstitutionMain.instance.LOCAL, null);
-			CommandManager.registerCommands(channel.class, "constitution.cmd.channel", ConstitutionMain.instance.LOCAL, null);
+			CommandManager.registerCommands(PermissionCommands.class, "constitution.cmd.perm", ConstitutionMain.instance.LOCAL, permissionManager);
+			CommandManager.registerCommands(channel.class, "constitution.cmd.channel", ConstitutionMain.instance.LOCAL, permissionManager);
 			//registerCommands();
     }
     

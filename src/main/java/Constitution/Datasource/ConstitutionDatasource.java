@@ -6,8 +6,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.logging.log4j.Logger;
+
 import constitution.configuration.ConfigTemplate;
 import constitution.datasource.schematics.BaseSchematic;
 import constitution.datasource.schematics.DatasourceSQL;
