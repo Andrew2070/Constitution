@@ -10,7 +10,7 @@ public class CommandRegistrar implements ICommandRegistrar {
 	protected CommandHandler commandHandler;
 
 	public CommandRegistrar() {
-		this.commandHandler = (CommandHandler) constitution.utilities.VanillaUtilities.getMinecraftServer().getCommandManager();
+		this.commandHandler = (CommandHandler) constitution.utilities.ServerUtilities.getMinecraftServer().getCommandManager();
 	}
 
 	@Override

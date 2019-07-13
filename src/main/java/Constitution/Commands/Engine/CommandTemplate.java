@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import constitution.permissions.PermissionObject;
-import constitution.utilities.PlayerUtilities;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -69,7 +69,7 @@ public class CommandTemplate extends CommandBase implements ICommand, Permission
 
 	@Override
 	public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-		return PlayerUtilities.getManager().hasPermission(sender.getCommandSenderEntity().getUniqueID(), commandTree.getRoot().getAnnotation().permission());
+		return ServerUtilities.getManager().hasPermission(sender.getCommandSenderEntity().getUniqueID(), commandTree.getRoot().getAnnotation().permission());
 	}
 
 	@Override

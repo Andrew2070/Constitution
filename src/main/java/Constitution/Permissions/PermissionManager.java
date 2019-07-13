@@ -11,7 +11,7 @@ import constitution.commands.engine.CommandTemplate;
 import constitution.configuration.ChannelConfig;
 import constitution.configuration.GroupConfig;
 import constitution.configuration.UserConfig;
-import constitution.utilities.VanillaUtilities;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -118,7 +118,7 @@ public class PermissionManager {
 	}
 
 	public Boolean hasPermission(UUID uuid, String node) {
-		EntityPlayerMP player = VanillaUtilities.getMinecraftServer().getPlayerList().getPlayerByUUID(uuid);
+		EntityPlayerMP player = ServerUtilities.getMinecraftServer().getPlayerList().getPlayerByUUID(uuid);
 		PermissionContext context = new PermissionContext(player.getCommandSenderEntity());
 		return permProvider.hasPermission(player.getGameProfile(), node, context);
 	}

@@ -16,13 +16,14 @@ import constitution.localization.LocalizationManager;
 import constitution.permissions.Group;
 import constitution.permissions.PermissionManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class PlayerUtilities {
+public class ServerUtilities {
 	
 	
 	protected static UUID getUUIDFromUsername(String username) {
-		UUID uuid = PlayerUtilities.getUUIDFromName(username);
+		UUID uuid = ServerUtilities.getUUIDFromName(username);
 		if (uuid == null) {
 			throw new PermissionCommandException("constitution.cmd.perm.err.player.notExist",
 					LocalizationManager.get("constitution.format.user.short", username));
@@ -52,18 +53,16 @@ public class PlayerUtilities {
 	public static Boolean isOP(UUID uuid) {
 		
 		if (uuid != null) {
-			if (!VanillaUtilities.getMinecraftServer().isSinglePlayer()) {
-				EntityPlayer player = VanillaUtilities.getMinecraftServer().getPlayerList().getPlayerByUUID(uuid);
+			if (!ServerUtilities.getMinecraftServer().isSinglePlayer()) {
+				EntityPlayer player = ServerUtilities.getMinecraftServer().getPlayerList().getPlayerByUUID(uuid);
 				if (player instanceof EntityPlayer) {
 					if (player != null) {
 						GameProfile profile = player.getGameProfile();
-						Integer permissionLevelOP = VanillaUtilities.getMinecraftServer().getOpPermissionLevel();
-						ConstitutionMain.logger.info("Multiplayer detected: Player: " + player.getDisplayNameString() + " isOP: " + VanillaUtilities.getMinecraftServer().getPlayerList().canSendCommands(profile));
-						return VanillaUtilities.getMinecraftServer().getPlayerList().canSendCommands(profile);
+						Integer permissionLevelOP = ServerUtilities.getMinecraftServer().getOpPermissionLevel();
+						return ServerUtilities.getMinecraftServer().getPlayerList().canSendCommands(profile);
 					}
 				}
 			} else {
-			ConstitutionMain.logger.info("Singleplayer Detected: Op Status True");
 			return true;
 			}
 		}	
@@ -82,4 +81,7 @@ public class PlayerUtilities {
 			}
 		return matchList;
 	  }
+	public static MinecraftServer getMinecraftServer() {
+	return FMLCommonHandler.instance().getMinecraftServerInstance();
+	}
 }

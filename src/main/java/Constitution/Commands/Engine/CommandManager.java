@@ -15,6 +15,7 @@ import constitution.commands.engine.registrar.ICommandRegistrar;
 import constitution.exceptions.CommandException;
 import constitution.localization.Localization;
 import constitution.permissions.PermissionManager;
+import constitution.utilities.WikiUtilities;
 import net.minecraft.command.ICommandSender;
 public class CommandManager {
 
@@ -68,7 +69,7 @@ public class CommandManager {
 
 		registrar.registerCommand(new CommandTemplate(commandTree), commandTree.getRoot().getAnnotation().permission(),
 				false);
-
+		WikiUtilities.nodeDescriptions.put(commandTree.getRoot().getAnnotation().permission(), commandTree.getRoot().getAnnotation().description());
 		constructTree(commandTree.getRoot(), nodes);
 
 		for (Map.Entry<Command, Method> entry : nodes.entrySet()) {

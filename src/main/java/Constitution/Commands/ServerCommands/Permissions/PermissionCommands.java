@@ -17,7 +17,7 @@ import constitution.localization.LocalizationManager;
 import constitution.permissions.Group;
 import constitution.permissions.PermissionManager;
 import constitution.permissions.User;
-import constitution.utilities.PlayerUtilities;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ITextComponent;
@@ -25,7 +25,7 @@ import net.minecraft.util.text.ITextComponent;
 public class PermissionCommands {
 	
 	private static PermissionManager getManager() {
-		return PlayerUtilities.getManager();
+		return ServerUtilities.getManager();
 	}
 
 	protected static Group getGroupFromName(String name) {
@@ -38,7 +38,7 @@ public class PermissionCommands {
 	}
 
 	protected static UUID getUUIDFromUsername(String username) {
-		UUID uuid = PlayerUtilities.getUUIDFromName(username);
+		UUID uuid = ServerUtilities.getUUIDFromName(username);
 		if (uuid == null) {
 			throw new PermissionCommandException("constitution.cmd.perm.err.player.notExist",
 					LocalizationManager.get("constitution.format.user.short", username));
@@ -46,10 +46,10 @@ public class PermissionCommands {
 		return uuid;
 	}
 	
-		@Command(name = "cperm",
+		@Command(name = "cnp",
 				permission = "constitution.cmd.perm",
-				syntax = "/cperm <command>",
-				alias = { "conpermission", "Conpermission", "conperm", "Conperm", "constitutionperm", "ConstitutionPerm", "constitution", "Constitution", "cperm", "Cperm" },
+				syntax = "/cnp <command>",
+				alias = { "conpermission", "Conpermission", "conperm", "Conperm", "constitutionperm", "ConstitutionPerm", "constitution", "Constitution", "cperm", "CNP" },
 				description = "Root Command For All Permission Commands")
 		public static CommandResponse permCommand(ICommandSender sender, List<String> args) {
 			return CommandResponse.SEND_HELP_MESSAGE;
@@ -57,7 +57,7 @@ public class PermissionCommands {
 
 		@Command(name = "config",
 				permission = "constitution.cmd.perm.config",
-				parentName = "constitution.cmd.perm", syntax = "/cperm config <command>",
+				parentName = "constitution.cmd.perm", syntax = "/cnp config <command>",
 				description = "Base Configuration Parent Command")
 		public static CommandResponse configCommand(ICommandSender sender, List<String> args) {
 			return CommandResponse.SEND_HELP_MESSAGE;
@@ -66,7 +66,7 @@ public class PermissionCommands {
 		@Command(name = "reload",
 				permission = "constitution.cmd.perm.config.reload",
 				parentName = "constitution.cmd.perm.config",
-				syntax = "/cperm config reload",
+				syntax = "/cnp config reload",
 				description = "Reloads Configuration Files")
 		public static CommandResponse configReloadCommand(ICommandSender sender, List<String> args) {
 			ConstitutionMain.instance.loadConfig();
@@ -79,7 +79,7 @@ public class PermissionCommands {
 		@Command(name = "group",
 				permission = "constitution.cmd.perm.group",
 				parentName = "constitution.cmd.perm",
-				syntax = "/cperm group <command>",
+				syntax = "/cnp group <command>",
 				description = "Base Group Command/Parent Command For Group Sub Commands")
 		public static CommandResponse groupCommand(ICommandSender sender, List<String> args) {
 			return CommandResponse.SEND_HELP_MESSAGE;
@@ -88,7 +88,7 @@ public class PermissionCommands {
 		@Command(name = "info",
 				permission = "constitution.cmd.perm.group.info",
 				parentName = "constitution.cmd.perm.group",
-				syntax = "/cperm group info <Group>",
+				syntax = "/cnp group info <Group>",
 				description = "Shows In-Depth Properties of Sender or Targeted Group")
 		public static CommandResponse groupInfoCommand(ICommandSender sender, List<String> args) {
 			List<Group> groups = new ArrayList<Group>();
@@ -126,7 +126,7 @@ public class PermissionCommands {
 		@Command(name = "list",
 				permission = "constitution.cmd.perm.group.list",
 				parentName = "constitution.cmd.perm.group",
-				syntax = "/cperm group list",
+				syntax = "/cnp group list",
 				description = "Displays a List of Existing Groups and Their Properties")
 		public static CommandResponse groupListCommand(ICommandSender sender, List<String> args) {
 			JSONMessageBuilder msgBuilder = new JSONMessageBuilder();
@@ -141,7 +141,7 @@ public class PermissionCommands {
 		@Command(name = "add",
 				permission = "constitution.cmd.perm.group.add",
 				parentName = "constitution.cmd.perm.group",
-				syntax = "/cperm group add <name> [parents]",
+				syntax = "/cnp group add <name> [parents]",
 				description = "Creates Group With Provided Name and Optional ParentGroup")
 		public static CommandResponse groupAddCommand(ICommandSender sender, List<String> args) {
 			if (args.size() < 1) {
@@ -160,7 +160,7 @@ public class PermissionCommands {
 		@Command(name = "delete",
 				permission = "constitution.cmd.perm.group.delete",
 				parentName = "constitution.cmd.perm.group",
-				syntax = "/cperm group delete <name>",
+				syntax = "/cnp group delete <name>",
 				description = "Deletes A Selected Group")
 		public static CommandResponse groupDeleteCommand(ICommandSender sender, List<String> args) {
 			if (args.size() < 1) {
@@ -180,7 +180,7 @@ public class PermissionCommands {
 		@Command(name = "rename",
 				permission = "constitution.cmd.perm.group.rename",
 				parentName = "constitution.cmd.perm.group",
-				syntax = "/cperm group rename <group> <name>",
+				syntax = "/cnp group rename <group> <name>",
 				description = "Renames A Selected Group")
 		public static CommandResponse groupRenameCommand(ICommandSender sender, List<String> args) {
 			if (args.size() < 2) {
@@ -201,7 +201,7 @@ public class PermissionCommands {
 		@Command(name = "desc",
 				permission = "constitution.cmd.perm.group.desc",
 				parentName = "constitution.cmd.perm.group",
-				syntax = "/cperm group desc <group> <desc>",
+				syntax = "/cnp group desc <group> <desc>",
 				description = "Sets/Overwrites the Description of target Group")
 		public static CommandResponse groupDescCommand(ICommandSender sender, List<String> args) {
 			if (args.size() < 2) {
@@ -221,7 +221,7 @@ public class PermissionCommands {
 		@Command(name = "prefix",
 				permission = "constitution.cmd.perm.group.prefix",
 				parentName = "constitution.cmd.perm.group",
-				syntax = "/cperm group prefix",
+				syntax = "/cnp group prefix",
 				description = "Base Group Prefix Editing Command")
 		public static CommandResponse groupPermPrefix(ICommandSender sender, List<String> args) {
 			return CommandResponse.SEND_HELP_MESSAGE;
@@ -230,7 +230,7 @@ public class PermissionCommands {
 		@Command(name = "add",
 				permission = "constitution.cmd.perm.group.prefix.add",
 				parentName = "constitution.cmd.perm.group.prefix",
-				syntax = "/cperm group prefix add <Group> <Prefix>",
+				syntax = "/cnp group prefix add <Group> <Prefix>",
 				description = "Creates Prefix For Specified Group")
 		public static CommandResponse groupPermPrefixRemove(ICommandSender sender, List<String> args) {
 			if (args.size() < 2) {
@@ -250,7 +250,7 @@ public class PermissionCommands {
 		@Command(name = "remove",
 				permission = "constitution.cmd.perm.group.prefix.remove",
 				parentName = "constitution.cmd.perm.group.prefix",
-				syntax = "/cperm group prefix remove <Group>",
+				syntax = "/cnp group prefix remove <Group>",
 				description = "Removes/Clears The Specified Group's Prefix")
 		public static CommandResponse groupPermPrefixAdd(ICommandSender sender, List<String> args) {
 			if (args.size() < 1) {
@@ -270,7 +270,7 @@ public class PermissionCommands {
 		@Command(name = "suffix",
 				permission = "constitution.cmd.perm.group.suffix",
 				parentName = "constitution.cmd.perm.group",
-				syntax = "/cperm group suffix",
+				syntax = "/cnp group suffix",
 				description = "Base Group Suffix Editing Command")
 		public static CommandResponse groupPermSuffix(ICommandSender sender, List<String> args) {
 			return CommandResponse.SEND_HELP_MESSAGE;
@@ -279,7 +279,7 @@ public class PermissionCommands {
 		@Command(name = "add",
 				permission = "constitution.cmd.perm.group.suffix.add",
 				parentName = "constitution.cmd.perm.group.suffix",
-				syntax = "/cperm group suffix add <Group> <Suffix>",
+				syntax = "/cnp group suffix add <Group> <Suffix>",
 				description = "Creates Suffix For Specified Group")
 		public static CommandResponse groupPermSuffixAdd(ICommandSender sender, List<String> args) {
 			if (args.size() < 2) {
@@ -301,7 +301,7 @@ public class PermissionCommands {
 		@Command(name = "remove",
 				permission = "constitution.cmd.perm.group.suffix.remove",
 				parentName = "constitution.cmd.perm.group.suffix",
-				syntax = "/cperm group suffix remove <Group>",
+				syntax = "/cnp group suffix remove <Group>",
 				description = "Removes/Clears The Specified Group's Suffix")
 		public static CommandResponse groupPermSuffixRemove(ICommandSender sender, List<String> args) {
 			if (args.size() < 1) {
@@ -322,7 +322,7 @@ public class PermissionCommands {
 		@Command(name = "perm",
 				permission = "constitution.cmd.perm.group.perm",
 				parentName = "constitution.cmd.perm.group",
-				syntax = "/cperm group perm <command>",
+				syntax = "/cnp group perm <command>",
 				description = "Base Group Permission Editing Command")
 		public static CommandResponse groupPermCommand(ICommandSender sender, List<String> args) {
 			return CommandResponse.SEND_HELP_MESSAGE;
@@ -331,7 +331,7 @@ public class PermissionCommands {
 		@Command(name = "add",
 				permission = "constitution.cmd.perm.group.perm.add",
 				parentName = "constitution.cmd.perm.group.perm",
-				syntax = "/cperm group perm add <group> <perm>",
+				syntax = "/cnp group perm add <group> <perm>",
 				description = "Adds Selected Permission Node To A Defined Group")
 		public static CommandResponse groupPermAddCommand(ICommandSender sender, List<String> args) {
 			if (args.size() < 2) {
@@ -353,7 +353,7 @@ public class PermissionCommands {
 		@Command(name = "remove",
 				permission = "constitution.cmd.perm.group.perm.remove",
 				parentName = "constitution.cmd.perm.group.perm",
-				syntax = "/cperm group perm remove <group> <perm>",
+				syntax = "/cnp group perm remove <group> <perm>",
 				description = "Removes Selected Permission Node From a Defined Group")
 		public static CommandResponse groupPermRemoveCommand(ICommandSender sender, List<String> args) {
 			if (args.size() < 2) {
@@ -375,7 +375,7 @@ public class PermissionCommands {
 		@Command(name = "list",
 				permission = "constitution.cmd.perm.group.perm.list",
 				parentName = "constitution.cmd.perm.group.perm",
-				syntax = "/cperm group perm list <group>",
+				syntax = "/cnp group perm list <group>",
 				description = "Lists The Permission Nodes of A Selected Group")
 		public static CommandResponse groupPermListCommand(ICommandSender sender, List<String> args) {
 			if (args.size() < 1) {
@@ -395,7 +395,7 @@ public class PermissionCommands {
 		@Command(name = "user",
 				permission = "constitution.cmd.perm.user",
 				parentName = "constitution.cmd.perm",
-				syntax = "/cperm user <command>",
+				syntax = "/cnp user <command>",
 				description = "Base User Editing Command")
 		public static CommandResponse userCommand(ICommandSender sender, List<String> args) {
 			return CommandResponse.SEND_HELP_MESSAGE;
@@ -404,7 +404,7 @@ public class PermissionCommands {
 		@Command(name = "info",
 				permission = "constitution.cmd.perm.user.info",
 				parentName = "constitution.cmd.perm.user",
-				syntax = "/cperm user info <User>",
+				syntax = "/cnp user info <User>",
 				description = "Shows In-Depth Properties of Sender or Targeted User")
 		public static CommandResponse userInfoCommand(ICommandSender sender, List<String> args) {
 			List<User> users = new ArrayList<User>();
@@ -434,7 +434,7 @@ public class PermissionCommands {
 		@Command(name = "list",
 				permission = "constitution.cmd.perm.user.list",
 				parentName = "constitution.cmd.perm.user",
-				syntax = "/cperm user list",
+				syntax = "/cnp user list",
 				description = "Displays a List of Users and their properties")
 		public static CommandResponse userListCommand(ICommandSender sender, List<String> args) {
 			JSONMessageBuilder msgBuilder = new JSONMessageBuilder();
@@ -442,7 +442,7 @@ public class PermissionCommands {
 			
 			for (User user : getManager().users) {
 				ChatManager.send(sender, user.toChatMessage());
-				extraBuilder.setClickEventRunCommand("/cperm info " + user.getUserName());
+				extraBuilder.setClickEventRunCommand("/cnp info " + user.getUserName());
 				extraBuilder.setHoverEventShowText(user.getformattedUserInfo());
 			}
 			return CommandResponse.DONE;
@@ -451,7 +451,7 @@ public class PermissionCommands {
 		@Command(name = "group",
 				permission = "constitution.cmd.perm.user.group",
 				parentName = "constitution.cmd.perm.user",
-				syntax = "/cperm user group <command>",
+				syntax = "/cnp user group <command>",
 				description = "Base Group Editing Command")
 		public static CommandResponse userGroupCommand(ICommandSender sender, List<String> args) {
 			return CommandResponse.SEND_HELP_MESSAGE;
@@ -460,7 +460,7 @@ public class PermissionCommands {
 		@Command(name = "show",
 				permission = "constitution.cmd.perm.user.group.show",
 				parentName = "constitution.cmd.perm.user.group",
-				syntax = "/cperm user group show <player>",
+				syntax = "/cnp user group show <player>",
 				description = "Displays The Groups of A Selected User")
 		public static CommandResponse userGroupShowCommand(ICommandSender sender, List<String> args) {
 			if (args.size() < 1) {
@@ -481,7 +481,7 @@ public class PermissionCommands {
 		@Command(name = "set",
 				permission = "constitution.cmd.perm.user.group.set",
 				parentName = "constitution.cmd.perm.user.group",
-				syntax = "/cperm user group set <player> <group>",
+				syntax = "/cnp user group set <player> <group>",
 				description = "Sets The Selected User To A Defined Group")
 		public static CommandResponse userGroupSetCommand(ICommandSender sender, List<String> args) {
 			if (args.size() < 2) {
@@ -511,7 +511,7 @@ public class PermissionCommands {
 		@Command(name = "prefix",
 				permission = "constitution.cmd.perm.user.prefix",
 				parentName = "constitution.cmd.perm.user",
-				syntax = "/cperm user prefix",
+				syntax = "/cnp user prefix",
 				description = "Base User Prefix Editing Command")
 		public static CommandResponse userPermPrefix(ICommandSender sender, List<String> args) {
 			return CommandResponse.SEND_HELP_MESSAGE;
@@ -520,7 +520,7 @@ public class PermissionCommands {
 		@Command(name = "add",
 				permission = "constitution.cmd.perm.user.prefix.add",
 				parentName = "constitution.cmd.perm.user.prefix",
-				syntax = "/cperm user prefix add <User> <Prefix>",
+				syntax = "/cnp user prefix add <User> <Prefix>",
 				description = "Creates Prefix For Specified User")
 		public static CommandResponse userPermPrefixRemove(ICommandSender sender, List<String> args) {
 			if (args.size() < 2) {
@@ -542,7 +542,7 @@ public class PermissionCommands {
 		@Command(name = "remove",
 				permission = "constitution.cmd.perm.user.prefix.remove",
 				parentName = "constitution.cmd.perm.user.prefix",
-				syntax = "/cperm user prefix remove <User>",
+				syntax = "/cnp user prefix remove <User>",
 				description = "Removes/Clears The Specified User's Prefix")
 		public static CommandResponse userPermPrefixAdd(ICommandSender sender, List<String> args) {
 			if (args.size() < 1) {
@@ -563,7 +563,7 @@ public class PermissionCommands {
 		@Command(name = "suffix",
 				permission = "constitution.cmd.perm.user.suffix",
 				parentName = "constitution.cmd.perm.user",
-				syntax = "/cperm user suffix",
+				syntax = "/cnp user suffix",
 				description = "Base User Suffix Editing Command")
 		public static CommandResponse userPermSuffix(ICommandSender sender, List<String> args) {
 			return CommandResponse.SEND_HELP_MESSAGE;
@@ -572,7 +572,7 @@ public class PermissionCommands {
 		@Command(name = "add",
 				permission = "constitution.cmd.perm.user.suffix.add",
 				parentName = "constitution.cmd.perm.user.suffix",
-				syntax = "/cperm user suffix add <User> <Suffix>",
+				syntax = "/cnp user suffix add <User> <Suffix>",
 				description = "Creates Suffix For Specified User")
 		public static CommandResponse userPermSuffixAdd(ICommandSender sender, List<String> args) {
 			if (args.size() < 2) {
@@ -594,7 +594,7 @@ public class PermissionCommands {
 		@Command(name = "remove",
 				permission = "constitution.cmd.perm.user.suffix.remove",
 				parentName = "constitution.cmd.perm.user.suffix",
-				syntax = "/cperm user suffix remove <User>",
+				syntax = "/cnp user suffix remove <User>",
 				description = "Removes/Clears The Specified User's Suffix")
 		public static CommandResponse userPermSuffixRemove(ICommandSender sender, List<String> args) {
 			if (args.size() < 1) {
@@ -617,7 +617,7 @@ public class PermissionCommands {
 		@Command(name = "perm",
 				permission = "constitution.cmd.perm.user.perm",
 				parentName = "constitution.cmd.perm.user",
-				syntax = "/cperm user perm <command>",
+				syntax = "/cnp user perm <command>",
 				description = "Base Permission Editing Command")
 		public static CommandResponse userPermCommand(ICommandSender sender, List<String> args) {
 			return CommandResponse.SEND_HELP_MESSAGE;
@@ -626,7 +626,7 @@ public class PermissionCommands {
 		@Command(name = "add",
 				permission = "constitution.cmd.perm.user.perm.add",
 				parentName = "constitution.cmd.perm.user.perm",
-				syntax = "/cperm user perm add <player> <perm>",
+				syntax = "/cnp user perm add <player> <perm>",
 				description = "Adds Selected Permission Nodes to Users")
 		public static CommandResponse userPermAddCommand(ICommandSender sender, List<String> args) {
 			if (args.size() < 2) {
@@ -649,7 +649,7 @@ public class PermissionCommands {
 		@Command(name = "remove",
 				permission = "constitution.cmd.perm.user.perm.remove",
 				parentName = "constitution.cmd.perm.user.perm",
-				syntax = "/cperm user perm remove <player> <perm>",
+				syntax = "/cnp user perm remove <player> <perm>",
 				description = "Removes Selected Permission Nodes From Users")
 		public static CommandResponse userPermRemoveCommand(ICommandSender sender, List<String> args) {
 			if (args.size() < 2) {
@@ -672,7 +672,7 @@ public class PermissionCommands {
 		@Command(name = "list",
 				permission = "constitution.cmd.perm.user.perm.list",
 				parentName = "constitution.cmd.perm.user.perm",
-				syntax = "/cperm user perm list <player>",
+				syntax = "/cnp user perm list <player>",
 				description = "Lists Permission Nodes of Selected User")
 		public static CommandResponse userPermListCommand(ICommandSender sender, List<String> args) {
 			if (args.size() < 1) {

@@ -10,8 +10,7 @@ import constitution.configuration.Config;
 import constitution.permissions.Group;
 import constitution.permissions.PermissionManager;
 import constitution.permissions.User;
-import constitution.utilities.PlayerUtilities;
-import constitution.utilities.VanillaUtilities;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -32,16 +31,16 @@ public class LoginEvent {
 	 */
 	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
 	public void AuthenticatePlayerLogIn(PlayerLoggedInEvent event) {
-		PermissionManager manager = PlayerUtilities.getManager();
+		PermissionManager manager = ServerUtilities.getManager();
 		if (event.player instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP) event.player;
 			String displayName = player.getDisplayNameString();
 			UUID playerUUID = player.getPersistentID();
 			GameProfile profile = player.getGameProfile();
 			SocketAddress socketAddress = player.connection.getNetworkManager().getRemoteAddress();
-			if (!VanillaUtilities.getMinecraftServer().isSinglePlayer()) {
+			if (!ServerUtilities.getMinecraftServer().isSinglePlayer()) {
 				ITextComponent crackedMessage = new TextComponentString("Cracked Clients Not Supported By Constitution Mod");
-				if (VanillaUtilities.getMinecraftServer().isServerInOnlineMode()) {
+				if (ServerUtilities.getMinecraftServer().isServerInOnlineMode()) {
 					ITextComponent banMessage = new TextComponentString("You Are Currently Banned From This Server");
 					if (manager.users != null) {
 						if (!isPlayerBanned(player)) {
@@ -88,10 +87,10 @@ public class LoginEvent {
 						} else {
 							//Case 5: Banned Player Connecting:
 							User user = manager.users.get(playerUUID);
-							if (VanillaUtilities.getMinecraftServer().getPlayerList().getBannedPlayers().isBanned(profile)) {
+							if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedPlayers().isBanned(profile)) {
 								user.setBanned(true);
 							}
-							if (VanillaUtilities.getMinecraftServer().getPlayerList().getBannedIPs().isBanned(socketAddress)) {
+							if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedIPs().isBanned(socketAddress)) {
 								user.setIPBanned(true);
 							}
 							manager.saveUsers();
@@ -100,9 +99,11 @@ public class LoginEvent {
 						}
 					}
 				} else {
-					//Case 4: Offline Mode Enabled: Disconnect All Connecting Players:
-					player.connection.disconnect(crackedMessage);
-					event.setCanceled(true);
+					//Case 4: Offline Mode Enabled: Disconnect All Non Operator Connecting Players:
+					if (!ServerUtilities.isOP(playerUUID)) {
+						player.connection.disconnect(crackedMessage);
+						event.setCanceled(true);
+					}
 				}
 			} else {
 				//Case 5: First Join on SinglePlayer or Developer Environment With This UUID (Mod Testing Purposes):
@@ -137,17 +138,17 @@ public class LoginEvent {
 		}
 	}
 	public Boolean isPlayerBanned(EntityPlayerMP player) {
-		PermissionManager manager = PlayerUtilities.getManager();
+		PermissionManager manager = ServerUtilities.getManager();
 		UUID playerUUID = player.getPersistentID();
 		GameProfile profile = player.getGameProfile();
 		SocketAddress socketAddress = player.connection.getNetworkManager().getRemoteAddress();
 		User existingUser = manager.users.get(playerUUID);
 		Boolean banned = false;
-		if (VanillaUtilities.getMinecraftServer().getPlayerList().getBannedIPs().isBanned(socketAddress)) {
+		if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedIPs().isBanned(socketAddress)) {
 			existingUser.setIPBanned(true);
 			banned = true;
 		}
-		if (VanillaUtilities.getMinecraftServer().getPlayerList().getBannedPlayers().isBanned(profile)) {
+		if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedPlayers().isBanned(profile)) {
 			existingUser.setBanned(true);
 			banned = true;
 		}

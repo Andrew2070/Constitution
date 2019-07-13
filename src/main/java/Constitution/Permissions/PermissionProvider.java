@@ -9,8 +9,7 @@ import com.mojang.authlib.GameProfile;
 
 import constitution.ConstitutionMain;
 import constitution.configuration.Config;
-import constitution.utilities.PlayerUtilities;
-import constitution.utilities.VanillaUtilities;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.UserListOpsEntry;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
@@ -43,7 +42,7 @@ public class PermissionProvider implements IPermissionHandler{
 	@Override
 	public boolean hasPermission(GameProfile profile, String node, IContext context) {
 		Boolean permLevel = false;
-		PermissionManager manager = PlayerUtilities.getManager();
+		PermissionManager manager = ServerUtilities.getManager();
 		if (profile.getId() == context.getPlayer().getUniqueID()) {
 			User user = manager.users.get(profile.getId());
 			if (!user.permsContainer.isEmpty() && user.permsContainer!=null & user.permsContainer.contains(node)) {
@@ -78,15 +77,15 @@ public class PermissionProvider implements IPermissionHandler{
 				}
 			}
 			//FailSafes For (Non-Authorized) Users with (Non-Problematic) context(s) or exceptions:
-			if (PERM_SEED.equals(node) && ! VanillaUtilities.getMinecraftServer().isDedicatedServer()) {
-				permLevel = true;
+			if (PERM_SEED.equals(node) && ! ServerUtilities.getMinecraftServer().isDedicatedServer()) {
+				return true;
 			}
 			if (PERM_TELL.equals(node) || PERM_HELP.equals(node) || PERM_ME.equals(node)) {
-				permLevel = true;
+				return true;
 			}
-			if (Config.instance.fullAccessForOPS.get() && PlayerUtilities.isOP(profile.getId())) {
+			if (Config.instance.fullAccessForOPS.get() && ServerUtilities.isOP(profile.getId())) {
 				ConstitutionMain.logger.warning(("Operator: " + profile.getName() + " Exempted From Permission Checking!"));
-				permLevel = true;
+				return true;
 			}
 		} 
 	return permLevel;
@@ -96,7 +95,7 @@ public class PermissionProvider implements IPermissionHandler{
 		return permissionDescriptions.get(node);
 	}
 	protected int getOpLevel(GameProfile gameProfile) {
-		MinecraftServer server = VanillaUtilities.getMinecraftServer();
+		MinecraftServer server = ServerUtilities.getMinecraftServer();
 		if (!server.getPlayerList().canSendCommands(gameProfile)) {
 			return 0;
 		}
@@ -107,7 +106,7 @@ public class PermissionProvider implements IPermissionHandler{
 	protected boolean searchNodes(PermissionsContainer container, String permission) {
 		Boolean permLevel = false;
 		if (container.contains(permission)) {
-			permLevel = true;
+			return true;
 		}
 		for (String p : container) {
 			if (p.endsWith("*")) {
@@ -125,5 +124,9 @@ public class PermissionProvider implements IPermissionHandler{
 			}
 		}
 		return permLevel;
+	}
+	protected boolean searchNodes2(PermissionsContainer container, String permission) {
+		
+		return false;
 	}
 }	

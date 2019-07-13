@@ -3,7 +3,7 @@ package constitution.events;
 import constitution.ConstitutionMain;
 import constitution.permissions.PermissionManager;
 import constitution.permissions.User;
-import constitution.utilities.PlayerUtilities;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.CommandEvent;
@@ -17,7 +17,7 @@ public class SendCommandEvent {
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onPlayerSendCommand(CommandEvent event) {
-		PermissionManager manager = PlayerUtilities.getManager();
+		PermissionManager manager = ServerUtilities.getManager();
 		User user = manager.users.get(event.getSender().getCommandSenderEntity().getUniqueID());
 		Boolean hasPermission = false;	
 		

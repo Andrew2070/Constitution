@@ -5,12 +5,12 @@ import constitution.chat.channels.Channel;
 import constitution.commands.engine.Command;
 import constitution.commands.engine.CommandResponse;
 import constitution.permissions.PermissionManager;
-import constitution.utilities.PlayerUtilities;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.command.ICommandSender;
 public class channel {
 	
 	private static PermissionManager getManager() {
-		return PlayerUtilities.getManager();
+		return ServerUtilities.getManager();
 	}
 	
 	@Command(name = "channel", permission = "constitution.cmd.channel", syntax = "/channel", alias = {"ch", "CH", "Ch"}, description = "")

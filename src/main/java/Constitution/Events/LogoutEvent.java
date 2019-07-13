@@ -3,7 +3,7 @@ import java.util.UUID;
 
 import constitution.permissions.PermissionManager;
 import constitution.permissions.User;
-import constitution.utilities.PlayerUtilities;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
@@ -13,7 +13,7 @@ public class LogoutEvent {
 	
 	@SubscribeEvent
 	public void AuthenticatePlayerLogout(PlayerLoggedOutEvent event) {
-		PermissionManager manager = PlayerUtilities.getManager();
+		PermissionManager manager = ServerUtilities.getManager();
 		if (event.player instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP) event.player;
 			UUID uuid = player.getUniqueID();
