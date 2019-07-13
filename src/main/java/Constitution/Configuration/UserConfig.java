@@ -8,12 +8,12 @@ import constitution.configuration.json.JSONConfig;
 import constitution.permissions.Meta;
 import constitution.permissions.PermissionManager;
 import constitution.permissions.User;
-import constitution.utilities.PlayerUtilities;
+import constitution.utilities.ServerUtilities;
 
 public class UserConfig extends JSONConfig<User, User.Container> {
 	UUID uuid = UUID.randomUUID();
 	User user = new User(uuid);
-	private PermissionManager permissionsManager = PlayerUtilities.getManager();
+	private PermissionManager permissionsManager = ServerUtilities.getManager();
 
 	public UserConfig(String path) {
 		super(path, "Users");

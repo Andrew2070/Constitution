@@ -137,6 +137,10 @@ public class Config extends ConfigTemplate {
 			"Specify the default chat channel name",
 			"Global");
 
+	public ConfigProperty<String> defaultChatChannelPrefix = new ConfigProperty<String>(
+			"defaultChatChannelPrefix", "Chat",
+			"Specify the default chat channel's prefix",
+			"&6[G]");
 	public ConfigProperty<Boolean> forceDefaultChannelLogin = new ConfigProperty<Boolean>(
 			"forceDefaultChannelLogin", "Chat",
 			"Should players be forced into the default channel on logging in?",

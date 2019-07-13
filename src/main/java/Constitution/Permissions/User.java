@@ -24,7 +24,7 @@ import constitution.chat.component.ChatComponentFormatted;
 import constitution.configuration.Config;
 import constitution.configuration.json.JSONSerializerTemplate;
 import constitution.localization.LocalizationManager;
-import constitution.utilities.PlayerUtilities;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -81,9 +81,9 @@ public class User implements IChatFormat {
 		this.LastActivity = player.getLastActiveTime();
 		this.Health = player.getHealth();
 		this.XPTotal = player.experienceTotal;
-		this.setGroup(PlayerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
-		this.setDominantGroup(PlayerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
-		this.Operator = PlayerUtilities.isOP(player.getPersistentID());
+		this.setGroup(ServerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
+		this.setDominantGroup(ServerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
+		this.Operator = ServerUtilities.isOP(player.getPersistentID());
 	}
 
 	public User(UUID uuid) {
@@ -227,7 +227,7 @@ public class User implements IChatFormat {
 		return this.Channel;
 	}
 	public Channel getChannelObject() {
-		return PlayerUtilities.getManager().channels.get(this.Channel);
+		return ServerUtilities.getManager().channels.get(this.Channel);
 	}
 	
 	public String getLocationAsString() {
@@ -241,11 +241,20 @@ public class User implements IChatFormat {
 	}
 	
 	public void setChannel(String channel) {
-		this.Channel = channel;
-		if (PlayerUtilities.getManager().channels.contains(channel)) {
-			if (!PlayerUtilities.getManager().channels.get(channel).users.contains(this)) {
-				PlayerUtilities.getManager().channels.get(channel).users.add(this);
-				PlayerUtilities.getManager().saveChannels();
+		if (ServerUtilities.getManager().channels.contains(channel)) {
+			if (!ServerUtilities.getManager().channels.get(channel).users.contains(this)) {
+				ServerUtilities.getManager().channels.get(channel).users.add(this);
+				ServerUtilities.getManager().saveChannels();
+				this.Channel = channel;
+			}
+		} else {
+			if (channel == Config.instance.defaultChatChannel.get()) {
+				Channel defaultChannel = new Channel();
+				defaultChannel.setUser(this);
+				ServerUtilities.getManager().channels.add(defaultChannel);
+				ServerUtilities.getManager().saveChannels();
+				this.Channel = channel;
+				
 			}
 		}
 	}
@@ -368,7 +377,7 @@ public class User implements IChatFormat {
 	}
 
 	public Boolean isOP(UUID uuid) {
-		return PlayerUtilities.isOP(uuid);
+		return ServerUtilities.isOP(uuid);
 	}
 	@Override
 	public ITextComponent toChatMessage() {
@@ -410,16 +419,16 @@ public class User implements IChatFormat {
 			}
 			JsonElement dominantGroup = jsonObject.get("DominantGroup");
 			if (dominantGroup != null) {
-				user.setDominantGroup(PlayerUtilities.getManager().groups.get(jsonObject.get("DominantGroup").getAsString()));
+				user.setDominantGroup(ServerUtilities.getManager().groups.get(jsonObject.get("DominantGroup").getAsString()));
 			} else {
 				user.setDominantGroup();
 			}
 			
 			if (jsonObject.has("groups")) {
 				List<String> groupNames = new ArrayList<String>(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("groups"), String[].class)));	
-				for (int i=0; i<PlayerUtilities.getManager().groups.size(); i++) {
-					if (PlayerUtilities.getManager().groups.get(i).getName().equals(groupNames.get(i))) {
-						user.setGroup(PlayerUtilities.getManager().groups.get(i));
+				for (int i=0; i<ServerUtilities.getManager().groups.size(); i++) {
+					if (ServerUtilities.getManager().groups.get(i).getName().equals(groupNames.get(i))) {
+						user.setGroup(ServerUtilities.getManager().groups.get(i));
 					}
 				}
 			}
@@ -514,7 +523,7 @@ public class User implements IChatFormat {
 		public boolean add(UUID uuid) {
 			if (get(uuid) == null) {
 				Group group = (defaultGroup == null)
-						? PlayerUtilities.getManager().groups.get("default")
+						? ServerUtilities.getManager().groups.get("default")
 								: defaultGroup;
 						User newUser = new User(uuid, group);
 						super.add(newUser);

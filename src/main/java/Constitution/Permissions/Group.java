@@ -20,7 +20,7 @@ import constitution.chat.component.ChatComponentFormatted;
 import constitution.configuration.Config;
 import constitution.configuration.json.JSONSerializerTemplate;
 import constitution.localization.LocalizationManager;
-import constitution.utilities.PlayerUtilities;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 
@@ -32,10 +32,10 @@ public class Group implements IChatFormat {
 	private 					String 								prefix 				= "";
 	private 					String 								suffix 				= "";
 	private 					Integer 							rank 				= null;
-	private 					List<UUID> 							users 				= new ArrayList<UUID>();
 	public final 				PermissionsContainer 				permsContainer 		= new PermissionsContainer();
 	public final    			Meta.Container 						metaContainer	    = new Meta.Container();
     public final 				Container 							parents 			= new Container();
+    private final 				List<UUID> 							users 				= new ArrayList<UUID>();
 	
 	public Group() {
 		this.name = Config.instance.defaultGroupName.get();
@@ -100,7 +100,7 @@ public class Group implements IChatFormat {
 	
 	public User getUsers() {
 		for (UUID uuid : users) {
-			return PlayerUtilities.getManager().users.get(uuid);
+			return ServerUtilities.getManager().users.get(uuid);
 		}
 	return null;
 	}
@@ -188,9 +188,9 @@ public class Group implements IChatFormat {
 			
 			if (jsonObject.has("Parents")) {
 				List<String> parentNames = new ArrayList<String>(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("Parents"), String[].class)));	
-				for (int i=0; i<PlayerUtilities.getManager().groups.size(); i++) {
-					if (PlayerUtilities.getManager().groups.get(i).getName().equals(parentNames.get(i))) {
-						group.setParent(PlayerUtilities.getManager().groups.get(i));
+				for (int i=0; i<ServerUtilities.getManager().groups.size(); i++) {
+					if (ServerUtilities.getManager().groups.get(i).getName().equals(parentNames.get(i))) {
+						group.setParent(ServerUtilities.getManager().groups.get(i));
 					}
 				}
 			}
@@ -216,9 +216,6 @@ public class Group implements IChatFormat {
 			json.add("Rank", context.serialize(group.getRank()));
 			json.add("Prefix", context.serialize(group.getPrefix()));
 			json.add("Suffix", context.serialize(group.getSuffix()));
-			if (!group.users.isEmpty()) {
-				json.add("Users", context.serialize(group.getUserUUIDS().toString()));
-			}
 			if (!group.permsContainer.isEmpty()) {
 				json.add("Permissions", context.serialize(group.permsContainer));
 			}
@@ -232,6 +229,9 @@ public class Group implements IChatFormat {
 				}
 				json.add("Parents", context.serialize(GroupNames));
 			}
+			if (!group.users.isEmpty()) {
+				json.add("Users", context.serialize(group.getUserUUIDS().toString()));
+			}
 				
 			return json;
 		}
@@ -241,7 +241,7 @@ public class Group implements IChatFormat {
 
 		@Override
 		public boolean add(Group group) {
-			if (PlayerUtilities.getManager().groups.contains(group)) {
+			if (ServerUtilities.getManager().groups.contains(group)) {
 				return true;
 			} else {
 				super.add(group);

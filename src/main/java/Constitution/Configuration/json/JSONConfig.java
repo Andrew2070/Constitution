@@ -106,11 +106,7 @@ public abstract class JSONConfig<T, L extends List<T>> {
         try {
             Reader reader = new FileReader(path);
             items = gson.fromJson(reader, gsonType);
-            reader.close();
-            ConstitutionMain.logger.info(path);
-            ConstitutionMain.logger.info(reader.toString());
-            ConstitutionMain.logger.info(gsonType.toString());
-            
+            reader.close();     
             ConstitutionMain.logger.info("Loaded " + name + " successfully!");
         } catch (IOException ex) {
             ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(ex));

@@ -2,6 +2,7 @@ package constitution.chat.channels;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,33 +18,32 @@ import constitution.configuration.Config;
 import constitution.configuration.json.JSONSerializerTemplate;
 import constitution.permissions.Meta;
 import constitution.permissions.User;
-import constitution.utilities.PlayerUtilities;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class Channel {
 
-	protected String name = "";
-	protected String password = "";
-	protected String prefix = "";
-	protected Boolean enabled = true;
-	protected Boolean hidden = false;
-	protected Boolean verbose = false;
-	protected Boolean forced = false;
-	protected Boolean autoJoinable = false;
-	protected Boolean quickMessagable = false;
-	protected Boolean crossDimensionable = false;
-
-	public List<User> users = new ArrayList<User>();
-	public List<User> moderators = new ArrayList<User>();
-	public List<User> blacklist = new ArrayList<User>();
-	public List<User> whitelist = new ArrayList<User>();
-	public List<String> voicelist = new ArrayList<String>();
-	public List<User> mutelist = new ArrayList<User>();
-	protected List<Integer> dimensions = new ArrayList<Integer>();
-	protected List<String> gameToIRCTags = new ArrayList<String>();
-	protected List<String> IRCToGameTags = new ArrayList<String>();
+	private String name = "";
+	private String password = "";
+	private String prefix = "";
+	private Boolean enabled = true;
+	private Boolean hidden = false;
+	private Boolean verbose = false;
+	private Boolean forced = false;
+	private Boolean autoJoinable = false;
+	private Boolean quickMessagable = false;
+	private Boolean crossDimensionable = false;
+	public final List<Integer> dimensions = new ArrayList<Integer>();
+	public final List<User> users = new ArrayList<User>();
+	public final List<User> moderators = new ArrayList<User>();
+	public final List<User> blacklist = new ArrayList<User>();
+	public final List<User> whitelist = new ArrayList<User>();
+	public final List<String> voicelist = new ArrayList<String>();
+	public final List<User> mutelist = new ArrayList<User>();
+	public final List<String> gameToIRCTags = new ArrayList<String>();
+	public final List<String> IRCToGameTags = new ArrayList<String>();
 	
 	public Channel() {
 		this.name = Config.instance.defaultChatChannel.get();
@@ -52,9 +52,8 @@ public class Channel {
 		this.autoJoinable = true;
 		this.forced = true;
 		this.dimensions.add(0);
-		this.prefix = "[G]";
+		this.prefix = Config.instance.defaultChatChannelPrefix.get();
 	}
-	
 	
 	public Channel(String name, String password) {
 		this.name = name;
@@ -82,13 +81,13 @@ public class Channel {
 		return this.forced;
 	}
 	public Boolean autoJoined() {
-		return this.autoJoined();
+		return this.autoJoinable;
 	}
 	public Boolean quickMessagable() {
-		return this.quickMessagable();
+		return this.quickMessagable;
 	}
 	public Boolean crossDimensions() {
-		return this.crossDimensions();
+		return this.crossDimensionable;
 	}
 	public User getUsers() {
 		for (User user : users) {
@@ -99,25 +98,29 @@ public class Channel {
 		return null;
 	}
 	
-	public UUID getUserUUIDs() {
+	public Collection<String> getUserUUIDs() {
+		List<String> uuids = new ArrayList<String>();
 		for (User user : users) {
 			if (user!=null) {
-				return user.getUUID();
+				uuids.add(user.getUUID().toString());
 			}
 		}
-		return null;
+	return uuids;
 	}
 	public User getModerators() {
 		for (User user : users) {
-				return user;
-			}
-		return null;
+			return user;
 		}
-	public UUID getModeratorUUIDs() {
+	return null;
+	}
+	public Collection<String> getModeratorUUIDs() {
+		List<String> uuids = new ArrayList<String>();
 		for (User user : users) {
-			return user.getUUID();
+			if (user!=null) {
+				uuids.add(user.getUUID().toString());
+			}
 		}
-		return null;
+	return uuids;
 	}
 	public User getBlackListedUsers() {
 		for (User user : this.blacklist) {
@@ -127,13 +130,14 @@ public class Channel {
 		}
 		return null;
 	}
-	public UUID getBlackListedUsersUUIDS() {
-		for (User user : this.blacklist) {
+	public Collection<String> getBlackListedUsersUUIDS() {
+		List<String> uuids = new ArrayList<String>();
+		for (User user : users) {
 			if (user!=null) {
-			return user.getUUID();
+				uuids.add(user.getUUID().toString());
 			}
 		}
-		return null;
+	return uuids;
 	}
 	public User getWhiteListedUsers() {
 		for (User user : this.whitelist) {
@@ -143,13 +147,14 @@ public class Channel {
 		}
 		return null;
 	}
-	public UUID getWhiteListedUsersUUIDS() {
-		for (User user : this.whitelist) {
+	public Collection<String> getWhiteListedUsersUUIDS() {
+		List<String> uuids = new ArrayList<String>();
+		for (User user : users) {
 			if (user!=null) {
-				return user.getUUID();
+				uuids.add(user.getUUID().toString());
 			}
 		}
-		return null;
+	return uuids;
 	}
 	public User getMutedUsers() {
 		for (User user : this.mutelist) {
@@ -159,13 +164,14 @@ public class Channel {
 		}
 		return null;
 	}
-	public UUID getMutedUsersUUIDS() {
-		for (User user : this.mutelist) {
+	public Collection<String> getMutedUsersUUIDS() {
+		List<String> uuids = new ArrayList<String>();
+		for (User user : users) {
 			if (user!=null) {
-				return user.getUUID();
+				uuids.add(user.getUUID().toString());
 			}
 		}
-		return null;
+	return uuids;
 	}
 	public Integer getDimensions() {
 		for (Integer dim : this.dimensions) {
@@ -175,6 +181,15 @@ public class Channel {
 		}
 		return 0;
 	}
+	public Collection<Integer> getDimensionsList() {
+		List<Integer> dimensions = new ArrayList<Integer>();
+		for (Integer dim : this.dimensions) {
+			if (dim!=null) {
+			dimensions.add(dim);
+			}
+		}
+		return dimensions;
+	}
 	public String getGameToIRCTags() {
 		for (String tag : this.gameToIRCTags) {
 			if (tag!=null) {
@@ -183,6 +198,15 @@ public class Channel {
 		}
 		return null;
 	}
+	public Collection<String> getGameToIRCTagsList() {
+		List<String> tags = new ArrayList<String>();
+		for (String tag : this.gameToIRCTags) {
+			if (tag!=null) {
+			tags.add(tag);
+			}
+		}
+		return tags;
+	}
 	public String getIRCToGameTags() {
 		for (String tag : this.IRCToGameTags) {
 			if (tag!=null) {
@@ -190,6 +214,15 @@ public class Channel {
 			}
 		}
 		return null;
+	}
+	public Collection<String> getIRCToGameTagsList() {
+		List<String> tags = new ArrayList<String>();
+		for (String tag : this.IRCToGameTags) {
+			if (tag!=null) {
+			tags.add(tag);
+			}
+		}
+		return tags;
 	}
 	public void setName(String name) {
 		this.name = name;
@@ -295,8 +328,8 @@ public class Channel {
 				List<String> usersUUIDS = new ArrayList<String>(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("Users"), String[].class)));	
 				for (String uuid : usersUUIDS) {
 					UUID userID = UUID.fromString(uuid);
-					if (PlayerUtilities.getManager().users != null && !PlayerUtilities.getManager().users.isEmpty()) {
-						User user = PlayerUtilities.getManager().users.get(userID);
+					if (ServerUtilities.getManager().users != null && !ServerUtilities.getManager().users.isEmpty()) {
+						User user = ServerUtilities.getManager().users.get(userID);
 						channel.setUser(user);
 					}
 				}
@@ -305,8 +338,8 @@ public class Channel {
 				List<String> modUUIDS = new ArrayList<String>(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("Moderators"), String[].class)));	
 				for (String uuid : modUUIDS) {
 					UUID modID = UUID.fromString(uuid);
-					if (PlayerUtilities.getManager().users != null && !PlayerUtilities.getManager().users.isEmpty()) {
-						User moderator = PlayerUtilities.getManager().users.get(modID);
+					if (ServerUtilities.getManager().users != null && !ServerUtilities.getManager().users.isEmpty()) {
+						User moderator = ServerUtilities.getManager().users.get(modID);
 						channel.setModerator(moderator);
 					}
 				}
@@ -315,8 +348,8 @@ public class Channel {
 				List<String> blackList = new ArrayList<String>(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("BlackList"), String[].class)));	
 				for (String uuid : blackList) {
 					UUID userID = UUID.fromString(uuid);
-					if (PlayerUtilities.getManager().users != null && !PlayerUtilities.getManager().users.isEmpty()) {
-						User blackListedUser = PlayerUtilities.getManager().users.get(userID);
+					if (ServerUtilities.getManager().users != null && !ServerUtilities.getManager().users.isEmpty()) {
+						User blackListedUser = ServerUtilities.getManager().users.get(userID);
 						channel.setUser(blackListedUser);
 					}
 				}
@@ -325,8 +358,8 @@ public class Channel {
 				List<String> whiteList = new ArrayList<String>(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("WhiteList"), String[].class)));	
 				for (String uuid : whiteList) {
 					UUID userID = UUID.fromString(uuid);
-					if (PlayerUtilities.getManager().users != null && !PlayerUtilities.getManager().users.isEmpty()) {
-						User whiteListedUser = PlayerUtilities.getManager().users.get(userID);
+					if (ServerUtilities.getManager().users != null && !ServerUtilities.getManager().users.isEmpty()) {
+						User whiteListedUser = ServerUtilities.getManager().users.get(userID);
 						channel.setUser(whiteListedUser);
 					}
 				}
@@ -335,8 +368,8 @@ public class Channel {
 				List<String> muteList = new ArrayList<String>(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("MuteList"), String[].class)));	
 				for (String uuid : muteList) {
 					UUID userID = UUID.fromString(uuid);
-					if (PlayerUtilities.getManager().users != null && !PlayerUtilities.getManager().users.isEmpty()) {
-						User mutedUser = PlayerUtilities.getManager().users.get(userID);
+					if (ServerUtilities.getManager().users != null && !ServerUtilities.getManager().users.isEmpty()) {
+						User mutedUser = ServerUtilities.getManager().users.get(userID);
 						channel.setUser(mutedUser);
 					}
 				}
@@ -374,30 +407,29 @@ public class Channel {
 			json.add("AutoJoining", context.serialize(channel.autoJoined()));
 			json.add("QuickMessaging", context.serialize(channel.quickMessagable()));
 			json.add("CrossDimension", context.serialize(channel.getName()));
-
+			if (channel.dimensions!= null && !channel.dimensions.isEmpty()) {
+				json.add("Dimensions", context.serialize(channel.getDimensionsList()));
+			}
 			if (channel.users!=null && !channel.users.isEmpty()) {
-				json.add("Users", context.serialize(channel.getUserUUIDs().toString()));
+				json.add("Users", context.serialize(channel.getUserUUIDs()));
 			}
 			if (channel.moderators!= null && !channel.moderators.isEmpty()) {
-				json.add("Moderators", context.serialize(channel.getModeratorUUIDs().toString()));
+				json.add("Moderators", context.serialize(channel.getModeratorUUIDs()));
 			}
 			if (channel.blacklist!= null && !channel.blacklist.isEmpty()) {
-				json.add("BlackList", context.serialize(channel.getBlackListedUsersUUIDS().toString()));
+				json.add("BlackList", context.serialize(channel.getBlackListedUsersUUIDS()));
 			}
 			if (channel.whitelist!= null && !channel.whitelist.isEmpty()) {
-				json.add("WhiteList", context.serialize(channel.getWhiteListedUsersUUIDS().toString()));
+				json.add("WhiteList", context.serialize(channel.getWhiteListedUsersUUIDS()));
 			}
 			if (channel.mutelist!= null && !channel.mutelist.isEmpty()) {
-				json.add("MuteList", context.serialize(channel.getMutedUsersUUIDS().toString()));
-			}
-			if (channel.dimensions!= null && !channel.dimensions.isEmpty()) {
-				json.add("Dimensions", context.serialize(channel.getDimensions()));
+				json.add("MuteList", context.serialize(channel.getMutedUsersUUIDS()));
 			}
 			if (channel.gameToIRCTags!= null && !channel.gameToIRCTags.isEmpty()) {
-				json.add("gameToIRCTags", context.serialize(channel.getGameToIRCTags()));
+				json.add("gameToIRCTags", context.serialize(channel.getGameToIRCTagsList()));
 			}
 			if (channel.IRCToGameTags!= null && !channel.IRCToGameTags.isEmpty()) {
-				json.add("ircToGameTags", context.serialize(channel.getIRCToGameTags()));
+				json.add("ircToGameTags", context.serialize(channel.getIRCToGameTagsList()));
 			}
 
 			return json;
@@ -410,7 +442,7 @@ public class Channel {
 		
 		@Override
 		public boolean add(Channel channel) {
-			if (PlayerUtilities.getManager().channels.contains(channel)) {
+			if (ServerUtilities.getManager().channels.contains(channel)) {
 				return true;
 			} else {
 				super.add(channel);
