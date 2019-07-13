@@ -93,17 +93,13 @@ public class PermissionManager {
 		String node = "";
 		if (commandPermissions.keySet().contains(command)) {
 			node = commandPermissions.get(command);
-			ConstitutionMain.logger.info(node + " 1 " + command.getName());
 		} else {
 			if (CommandManager.getPermForCommand(command.getName())!=null) {
 				node = CommandManager.getPermForCommand(command.getName());
-				ConstitutionMain.logger.info(node + " 2 " + command.getName());
 			} else {
 				node = DEFAULT_COMMAND_NODE + command.getName();
-				ConstitutionMain.logger.info(node + " 3 " + command.getName());
 			}
 		}
-		ConstitutionMain.logger.info(node + " 4 " + command.getName());
 	return node;
 	}
 	
