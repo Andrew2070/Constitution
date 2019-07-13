@@ -15,6 +15,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.event.ClickEvent;
 
 public class ChatManager {
 
@@ -125,6 +126,7 @@ public class ChatManager {
 						channel.getBlackListedUsers(),
 						channel.getWhiteListedUsers(),
 						channel.getUsers().toChatMessage())).applyDelimiter("\n");
+				channelHoverComponent.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ch " + channel.getName() + " "));
 				ITextComponent groupHeader = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover((group.getName()))));
 				ITextComponent groupHoverComponent = ((ChatComponentFormatted)LocalizationManager.get("constitution.format.group.long.hover",
 						groupHeader,
@@ -133,6 +135,7 @@ public class ChatManager {
 						groupPrefixAC,
 						groupSuffixAC,
 						groupNodesAC)).applyDelimiter("\n");
+				groupHoverComponent.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/cperm group info " + group.getName()));
 				ITextComponent userHeader = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover(user.getUserName())));
 				ITextComponent userHoverComponent = ((ChatComponentFormatted)LocalizationManager.get("constitution.format.user.long.hover",
 						userHeader, 						
@@ -143,6 +146,7 @@ public class ChatManager {
 						userGroupsAC,
 						userIPAC,
 						userNodesAC)).applyDelimiter("\n");
+				userHoverComponent.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + userName + " "));
 				ITextComponent groupPrefixHover = LocalizationManager.get("constitution.format.short", group.getPrefix(), groupHoverComponent);
 				ITextComponent groupSuffixHover = LocalizationManager.get("constitution.format.short", group.getSuffix(), groupHoverComponent);
 				ITextComponent userNameHover = LocalizationManager.get("constitution.format.short", userName, userHoverComponent);
