@@ -35,15 +35,15 @@ public class Channel {
 	private Boolean autoJoinable = false;
 	private Boolean quickMessagable = false;
 	private Boolean crossDimensionable = false;
-	public final List<Integer> dimensions = new ArrayList<Integer>();
-	public final List<User> users = new ArrayList<User>();
-	public final List<User> moderators = new ArrayList<User>();
-	public final List<User> blacklist = new ArrayList<User>();
-	public final List<User> whitelist = new ArrayList<User>();
-	public final List<String> voicelist = new ArrayList<String>();
-	public final List<User> mutelist = new ArrayList<User>();
-	public final List<String> gameToIRCTags = new ArrayList<String>();
-	public final List<String> IRCToGameTags = new ArrayList<String>();
+	public  List<Integer> dimensions = new ArrayList<Integer>();
+	public  List<User> users = new ArrayList<User>();
+	public  List<User> moderators = new ArrayList<User>();
+	public  List<User> blacklist = new ArrayList<User>();
+	public  List<User> whitelist = new ArrayList<User>();
+	public  List<String> voicelist = new ArrayList<String>();
+	public  List<User> mutelist = new ArrayList<User>();
+	public  List<String> gameToIRCTags = new ArrayList<String>();
+	public  List<String> IRCToGameTags = new ArrayList<String>();
 	
 	public Channel() {
 		this.name = Config.instance.defaultChatChannel.get();
@@ -307,7 +307,6 @@ public class Channel {
 		@Override
 		public void register(GsonBuilder builder) {
 			builder.registerTypeAdapter(User.class, this);
-			new Meta.Container.Serializer().register(builder);
 		}
 
 
@@ -437,8 +436,6 @@ public class Channel {
 	}
 	
 	public static class Container extends ArrayList<Channel> {
-
-		private Channel defaultChannel;
 		
 		@Override
 		public boolean add(Channel channel) {

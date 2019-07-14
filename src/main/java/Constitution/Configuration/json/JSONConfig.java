@@ -61,6 +61,7 @@ public abstract class JSONConfig<T, L extends List<T>> {
         } else {
             read();
         }
+      ;
     }
 
     /**
@@ -128,4 +129,8 @@ public abstract class JSONConfig<T, L extends List<T>> {
     public String getName() {
         return this.name;
     }
+	public void clearGsonCache() {
+		JSONConfig.gson = null;
+		gsonType = null;
+	}
 }

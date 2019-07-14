@@ -39,15 +39,23 @@ public class PermissionManager {
 	}
 	
 	public void preInitialization() {
+		//JSON & GSON Loading Protocol: Must initialize array, then object's configuration class, then load/construct.
 		permProvider = new PermissionProvider();
 		PermissionAPI.setPermissionHandler(permProvider);
-		this.groups = new Group.Container();
+		
 		this.users = new User.Container();
+		this.groups = new Group.Container();
 		this.channels = new Channel.Container();
-		this.groupConfig = new GroupConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Groups.json");
-		this.userConfig  = new UserConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Users.json");
-		this.channelConfig = new ChannelConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Channels.json");
-		loadConfigs();
+		
+		this.groupConfig = new GroupConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Groups.json", this);
+		loadGroups();
+		
+		this.userConfig = new UserConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Users.json", this);
+		loadUsers();
+		
+		this.channelConfig = new ChannelConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Channels.json", this);
+		loadChannels();
+		
 		registerDefaultPermissions();
 	}
 	
@@ -64,14 +72,15 @@ public class PermissionManager {
 				}
 			}
 		}
+		if (this.users!=null) {
 		for (User user : this.users) {
 			for (String node : user.permsContainer) {
 				if (!permProvider.getRegisteredNodes().contains(node)) {
-				permProvider.registerNode(node, DefaultPermissionLevel.ALL, "");
+					permProvider.registerNode(node, DefaultPermissionLevel.ALL, "");
 				}
 			}
 		}
-
+		}
 	}
 	
 	public void registerPermission(String permission, DefaultPermissionLevel level, String description) {
@@ -142,31 +151,38 @@ public class PermissionManager {
 	public boolean checkPermission(ICommandSender sender, String permission) {
 		return checkPermission(new PermissionContext(sender), permission);
 	}
-
-	public void loadConfigs() {
-		groups.clear();
+	
+	public void loadUsers() {
 		users.clear();
-		channels.clear();
-		
-		groupConfig.init(groups);
 		userConfig.init(users);
-		channelConfig.init(channels);
+		userConfig.clearGsonCache();
+	}
+	
+	public void loadGroups() {
+		groups.clear();
+		groupConfig.init(groups);
+		groupConfig.clearGsonCache();
 	}
 
-	public void saveConfigs() {
-		groupConfig.write(groups);
-		userConfig.write(users);
-		channelConfig.write(channels);
+	public void loadChannels() {
+		channels.clear();
+		channelConfig.init(channels);
+		channelConfig.clearGsonCache();
 	}
 
 	public void saveGroups() {
+		this.groupConfig = new GroupConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Groups.json", this);
 		groupConfig.write(groups);
+		groupConfig.clearGsonCache();
 	}
 	public void saveUsers() {
+		this.userConfig = new UserConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Users.json", this);
 		userConfig.write(users);
+		userConfig.clearGsonCache();
 	}
-	
 	public void saveChannels() {
+		this.channelConfig = new ChannelConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Channels.json", this);
 		channelConfig.write(channels);
+		channelConfig.clearGsonCache();
 	}
 }

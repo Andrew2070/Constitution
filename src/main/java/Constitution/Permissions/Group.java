@@ -2,6 +2,7 @@ package constitution.permissions;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -118,6 +119,14 @@ public class Group implements IChatFormat {
 		}
 	return null;
 	}
+	
+	public Collection<String >getUserUUIDSListAsString() {
+		List<String> uuids = new ArrayList<String>();
+		for (UUID uuid : users) {
+			uuids.add(uuid.toString());
+		}
+	return uuids;
+	}
 	//Set Methods:
 	
 	public void setName(String name) {
@@ -178,14 +187,9 @@ public class Group implements IChatFormat {
 			
 			String name = jsonObject.get("Name").getAsString();
 			Group group = new Group(name);
-			
-			if (jsonObject.has("Permissions")) {
-				group.permsContainer.addAll(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("Permissions"), String[].class)));	
-			}
-			if (jsonObject.has("meta")) {
-				group.metaContainer.addAll(context.<Meta.Container>deserialize(jsonObject.get("meta"), Meta.Container.class));
-			}
-			
+			group.setRank(jsonObject.get("Rank").getAsInt());
+		    group.setPrefix(jsonObject.get("Prefix").getAsString());
+		    group.setSuffix(jsonObject.get("Suffix").getAsString());
 			if (jsonObject.has("Parents")) {
 				List<String> parentNames = new ArrayList<String>(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("Parents"), String[].class)));	
 				for (int i=0; i<ServerUtilities.getManager().groups.size(); i++) {
@@ -201,27 +205,23 @@ public class Group implements IChatFormat {
 					group.setUser(userID);
 				}
 			}
-			group.setRank(jsonObject.get("Rank").getAsInt());
-		    group.setPrefix(jsonObject.get("Prefix").getAsString());
-		    group.setSuffix(jsonObject.get("Suffix").getAsString());
+			if (jsonObject.has("Permissions")) {
+				group.permsContainer.addAll(context.<PermissionsContainer>deserialize(jsonObject.get("Permissions"), PermissionsContainer.class));
+			}
+			if (jsonObject.has("Meta")) {
+				group.metaContainer.addAll(context.<Meta.Container>deserialize(jsonObject.get("Meta"), Meta.Container.class));
+			}
 		    return group;
 		}
 
 		@Override
 		public JsonElement serialize(Group group, Type typeOfSrc, JsonSerializationContext context) {
 			JsonObject json = new JsonObject();
-			if (group.getName()!=null) {
-				json.addProperty("Name", group.getName().toString());
-			}
+			json.addProperty("Name", group.getName().toString());
 			json.add("Rank", context.serialize(group.getRank()));
 			json.add("Prefix", context.serialize(group.getPrefix()));
 			json.add("Suffix", context.serialize(group.getSuffix()));
-			if (!group.permsContainer.isEmpty()) {
-				json.add("Permissions", context.serialize(group.permsContainer));
-			}
-			if (!group.metaContainer.isEmpty()) {
-				json.add("meta", context.serialize(group.metaContainer));
-			}
+			
 			if (!group.parents.isEmpty()) {
 				List<String> GroupNames = new ArrayList<String>();
 				for (Group parent : group.parents) {
@@ -230,7 +230,13 @@ public class Group implements IChatFormat {
 				json.add("Parents", context.serialize(GroupNames));
 			}
 			if (!group.users.isEmpty()) {
-				json.add("Users", context.serialize(group.getUserUUIDS().toString()));
+				json.add("Users", context.serialize(group.getUserUUIDSListAsString()));
+			}
+			if (!group.permsContainer.isEmpty()) {
+				json.add("Permissions", context.serialize(group.permsContainer));
+			}
+			if (!group.metaContainer.isEmpty()) {
+				json.add("Meta", context.serialize(group.metaContainer));
 			}
 				
 			return json;

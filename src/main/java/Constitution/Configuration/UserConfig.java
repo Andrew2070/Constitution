@@ -1,26 +1,26 @@
 package constitution.configuration;
-import java.util.UUID;
-
 import com.google.common.reflect.TypeToken;
 import com.google.gson.GsonBuilder;
 
+import constitution.permissions.User;
 import constitution.configuration.json.JSONConfig;
 import constitution.permissions.Meta;
 import constitution.permissions.PermissionManager;
-import constitution.permissions.User;
 import constitution.utilities.ServerUtilities;
 
 public class UserConfig extends JSONConfig<User, User.Container> {
-	UUID uuid = UUID.randomUUID();
-	User user = new User(uuid);
-	private PermissionManager permissionsManager = ServerUtilities.getManager();
+	
+	//private PermissionManager permissionsManager = ServerUtilities.getManager();
+	private PermissionManager permissionsManager;
 
-	public UserConfig(String path) {
+	public UserConfig(String path, PermissionManager manager) {
 		super(path, "Users");
+		this.permissionsManager = manager;
 		this.gsonType = new TypeToken<User.Container>() {
 		}.getType();
 		JSONConfig.gson = new GsonBuilder().registerTypeAdapter(User.class, new User.Serializer())
-				.registerTypeAdapter(Meta.Container.class, new Meta.Container.Serializer()).setPrettyPrinting()
+				.registerTypeAdapter(Meta.Container.class, new Meta.Container.Serializer())
+				.setPrettyPrinting()
 				.create();
 	}
 
@@ -39,6 +39,10 @@ public class UserConfig extends JSONConfig<User, User.Container> {
 	        permissionsManager.users.addAll(users);
 	    }
 	    return users;
+	}
+	@Override
+	public void clearGsonCache() {
+		JSONConfig.gson = null;
 	}
 	
 }

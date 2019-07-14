@@ -13,14 +13,16 @@ import constitution.utilities.ServerUtilities;
 
 public class GroupConfig extends JSONConfig<Group, Group.Container> {
 
-	private PermissionManager permissionManager = ServerUtilities.getManager();
-
-	public GroupConfig(String path) {
+	//private PermissionManager permissionManager = ServerUtilities.getManager();
+	private PermissionManager permissionsManager;
+	public GroupConfig(String path, PermissionManager manager) {
 		super(path, "Groups");
+		this.permissionsManager = manager;
 		this.gsonType = new TypeToken<Group.Container>() {
 		}.getType();
 		JSONConfig.gson = new GsonBuilder().registerTypeAdapter(Group.class, new Group.Serializer())
-				.registerTypeAdapter(Meta.Container.class, new Meta.Container.Serializer()).setPrettyPrinting()
+				.registerTypeAdapter(Meta.Container.class, new Meta.Container.Serializer())
+				.setPrettyPrinting()
 				.create();
 	}
 
@@ -41,7 +43,7 @@ public class GroupConfig extends JSONConfig<Group, Group.Container> {
 		if (groups==null) {
 		return new Group.Container();
 		} else {
-			permissionManager.groups.addAll(groups);
+			permissionsManager.groups.addAll(groups);
 		}
 	return null;
 	}
@@ -54,5 +56,9 @@ public class GroupConfig extends JSONConfig<Group, Group.Container> {
 			return false;
 		}
 		return true;
+	}
+	@Override
+	public void clearGsonCache() {
+		JSONConfig.gson = null;
 	}
 }

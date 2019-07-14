@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.mojang.authlib.GameProfile;
 
 import constitution.ConstitutionMain;
+import constitution.chat.channels.Channel;
 import constitution.configuration.Config;
 import constitution.permissions.Group;
 import constitution.permissions.PermissionManager;
@@ -50,7 +51,9 @@ public class LoginEvent {
 								newUser.setChannel(Config.instance.defaultChatChannel.get());
 								manager.users.add(newUser);
 								manager.saveUsers();
-
+								Channel defaultChannel = manager.channels.get(Config.instance.defaultChatChannel.get());
+								defaultChannel.setUser(newUser);
+								manager.saveChannels();
 								Group defaultGroup = manager.groups.get(Config.instance.defaultGroupName.get());
 								defaultGroup.setUser(playerUUID);
 								manager.saveGroups();
@@ -109,13 +112,21 @@ public class LoginEvent {
 				//Case 5: First Join on SinglePlayer or Developer Environment With This UUID (Mod Testing Purposes):
 				if (!manager.users.contains(playerUUID)) {
 					User newUser = new User(player, new Date(System.currentTimeMillis()), System.currentTimeMillis());
+					Channel defaultChannel = manager.channels.get(Config.instance.defaultChatChannel.get());
+					Group defaultGroup = manager.groups.get(Config.instance.defaultGroupName.get());
+					
 					newUser.setOP(true);
 					newUser.setChannel(Config.instance.defaultChatChannel.get());
 					manager.users.add(newUser);
 					manager.saveUsers();
-					Group defaultGroup = manager.groups.get(Config.instance.defaultGroupName.get());
+					
+					defaultChannel.setUser(newUser);
+					manager.saveChannels();
+					
+					
 					defaultGroup.setUser(playerUUID);
 					manager.saveGroups();
+					
 					ConstitutionMain.logger.info("New User Created For: " + displayName);
 				} 
 				//Case 6: Returning Join on SinglePlayer or Developer Environment With This UUID (Mod Testing Purposes):

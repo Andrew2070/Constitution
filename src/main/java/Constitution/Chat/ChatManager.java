@@ -70,6 +70,7 @@ public class ChatManager {
 	public static void sendUniversalChanneledMessage(PermissionManager manager, EntityPlayerMP player, ITextComponent component, String msg) {
 		if (player!=null) {
 			if (msg!=null && !msg.isEmpty()) {
+				
 				String playerName = player.getDisplayNameString();
 				UUID playerUUID = player.getUniqueID();
 				User user = manager.users.get(playerUUID);
@@ -78,7 +79,7 @@ public class ChatManager {
 				Integer playerNameIndex = originalComponent.indexOf(playerName);
 				String modifiedComponent = originalComponent.substring(0, playerNameIndex-3);
 				String colorCode = "";
-				Channel channel = user.getChannelObject();
+				Channel channel = manager.channels.get(user.getChannel());
 				String userName = colorCode + player.getDisplayNameString();
 				
 				//Access Control Strings:
@@ -174,7 +175,6 @@ public class ChatManager {
 						.appendSibling(Colon)
 						.appendSibling(message);
 
-				for (User receivers : channel.users) {
 					if (manager.checkPermission(player, "constitution.cmd.perm.list")) {
 						channel.sendMessage(finalComponentWithHover);
 					} else {
@@ -188,7 +188,6 @@ public class ChatManager {
 						} else {
 						channel.sendMessage(finalComponentWithoutHover);
 						}
-					}
 				}
 			}
 		}
