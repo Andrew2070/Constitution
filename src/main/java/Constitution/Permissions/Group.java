@@ -225,7 +225,7 @@ public class Group implements IChatFormat {
 			if (!group.parents.isEmpty()) {
 				List<String> GroupNames = new ArrayList<String>();
 				for (Group parent : group.parents) {
-					GroupNames.add(group.getName());
+					GroupNames.add(parent.getName());
 				}
 				json.add("Parents", context.serialize(GroupNames));
 			}

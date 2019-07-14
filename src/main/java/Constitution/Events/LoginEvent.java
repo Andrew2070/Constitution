@@ -117,6 +117,7 @@ public class LoginEvent {
 					
 					newUser.setOP(true);
 					newUser.setChannel(Config.instance.defaultChatChannel.get());
+					newUser.setDominantGroup();
 					manager.users.add(newUser);
 					manager.saveUsers();
 					

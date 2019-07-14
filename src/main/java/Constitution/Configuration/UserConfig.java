@@ -2,15 +2,13 @@ package constitution.configuration;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.GsonBuilder;
 
-import constitution.permissions.User;
 import constitution.configuration.json.JSONConfig;
 import constitution.permissions.Meta;
 import constitution.permissions.PermissionManager;
-import constitution.utilities.ServerUtilities;
+import constitution.permissions.User;
 
 public class UserConfig extends JSONConfig<User, User.Container> {
 	
-	//private PermissionManager permissionsManager = ServerUtilities.getManager();
 	private PermissionManager permissionsManager;
 
 	public UserConfig(String path, PermissionManager manager) {

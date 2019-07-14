@@ -16,7 +16,6 @@ import com.google.gson.JsonSerializationContext;
 
 import constitution.configuration.Config;
 import constitution.configuration.json.JSONSerializerTemplate;
-import constitution.permissions.Meta;
 import constitution.permissions.User;
 import constitution.utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;

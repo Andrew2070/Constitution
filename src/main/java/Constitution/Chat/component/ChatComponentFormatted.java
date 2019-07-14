@@ -46,7 +46,7 @@ public class ChatComponentFormatted extends ChatComponentList {
 		this(format, Arrays.asList(args).iterator());
 	}
 
-	public ChatComponentFormatted(String format, Iterator args) {
+	public ChatComponentFormatted(String format, Iterator<?> args) {
 		String[] components = StringUtils.split(format, "{}");
 
 		for (String component : components) {
@@ -62,7 +62,7 @@ public class ChatComponentFormatted extends ChatComponentList {
 		buffer = new ChatComponentList();
 	}
 
-	private ITextComponent createComponent(String[] parts, Iterator args) {
+	private ITextComponent createComponent(String[] parts, Iterator<?> args) {
 		Style chatStyle = getStyle(parts[0]);
 		String[] textWithHover = parts[1].split(" << ");
 		String actualText = textWithHover[0];
@@ -80,7 +80,7 @@ public class ChatComponentFormatted extends ChatComponentList {
 		return message;
 	}
 
-	private void addComponent(Iterator args) {
+	private void addComponent(Iterator<?> args) {
 		// TODO: Instead of %s use other identifiers for lists of elements or
 		// container (maybe)
 
@@ -97,7 +97,7 @@ public class ChatComponentFormatted extends ChatComponentList {
 		}
 	}
 
-	private void processComponent(String componentString, Iterator args) {
+	private void processComponent(String componentString, Iterator<?> args) {
 		String[] parts = componentString.split("\\|", 2);
 
 		if (parts.length == 2) {

@@ -42,20 +42,12 @@ public class PermissionManager {
 		//JSON & GSON Loading Protocol: Must initialize array, then object's configuration class, then load/construct.
 		permProvider = new PermissionProvider();
 		PermissionAPI.setPermissionHandler(permProvider);
-		
 		this.users = new User.Container();
 		this.groups = new Group.Container();
 		this.channels = new Channel.Container();
-		
-		this.groupConfig = new GroupConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Groups.json", this);
 		loadGroups();
-		
-		this.userConfig = new UserConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Users.json", this);
 		loadUsers();
-		
-		this.channelConfig = new ChannelConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Channels.json", this);
 		loadChannels();
-		
 		registerDefaultPermissions();
 	}
 	
@@ -153,18 +145,21 @@ public class PermissionManager {
 	}
 	
 	public void loadUsers() {
+		this.userConfig = new UserConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Users.json", this);
 		users.clear();
 		userConfig.init(users);
 		userConfig.clearGsonCache();
 	}
 	
 	public void loadGroups() {
+		this.groupConfig = new GroupConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Groups.json", this);
 		groups.clear();
 		groupConfig.init(groups);
 		groupConfig.clearGsonCache();
 	}
 
 	public void loadChannels() {
+		this.channelConfig = new ChannelConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Channels.json", this);
 		channels.clear();
 		channelConfig.init(channels);
 		channelConfig.clearGsonCache();

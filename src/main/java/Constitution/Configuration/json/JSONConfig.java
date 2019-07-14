@@ -129,6 +129,10 @@ public abstract class JSONConfig<T, L extends List<T>> {
     public String getName() {
         return this.name;
     }
+    
+    /**
+     * Clears the GSON "Cache" (Useful when altering different JSON files in a single instance)
+     */
 	public void clearGsonCache() {
 		JSONConfig.gson = null;
 		gsonType = null;

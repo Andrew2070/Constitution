@@ -1,11 +1,8 @@
 package constitution.utilities;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
 
 public class ClassUtilities {
 	public static final List<Class<?>> getClassesInPackage(String packageName) {

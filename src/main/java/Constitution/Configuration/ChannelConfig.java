@@ -5,10 +5,8 @@ import com.google.gson.GsonBuilder;
 import constitution.chat.channels.Channel;
 import constitution.configuration.json.JSONConfig;
 import constitution.permissions.PermissionManager;
-import constitution.utilities.ServerUtilities;
 public class ChannelConfig extends JSONConfig<Channel, Channel.Container> {
 
-	//private PermissionManager permissionsManager = ServerUtilities.getManager();
 	private PermissionManager permissionsManager;
 	public ChannelConfig(String path, PermissionManager manager) {
 		super(path, "Channels");

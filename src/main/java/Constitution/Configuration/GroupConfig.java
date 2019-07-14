@@ -9,11 +9,9 @@ import constitution.configuration.json.JSONConfig;
 import constitution.permissions.Group;
 import constitution.permissions.Meta;
 import constitution.permissions.PermissionManager;
-import constitution.utilities.ServerUtilities;
 
 public class GroupConfig extends JSONConfig<Group, Group.Container> {
 
-	//private PermissionManager permissionManager = ServerUtilities.getManager();
 	private PermissionManager permissionsManager;
 	public GroupConfig(String path, PermissionManager manager) {
 		super(path, "Groups");

@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -17,13 +18,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
+import constitution.chat.IChatFormat;
 import constitution.chat.component.ChatComponentBorders;
 import constitution.chat.component.ChatComponentFormatted;
-import constitution.chat.IChatFormat;
 import constitution.configuration.Config;
+import constitution.configuration.json.JSONSerializerTemplate;
 import constitution.localization.LocalizationManager;
 import constitution.utilities.ServerUtilities;
-import constitution.configuration.json.JSONSerializerTemplate;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -159,6 +160,13 @@ public class User implements IChatFormat {
 			return group.getName();
 		}
 		return null;
+	}
+	public Collection<String> getGroupNamesList() {
+		List<String> groups = new ArrayList<String>();
+		for (Group group : this.Groups) {
+			groups.add(group.getName());
+		}
+		return groups;
 	}
 	public List<Group> Groups() {
 		return this.Groups;
@@ -388,11 +396,10 @@ public class User implements IChatFormat {
 			User user = new User(uuid);
 
 			JsonElement playerUserName = jsonObject.get("Player");
-			user.setUserName(playerUserName.getAsString());
-/*/			
+			user.setUserName(playerUserName.getAsString());		
 			JsonElement dominantGroup = jsonObject.get("DominantGroup");
 			if (dominantGroup != null) {
-				user.setDominantGroup(((PermissionManager) ServerUtilities.getManager()).groups.get(jsonObject.get("DominantGroup").getAsString()));
+				user.setDominantGroup(ServerUtilities.getManager().groups.get(jsonObject.get("DominantGroup").getAsString()));
 			} else {
 				user.setDominantGroup();
 			}
@@ -405,7 +412,6 @@ public class User implements IChatFormat {
 					}
 				}
 			}
-			/*/
 			if (jsonObject.has("Permissions")) {
 				user.permsContainer.addAll(context.<PermissionsContainer>deserialize(jsonObject.get("Permissions"), PermissionsContainer.class));
 			}
@@ -469,7 +475,7 @@ public class User implements IChatFormat {
 			json.add("Suffix", context.serialize(user.getSuffix()));
 			
 			if (!user.Groups.isEmpty()) {
-				json.add("Groups", context.serialize(user.getGroupNames()));
+				json.add("Groups", context.serialize(user.getGroupNamesList()));
 			}
 			if (!user.alternateAccounts.isEmpty()) {
 				json.add("Alternative Accounts", context.serialize(user.alternateAccounts));
@@ -491,7 +497,7 @@ public class User implements IChatFormat {
 		public boolean add(UUID uuid) {
 			if (get(uuid) == null) {
 				Group group = (defaultGroup == null)
-						? ((PermissionManager) ServerUtilities.getManager()).groups.get("default")
+						? ServerUtilities.getManager().groups.get("default")
 								: defaultGroup;
 						User newUser = new User(uuid, group);
 						add(newUser);
