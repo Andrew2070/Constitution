@@ -43,7 +43,7 @@ public class Channel {
 	public  List<User> mutelist = new ArrayList<User>();
 	public  List<String> gameToIRCTags = new ArrayList<String>();
 	public  List<String> IRCToGameTags = new ArrayList<String>();
-	
+
 	public Channel() {
 		this.name = Config.instance.defaultChatChannel.get();
 		this.quickMessagable = true;
@@ -53,7 +53,7 @@ public class Channel {
 		this.dimensions.add(0);
 		this.prefix = Config.instance.defaultChatChannelPrefix.get();
 	}
-	
+
 	public Channel(String name, String password) {
 		this.name = name;
 		this.password = password;
@@ -91,12 +91,12 @@ public class Channel {
 	public User getUsers() {
 		for (User user : users) {
 			if (user!=null) {
-			return user;
+				return user;
 			}
 		}
 		return null;
 	}
-	
+
 	public Collection<String> getUserUUIDs() {
 		List<String> uuids = new ArrayList<String>();
 		for (User user : users) {
@@ -104,13 +104,13 @@ public class Channel {
 				uuids.add(user.getUUID().toString());
 			}
 		}
-	return uuids;
+		return uuids;
 	}
 	public User getModerators() {
 		for (User user : users) {
 			return user;
 		}
-	return null;
+		return null;
 	}
 	public Collection<String> getModeratorUUIDs() {
 		List<String> uuids = new ArrayList<String>();
@@ -119,7 +119,7 @@ public class Channel {
 				uuids.add(user.getUUID().toString());
 			}
 		}
-	return uuids;
+		return uuids;
 	}
 	public User getBlackListedUsers() {
 		for (User user : this.blacklist) {
@@ -136,12 +136,12 @@ public class Channel {
 				uuids.add(user.getUUID().toString());
 			}
 		}
-	return uuids;
+		return uuids;
 	}
 	public User getWhiteListedUsers() {
 		for (User user : this.whitelist) {
 			if (user!=null) {
-			return user;
+				return user;
 			}
 		}
 		return null;
@@ -153,7 +153,7 @@ public class Channel {
 				uuids.add(user.getUUID().toString());
 			}
 		}
-	return uuids;
+		return uuids;
 	}
 	public User getMutedUsers() {
 		for (User user : this.mutelist) {
@@ -170,12 +170,12 @@ public class Channel {
 				uuids.add(user.getUUID().toString());
 			}
 		}
-	return uuids;
+		return uuids;
 	}
 	public Integer getDimensions() {
 		for (Integer dim : this.dimensions) {
 			if (dim!=null) {
-			return dim;
+				return dim;
 			}
 		}
 		return 0;
@@ -184,7 +184,7 @@ public class Channel {
 		List<Integer> dimensions = new ArrayList<Integer>();
 		for (Integer dim : this.dimensions) {
 			if (dim!=null) {
-			dimensions.add(dim);
+				dimensions.add(dim);
 			}
 		}
 		return dimensions;
@@ -192,7 +192,7 @@ public class Channel {
 	public String getGameToIRCTags() {
 		for (String tag : this.gameToIRCTags) {
 			if (tag!=null) {
-			return tag;
+				return tag;
 			}
 		}
 		return null;
@@ -201,7 +201,7 @@ public class Channel {
 		List<String> tags = new ArrayList<String>();
 		for (String tag : this.gameToIRCTags) {
 			if (tag!=null) {
-			tags.add(tag);
+				tags.add(tag);
 			}
 		}
 		return tags;
@@ -209,7 +209,7 @@ public class Channel {
 	public String getIRCToGameTags() {
 		for (String tag : this.IRCToGameTags) {
 			if (tag!=null) {
-			return tag;
+				return tag;
 			}
 		}
 		return null;
@@ -218,7 +218,7 @@ public class Channel {
 		List<String> tags = new ArrayList<String>();
 		for (String tag : this.IRCToGameTags) {
 			if (tag!=null) {
-			tags.add(tag);
+				tags.add(tag);
 			}
 		}
 		return tags;
@@ -230,7 +230,7 @@ public class Channel {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public void setPrefix(String prefix) {
 		this.prefix = prefix.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1");
 	}
@@ -289,10 +289,10 @@ public class Channel {
 	public void setIRCToGameTags(String tag) {
 		this.IRCToGameTags.add(tag);
 	}
-	
+
 	public void sendMessage(ITextComponent message) {
 		for (User user : this.users) {
-			 EntityPlayerMP receivingPlayer = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(user.getUUID());
+			EntityPlayerMP receivingPlayer = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(user.getUUID());
 			if (!this.mutelist.contains(user)) {
 				if (!this.blacklist.contains(user)) {
 					receivingPlayer.sendMessage(message);
@@ -433,9 +433,9 @@ public class Channel {
 			return json;
 		}
 	}
-	
+
 	public static class Container extends ArrayList<Channel> {
-		
+
 		@Override
 		public boolean add(Channel channel) {
 			if (ServerUtilities.getManager().channels.contains(channel)) {
@@ -445,7 +445,7 @@ public class Channel {
 				return false;
 			}
 		}
-		
+
 		public Channel get(String channelName) {
 			for (Channel channel : this) {
 				if (channel.getName().equals(channelName)) {

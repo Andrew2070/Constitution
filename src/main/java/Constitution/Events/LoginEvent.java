@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 public class LoginEvent {
-	
+
 	public static final LoginEvent instance = new  LoginEvent();
 	/**
 	 * @param AuthenticatePlayerLogIn
@@ -114,20 +114,20 @@ public class LoginEvent {
 					User newUser = new User(player, new Date(System.currentTimeMillis()), System.currentTimeMillis());
 					Channel defaultChannel = manager.channels.get(Config.instance.defaultChatChannel.get());
 					Group defaultGroup = manager.groups.get(Config.instance.defaultGroupName.get());
-					
+
 					newUser.setOP(true);
 					newUser.setChannel(Config.instance.defaultChatChannel.get());
 					newUser.setDominantGroup();
 					manager.users.add(newUser);
 					manager.saveUsers();
-					
+
 					defaultChannel.setUser(newUser);
 					manager.saveChannels();
-					
-					
+
+
 					defaultGroup.setUser(playerUUID);
 					manager.saveGroups();
-					
+
 					ConstitutionMain.logger.info("New User Created For: " + displayName);
 				} 
 				//Case 6: Returning Join on SinglePlayer or Developer Environment With This UUID (Mod Testing Purposes):

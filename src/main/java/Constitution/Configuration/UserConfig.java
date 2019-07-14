@@ -8,7 +8,7 @@ import constitution.permissions.PermissionManager;
 import constitution.permissions.User;
 
 public class UserConfig extends JSONConfig<User, User.Container> {
-	
+
 	private PermissionManager permissionsManager;
 
 	public UserConfig(String path, PermissionManager manager) {
@@ -29,18 +29,18 @@ public class UserConfig extends JSONConfig<User, User.Container> {
 
 	@Override
 	public User.Container read() {
-	    User.Container users = super.read();
-	    if (users == null) {
-	    	 return new User.Container();
-	    }
-	    else {
-	        permissionsManager.users.addAll(users);
-	    }
-	    return users;
+		User.Container users = super.read();
+		if (users == null) {
+			return new User.Container();
+		}
+		else {
+			permissionsManager.users.addAll(users);
+		}
+		return users;
 	}
 	@Override
 	public void clearGsonCache() {
 		JSONConfig.gson = null;
 	}
-	
+
 }

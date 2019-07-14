@@ -35,9 +35,9 @@ public class Group implements IChatFormat {
 	private 					Integer 							rank 				= null;
 	public final 				PermissionsContainer 				permsContainer 		= new PermissionsContainer();
 	public final    			Meta.Container 						metaContainer	    = new Meta.Container();
-    public final 				Container 							parents 			= new Container();
-    private final 				List<UUID> 							users 				= new ArrayList<UUID>();
-	
+	public final 				Container 							parents 			= new Container();
+	private final 				List<UUID> 							users 				= new ArrayList<UUID>();
+
 	public Group() {
 		this.name = Config.instance.defaultGroupName.get();
 		this.rank = Config.instance.defaultGroupRank.get();
@@ -45,7 +45,7 @@ public class Group implements IChatFormat {
 		this.prefix = Config.instance.defaultGroupPrefix.get();
 		this.suffix = Config.instance.defaultGroupSuffix.get();
 	}
-	
+
 	public Group(String name) {
 		this.name = Config.instance.defaultGroupName.get();
 		this.rank = Config.instance.defaultGroupRank.get();
@@ -53,128 +53,128 @@ public class Group implements IChatFormat {
 		this.prefix = Config.instance.defaultGroupPrefix.get();
 		this.suffix = Config.instance.defaultGroupSuffix.get();
 	}
-	
+
 	public Group(String name, Integer rank, String desc, String prefix, String suffix) {	
 		this.name = name;
 		this.rank = rank;
 		this.desc = desc;
 		this.prefix = prefix;
 		this.suffix = suffix;
-		
+
 	}
-	
+
 	//Get Methods:
-	
+
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public Integer getRank() {
 		return this.rank;
 	}
-	
+
 	public String getDesc() {
 		return this.desc.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1");
 	}
-	
+
 	public String getPrefix() {
 		return this.prefix.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1");
 	}
-	
+
 	public String getSuffix() {
 		return this.suffix.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1");
 	}
-	
+
 	public String getNodes() {
 		for (String node : this.permsContainer) {
 			return node;
 		}
 		return "No Permissions Assigned";
 	}
-	
+
 	public String getPerms() {
 		for (String node : permsContainer) {
 			return node;
 		}
-	return ("");
+		return ("");
 	}
-	
+
 	public User getUsers() {
 		for (UUID uuid : users) {
 			return ServerUtilities.getManager().users.get(uuid);
 		}
-	return null;
+		return null;
 	}
-	
+
 	public Group getParents() {
 		for (Group group : this.parents) {
 			return group;
 		}
-	return null;
+		return null;
 	}
-	
+
 	public UUID getUserUUIDS() {
 		for (UUID uuid : users) {
 			return uuid;
 		}
-	return null;
+		return null;
 	}
-	
+
 	public Collection<String >getUserUUIDSListAsString() {
 		List<String> uuids = new ArrayList<String>();
 		for (UUID uuid : users) {
 			uuids.add(uuid.toString());
 		}
-	return uuids;
+		return uuids;
 	}
 	//Set Methods:
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public void setRank(Integer rank) {
 		this.rank = rank;
 	}
 	public void setDesc(String desc) {
 		this.desc = desc.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1");
 	}
-	
+
 	public void setPrefix(String prefix) {
 		this.prefix = prefix.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1");
 	}
-	
+
 	public void setSuffix(String suffix) {
 		this.suffix = suffix.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1");
 	}
-	
+
 	public void setNode(String node) {
 		this.permsContainer.add(node);
 	}
-	
+
 	public void setUser(UUID uuid) {
 		this.users.add(uuid);
 	}
-	
+
 	public void setParent(Group group) {
 		this.parents.add(group);
 	}
 
 	@Override
-    public ITextComponent toChatMessage() {
-    	ITextComponent header = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover((this.getName()))));
-        ITextComponent hoverComponent = ((ChatComponentFormatted)LocalizationManager.get("constitution.format.group.long.hover",
-        		header,
-        		this.getDesc(),
-        		this.getRank(),
-        		this.getPrefix(),
-        		this.getSuffix(),
-        		this.getNodes())).applyDelimiter("\n");
-        return LocalizationManager.get("constitution.format.short", this.getName(), hoverComponent);
-    }
-    
+	public ITextComponent toChatMessage() {
+		ITextComponent header = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover((this.getName()))));
+		ITextComponent hoverComponent = ((ChatComponentFormatted)LocalizationManager.get("constitution.format.group.long.hover",
+				header,
+				this.getDesc(),
+				this.getRank(),
+				this.getPrefix(),
+				this.getSuffix(),
+				this.getNodes())).applyDelimiter("\n");
+		return LocalizationManager.get("constitution.format.short", this.getName(), hoverComponent);
+	}
+
 	public static class Serializer extends JSONSerializerTemplate<Group> {
-		
+
 		@Override
 		public void register(GsonBuilder builder) {
 			builder.registerTypeAdapter(Group.class, this);
@@ -184,12 +184,12 @@ public class Group implements IChatFormat {
 		@Override
 		public Group deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 			JsonObject jsonObject = json.getAsJsonObject();
-			
+
 			String name = jsonObject.get("Name").getAsString();
 			Group group = new Group(name);
 			group.setRank(jsonObject.get("Rank").getAsInt());
-		    group.setPrefix(jsonObject.get("Prefix").getAsString());
-		    group.setSuffix(jsonObject.get("Suffix").getAsString());
+			group.setPrefix(jsonObject.get("Prefix").getAsString());
+			group.setSuffix(jsonObject.get("Suffix").getAsString());
 			if (jsonObject.has("Parents")) {
 				List<String> parentNames = new ArrayList<String>(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("Parents"), String[].class)));	
 				for (int i=0; i<ServerUtilities.getManager().groups.size(); i++) {
@@ -211,7 +211,7 @@ public class Group implements IChatFormat {
 			if (jsonObject.has("Meta")) {
 				group.metaContainer.addAll(context.<Meta.Container>deserialize(jsonObject.get("Meta"), Meta.Container.class));
 			}
-		    return group;
+			return group;
 		}
 
 		@Override
@@ -221,7 +221,7 @@ public class Group implements IChatFormat {
 			json.add("Rank", context.serialize(group.getRank()));
 			json.add("Prefix", context.serialize(group.getPrefix()));
 			json.add("Suffix", context.serialize(group.getSuffix()));
-			
+
 			if (!group.parents.isEmpty()) {
 				List<String> GroupNames = new ArrayList<String>();
 				for (Group parent : group.parents) {
@@ -238,11 +238,11 @@ public class Group implements IChatFormat {
 			if (!group.metaContainer.isEmpty()) {
 				json.add("Meta", context.serialize(group.metaContainer));
 			}
-				
+
 			return json;
 		}
 	}
-	
+
 	public static class Container extends ArrayList<Group> implements IChatFormat {
 
 		@Override
@@ -278,7 +278,7 @@ public class Group implements IChatFormat {
 			}
 			return null;
 		}
-		
+
 		@Override
 		public ITextComponent toChatMessage() {
 			ITextComponent root = new TextComponentString("");

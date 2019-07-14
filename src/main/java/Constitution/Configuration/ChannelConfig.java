@@ -33,15 +33,15 @@ public class ChannelConfig extends JSONConfig<Channel, Channel.Container> {
 	@Override
 	public Channel.Container read() {
 		Channel.Container channels = super.read();
-	    if (channels == null) {
+		if (channels == null) {
 			Channel.Container container = new Channel.Container();
 			container.add(new Channel());
 			return container;
-	    }
-	    else {
-	        permissionsManager.channels.addAll(channels);
-	    }
-	    return channels;
+		}
+		else {
+			permissionsManager.channels.addAll(channels);
+		}
+		return channels;
 	}
 	@Override
 	public boolean validate(Channel.Container items) {

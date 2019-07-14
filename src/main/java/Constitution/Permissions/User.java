@@ -230,10 +230,10 @@ public class User implements IChatFormat {
 	public String getDominantGroupName() {
 		return this.DominantGroup.getName();
 	}
-	
+
 	public String getLocationAsString() {
-	String location = "X: " + this.getLocation().getX() + " Y: " + this.getLocation().getY() + " Z:" + this.getLocation().getZ();
-	return location;
+		String location = "X: " + this.getLocation().getX() + " Y: " + this.getLocation().getY() + " Z:" + this.getLocation().getZ();
+		return location;
 	}
 	//Set Methods:
 
@@ -244,7 +244,7 @@ public class User implements IChatFormat {
 	public void setIP(EntityPlayerMP player) {
 		this.IPAddress = player.getPlayerIP();
 	}
-	
+
 	public void setChannel(String channel) {
 		this.ChannelName = channel;
 	}
@@ -403,7 +403,7 @@ public class User implements IChatFormat {
 			} else {
 				user.setDominantGroup();
 			}
-			
+
 			if (jsonObject.has("Groups")) {
 				List<String> groupNames = new ArrayList<String>(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("Groups"), String[].class)));	
 				for (int i=0; i<ServerUtilities.getManager().groups.size(); i++) {
@@ -473,7 +473,7 @@ public class User implements IChatFormat {
 			json.add("IPBanned", context.serialize(user.isIPBanned()));
 			json.add("Prefix", context.serialize(user.getPrefix()));
 			json.add("Suffix", context.serialize(user.getSuffix()));
-			
+
 			if (!user.Groups.isEmpty()) {
 				json.add("Groups", context.serialize(user.getGroupNamesList()));
 			}

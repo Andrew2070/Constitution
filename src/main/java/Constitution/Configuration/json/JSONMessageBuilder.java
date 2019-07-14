@@ -241,7 +241,7 @@ public class JSONMessageBuilder {
 	public ITextComponent build() {
 		if (parentBuilder == null) {
 			return ITextComponent.Serializer.jsonToComponent(rootObj.toString());
-			
+
 		} else {
 			return parentBuilder.build();
 		}

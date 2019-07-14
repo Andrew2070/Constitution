@@ -33,31 +33,31 @@ public class ConstitutionDatasource extends DatasourceSQL {
 		return false;
 	}
 
-	
-	
+
+
 	public boolean loadGroups() {
 		try {
-            PreparedStatement loadEmpiresStatement = prepare("SELECT * FROM " + prefix + "Groups", true);
-            ResultSet rs = loadEmpiresStatement.executeQuery();
-            while (rs.next()) {
-                Group group;
-                List<Group> parents = new ArrayList<Group>();
-                group = new Group(rs.getString("name"));
-                group.setDesc(rs.getString("desc"));
-                group.setRank(rs.getInt("rank"));
-                group.setPrefix(rs.getString("prefix"));
-                group.setSuffix(rs.getString("suffix"));
+			PreparedStatement loadEmpiresStatement = prepare("SELECT * FROM " + prefix + "Groups", true);
+			ResultSet rs = loadEmpiresStatement.executeQuery();
+			while (rs.next()) {
+				Group group;
+				List<Group> parents = new ArrayList<Group>();
+				group = new Group(rs.getString("name"));
+				group.setDesc(rs.getString("desc"));
+				group.setRank(rs.getInt("rank"));
+				group.setPrefix(rs.getString("prefix"));
+				group.setSuffix(rs.getString("suffix"));
 
-              
-            }
-        } catch (SQLException e) {
-            LOG.error("Failed to load Groups!");
-            LOG.error(ExceptionUtils.getStackTrace(e));
-            return false;
-        }
 
-        return true;
-    }
+			}
+		} catch (SQLException e) {
+			LOG.error("Failed to load Groups!");
+			LOG.error(ExceptionUtils.getStackTrace(e));
+			return false;
+		}
 
-	
+		return true;
+	}
+
+
 }

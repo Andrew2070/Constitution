@@ -32,7 +32,7 @@ public class PermissionContext implements IContext {
 	private Entity sourceEntity;
 
 	private Entity targetEntity;
-	
+
 	private World world;
 
 	public PermissionContext() {
@@ -178,7 +178,7 @@ public class PermissionContext implements IContext {
 				return true;
 			}
 		}
-		
+
 		if (key.equals(ContextKeys.POS)) {
 			if (sourceEntity.getPosition()!=null) {
 				return false;

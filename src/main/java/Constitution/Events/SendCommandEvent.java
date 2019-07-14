@@ -14,13 +14,13 @@ import net.minecraftforge.server.command.TextComponentHelper;
 public class SendCommandEvent {
 
 	public static SendCommandEvent instance = new SendCommandEvent();
-	
+
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onPlayerSendCommand(CommandEvent event) {
 		PermissionManager manager = ServerUtilities.getManager();
 		User user = manager.users.get(event.getSender().getCommandSenderEntity().getUniqueID());
 		Boolean hasPermission = false;	
-		
+
 		if (!manager.checkPermission(event.getSender(), event.getCommand())) {
 			ConstitutionMain.logger.info("Command Canceled For:" + event.getSender().toString() + ": Command: " + event.getCommand().toString());
 			event.setCanceled(true);

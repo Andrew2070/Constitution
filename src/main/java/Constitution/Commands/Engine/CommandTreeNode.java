@@ -188,6 +188,6 @@ public class CommandTreeNode extends TreeNode<CommandTreeNode> {
 		}
 
 		return CommandManager.getTree(node.getAnnotation().permission());
-	
+
 	}
 }

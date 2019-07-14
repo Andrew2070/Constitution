@@ -23,33 +23,33 @@ import net.minecraftforge.server.permission.DefaultPermissionLevel;
  * 
  */
 public class CommandTemplate extends CommandBase implements ICommand, PermissionObject {
-	
+
 	private CommandTree commandTree;
 
 	public CommandTemplate(CommandTree commandTree) {
 		this.commandTree = commandTree;
 	}
-	
+
 	//Compares a command to another command, not really useful.
 	@Override
 	public int compareTo(ICommand o) {
 		return 0;
 	}
-	
+
 	//Returns the Name of the Command.
 
 	@Override
 	public String getName() {
 		return commandTree.getRoot().getLocalizedName();
 	}
-	
+
 	//Returns the Syntax of the Command.
 
 	@Override
 	public String getUsage(ICommandSender sender) {
 		return commandTree.getRoot().getLocalizedSyntax();
 	}
-	
+
 	//Returns a list of aliases for the command.
 
 	@Override
@@ -58,13 +58,13 @@ public class CommandTemplate extends CommandBase implements ICommand, Permission
 	}
 
 	//Processes/Executes the Command.
-	
+
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		commandTree.commandCall(sender, Arrays.asList(args));
-		
+
 	}
-	 
+
 	//Checks if the command sender has the permission to use the command.
 
 	@Override

@@ -35,105 +35,105 @@ public class ConstitutionMain
 {
 	@Mod.Instance(ConstitutionMain.MODID)
 	public static 						   ConstitutionMain 	   instance;
-    public 								   Localization		   LOCAL;
-    public static final 				   String              MODID              = "constitution";
-    public static final 				   String              VERSION            = "1.12.2";
-    public static final 				   String              UPDATEURL          = "";
-    public final static 				   String              MCVERSIONS         = "[1.9.4, 1.13]";
-    public static 						   File                configFile         = null;
-    public static 						   File                jsonFile           = null;
-    public static 						   String 			   CONFIG_FOLDER 	  = "";
+	public 								   Localization		   LOCAL;
+	public static final 				   String              MODID              = "constitution";
+	public static final 				   String              VERSION            = "1.12.2";
+	public static final 				   String              UPDATEURL          = "";
+	public final static 				   String              MCVERSIONS         = "[1.9.4, 1.13]";
+	public static 						   File                configFile         = null;
+	public static 						   File                jsonFile           = null;
+	public static 						   String 			   CONFIG_FOLDER 	  = "";
 	public static						   String 			   DATABASE_FOLDER 	  = "";
 	public static						   String			   COMMAND_FOLDER     = "constitution.commands.executable";
-    public static 					       Logger              logger             = Logger.getLogger(MODID);
-    public static boolean                  debug             					  = false;
-    private final List<JSONConfig> 		   jsonConfigs 							  = new ArrayList<JSONConfig>();
-    public static PermissionManager permissionManager = new PermissionManager();
-    public ConstitutionMain() {
-        initLogger();
-    }
+	public static 					       Logger              logger             = Logger.getLogger(MODID);
+	public static boolean                  debug             					  = false;
+	private final List<JSONConfig> 		   jsonConfigs 							  = new ArrayList<JSONConfig>();
+	public static PermissionManager permissionManager = new PermissionManager();
+	public ConstitutionMain() {
+		initLogger();
+	}
 
-    private void initLogger() {
-        FileHandler logHandler = null;
-        logger.setLevel(Level.ALL);
-        try
-        {
-            File logs = new File("." + File.separator + "logs");
-            logs.mkdirs();
-            File logfile = new File(logs, MODID + ".log");
-            if ((logfile.exists() || logfile.createNewFile()) && logfile.canWrite() && logHandler == null)
-            {
-                logHandler = new FileHandler(logfile.getPath());
-                logHandler.setFormatter(new LogFormatter());
-                logger.addHandler(logHandler);
-            }
-        }
-        catch (SecurityException | IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
+	private void initLogger() {
+		FileHandler logHandler = null;
+		logger.setLevel(Level.ALL);
+		try
+		{
+			File logs = new File("." + File.separator + "logs");
+			logs.mkdirs();
+			File logfile = new File(logs, MODID + ".log");
+			if ((logfile.exists() || logfile.createNewFile()) && logfile.canWrite() && logHandler == null)
+			{
+				logHandler = new FileHandler(logfile.getPath());
+				logHandler.setFormatter(new LogFormatter());
+				logger.addHandler(logHandler);
+			}
+		}
+		catch (SecurityException | IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
 
-    @EventHandler
-    public void preInitializationEvent(FMLPreInitializationEvent event) {
-    	//CONFIGURATION:
-    	CONFIG_FOLDER = event.getModConfigurationDirectory().getPath() + "/Constitution/";
+	@EventHandler
+	public void preInitializationEvent(FMLPreInitializationEvent event) {
+		//CONFIGURATION:
+		CONFIG_FOLDER = event.getModConfigurationDirectory().getPath() + "/Constitution/";
 		DATABASE_FOLDER = event.getModConfigurationDirectory().getParent() + "/databases/";
-    	Config.instance.init(CONFIG_FOLDER + "/Constitution.cfg", "Constitution");
-    	LOCAL = new Localization(CONFIG_FOLDER + "/Localization/", Config.instance.localization.get(),
+		Config.instance.init(CONFIG_FOLDER + "/Constitution.cfg", "Constitution");
+		LOCAL = new Localization(CONFIG_FOLDER + "/Localization/", Config.instance.localization.get(),
 				"/Constitution/Localization/", ConstitutionMain.class);
-    	LocalizationManager.register(LOCAL, "constitution");
+		LocalizationManager.register(LOCAL, "constitution");
 		MinecraftForge.EVENT_BUS.register(ChatEvent.instance);
 		MinecraftForge.EVENT_BUS.register(LoginEvent.instance);
 		MinecraftForge.EVENT_BUS.register(LogoutEvent.instance);
 		MinecraftForge.EVENT_BUS.register(SendCommandEvent.instance);
 		permissionManager.preInitialization();
-		
-    }
- 
-    @EventHandler
-    public void postInitializationEvent(FMLPostInitializationEvent event) {
-    	
-    }
 
-    @EventHandler
-    public void serverLoadEvent(FMLServerStartingEvent event) {
-    	loadConfig();
-    	permissionManager.serverLoad();
-    	logger.info("Constitution Started");
-			CommandManager.registerCommands(PermissionCommands.class, "constitution.cmd.perm", ConstitutionMain.instance.LOCAL, permissionManager);
-			CommandManager.registerCommands(channel.class, "constitution.cmd.channel", ConstitutionMain.instance.LOCAL, permissionManager);
-			//registerCommands();
-    }
-    
-    @EventHandler
-    public void serverStoppingEvent(FMLServerStoppingEvent event) {
-    	
-    }
+	}
 
-    public static void loadPerms() {
-    
-    }
+	@EventHandler
+	public void postInitializationEvent(FMLPostInitializationEvent event) {
 
-    public static void savePerms() {
-       
-    }
-    
-    public static void registerCommands() {
-    	//Needs Work (CommandManager is persistent on each Command Class Having A Root Command);
-    	List<Class<?>> commandClazzes = (ClassUtilities.getClassesInPackage(COMMAND_FOLDER));
-    	for (Class<?> clazz : commandClazzes) {
-    	}
-    }
-    public void loadConfig() {
+	}
+
+	@EventHandler
+	public void serverLoadEvent(FMLServerStartingEvent event) {
+		loadConfig();
+		permissionManager.serverLoad();
+		logger.info("Constitution Started");
+		CommandManager.registerCommands(PermissionCommands.class, "constitution.cmd.perm", ConstitutionMain.instance.LOCAL, permissionManager);
+		CommandManager.registerCommands(channel.class, "constitution.cmd.channel", ConstitutionMain.instance.LOCAL, permissionManager);
+		//registerCommands();
+	}
+
+	@EventHandler
+	public void serverStoppingEvent(FMLServerStoppingEvent event) {
+
+	}
+
+	public static void loadPerms() {
+
+	}
+
+	public static void savePerms() {
+
+	}
+
+	public static void registerCommands() {
+		//Needs Work (CommandManager is persistent on each Command Class Having A Root Command);
+		List<Class<?>> commandClazzes = (ClassUtilities.getClassesInPackage(COMMAND_FOLDER));
+		for (Class<?> clazz : commandClazzes) {
+		}
+	}
+	public void loadConfig() {
 		Config.instance.reload();
 		LOCAL.load();
 		for (JSONConfig jsonConfig : jsonConfigs) {
 			jsonConfig.init();
 		}
 	}
-    
-    public static PermissionManager getPermissionManager() {
-    	return permissionManager;
-    }
+
+	public static PermissionManager getPermissionManager() {
+		return permissionManager;
+	}
 }

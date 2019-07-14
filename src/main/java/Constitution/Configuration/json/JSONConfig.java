@@ -24,115 +24,115 @@ import constitution.ConstitutionMain;
  */
 public abstract class JSONConfig<T, L extends List<T>> {
 
-    /**
-     * The path to the file used.
-     */
-    protected final String path, name;
+	/**
+	 * The path to the file used.
+	 */
+	protected final String path, name;
 	protected static Gson gson;
-    protected Type gsonType;
+	protected Type gsonType;
 
-    public JSONConfig(String path, String name) {
-        this.path = path;
-        this.name = name;
-    }
+	public JSONConfig(String path, String name) {
+		this.path = path;
+		this.name = name;
+	}
 
-    protected abstract L newList();
+	protected abstract L newList();
 
-    public void init() {
-        init(newList());
-    }
+	public void init() {
+		init(newList());
+	}
 
-    public static void setExclusion(GsonBuilder builder) {
-    	gson = builder.excludeFieldsWithoutExposeAnnotation().create();
-    }
-    
-    /**
-     * Initializes everything.
-     */
-    public void init(L items) {
-        File file = new File(path);
+	public static void setExclusion(GsonBuilder builder) {
+		gson = builder.excludeFieldsWithoutExposeAnnotation().create();
+	}
 
-        File parent = file.getParentFile();
-        if (!parent.exists() && !parent.mkdirs()) {
-            throw new IllegalStateException("Couldn't create dir: " + parent);
-        }
-        if (!file.exists() || file.isDirectory()) {
-            create(items);
-        } else {
-            read();
-        }
-      ;
-    }
+	/**
+	 * Initializes everything.
+	 */
+	public void init(L items) {
+		File file = new File(path);
 
-    /**
-     * Creates the file if it doesn't exist with the initial given items
-     */
-    public void create(L initialItems) {
-        try {
-            Writer writer = new FileWriter(path);
-            gson.toJson(initialItems, gsonType, writer);
-            writer.close();
-            ConstitutionMain.logger.info("Created new " + name + " file successfully!");
-        } catch (IOException ex) {
-            ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(ex));
-            ConstitutionMain.logger.info("Failed to create " + name + " file!");
-            
-        }
-    }
-    
-    //test1
-    
-    
-//test
-    /**
-     * Writes the given list to the file, completely overwriting it
-     */
-    public void write(L items) {
-        try {
-            Writer writer = new FileWriter(path);
-            gson.toJson(items, gsonType, writer);
-            writer.close();
-            ConstitutionMain.logger.info("Updated the " + name + " file successfully!");
-        } catch (IOException ex) {
-            ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(ex));
-            ConstitutionMain.logger.info("Failed to update " + name + " file!");
-        }
-    }
+		File parent = file.getParentFile();
+		if (!parent.exists() && !parent.mkdirs()) {
+			throw new IllegalStateException("Couldn't create dir: " + parent);
+		}
+		if (!file.exists() || file.isDirectory()) {
+			create(items);
+		} else {
+			read();
+		}
+		;
+	}
 
-    /**
-     * Reads and returns the validated items.
-     */
-    public L read() {
-        L items = null;
-        try {
-            Reader reader = new FileReader(path);
-            items = gson.fromJson(reader, gsonType);
-            reader.close();     
-            ConstitutionMain.logger.info("Loaded " + name + " successfully!");
-        } catch (IOException ex) {
-            ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(ex));
-            ConstitutionMain.logger.info("Failed to read from " + name + " file!");
-        }
-        	if (!validate(items)) {
-        		write(items);
-        	}
-        return items;
-    }
+	/**
+	 * Creates the file if it doesn't exist with the initial given items
+	 */
+	public void create(L initialItems) {
+		try {
+			Writer writer = new FileWriter(path);
+			gson.toJson(initialItems, gsonType, writer);
+			writer.close();
+			ConstitutionMain.logger.info("Created new " + name + " file successfully!");
+		} catch (IOException ex) {
+			ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(ex));
+			ConstitutionMain.logger.info("Failed to create " + name + " file!");
 
-    /**
-     * Checks for validity and modifies the given list so that is valid.
-     */
-    public boolean validate(L items) {
-        return true;
-    }
+		}
+	}
 
-    public String getName() {
-        return this.name;
-    }
-    
-    /**
-     * Clears the GSON "Cache" (Useful when altering different JSON files in a single instance)
-     */
+	//test1
+
+
+	//test
+	/**
+	 * Writes the given list to the file, completely overwriting it
+	 */
+	public void write(L items) {
+		try {
+			Writer writer = new FileWriter(path);
+			gson.toJson(items, gsonType, writer);
+			writer.close();
+			ConstitutionMain.logger.info("Updated the " + name + " file successfully!");
+		} catch (IOException ex) {
+			ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(ex));
+			ConstitutionMain.logger.info("Failed to update " + name + " file!");
+		}
+	}
+
+	/**
+	 * Reads and returns the validated items.
+	 */
+	public L read() {
+		L items = null;
+		try {
+			Reader reader = new FileReader(path);
+			items = gson.fromJson(reader, gsonType);
+			reader.close();     
+			ConstitutionMain.logger.info("Loaded " + name + " successfully!");
+		} catch (IOException ex) {
+			ConstitutionMain.logger.info(ExceptionUtils.getStackTrace(ex));
+			ConstitutionMain.logger.info("Failed to read from " + name + " file!");
+		}
+		if (!validate(items)) {
+			write(items);
+		}
+		return items;
+	}
+
+	/**
+	 * Checks for validity and modifies the given list so that is valid.
+	 */
+	public boolean validate(L items) {
+		return true;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * Clears the GSON "Cache" (Useful when altering different JSON files in a single instance)
+	 */
 	public void clearGsonCache() {
 		JSONConfig.gson = null;
 		gsonType = null;

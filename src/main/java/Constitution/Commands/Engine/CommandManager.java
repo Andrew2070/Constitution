@@ -54,7 +54,7 @@ public class CommandManager {
 					}
 				} else {
 					ConstitutionMain.logger.info("Method " + method.getName() + " from class " + clazz.getName()
-							+ " is not valid for command usage");
+					+ " is not valid for command usage");
 				}
 			}
 		}
@@ -102,15 +102,15 @@ public class CommandManager {
 		}
 		return null;
 	}
-	
-	
+
+
 	public static String getDescriptionForCommand(String commandName) {
 		for (CommandTree tree : commandTrees) {
 			if (tree.getRoot().getLocalizedName().equals(commandName)) {
 				return tree.getRoot().getAnnotation().description();
 			}
 		}
-	return "No Description Found";
+		return "No Description Found";
 	}
 
 	private static CommandTreeNode findNode(CommandTreeNode root, String perm) {
@@ -159,6 +159,6 @@ public class CommandManager {
 	}
 
 	private static ICommandRegistrar makeRegistrar() {
-			return new CommandRegistrar();
+		return new CommandRegistrar();
 	}
 }
