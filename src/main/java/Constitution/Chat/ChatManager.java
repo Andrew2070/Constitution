@@ -112,7 +112,6 @@ public class ChatManager {
 				ITextComponent Colon = new TextComponentString(": ");
 				ITextComponent message = new TextComponentString(msg.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1"));
 
-				ConstitutionMain.logger.info(userName);
 				ITextComponent channelHeader = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover((channel.getName().toString()))));
 				ITextComponent channelHoverComponent =  ((ChatComponentFormatted)LocalizationManager.get("constitution.format.channel.long.hover",
 						channelHeader,

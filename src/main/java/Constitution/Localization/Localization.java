@@ -33,12 +33,7 @@ public class Localization {
 		this.filePath = filePath;
 		this.lang = lang;
 		this.classPath = classPath;
-		this.clazz = clazz;
-		ConstitutionMain.logger.info(filePath);
-		ConstitutionMain.logger.info(lang);
-		ConstitutionMain.logger.info(classPath);
-		ConstitutionMain.logger.info(clazz.toString());
-		
+		this.clazz = clazz;	
 		load();
 	}
 
