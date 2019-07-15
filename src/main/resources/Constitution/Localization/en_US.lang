@@ -7,18 +7,18 @@ constitution.format.plot.short={a|%s}{7|: }{%s}
 constitution.format.plot.long={%s}{2N|Owners: }{%s}{2N|Borders: }{%s}
 constitution.format.block.short={%s}
 constitution.format.rank.type.short={%s}
-constitution.format.group.long={%s}{9N|-----------------------------------------------------}{2N|Desc: {6|%s}{2N|Prefix: %s}{2N|Suffix: %s}{2N|Rank(#): {6|%s}{2N|Players: }{%s}{2N|Permissions: {3N|%s}{9N|-----------------------------------------------------}
-constitution.format.group.long.hover={%s}{2N|Desc: {6|%s}{2N|Rank: {6|%s}{2N|Prefix: %s}{2N|Suffix: %s}{2N|Permissions: {3N|%s}
+constitution.format.group.long={%s}{9N|-----------------------------------------------------}{2N|Desc: {6|%s}{2N|Prefix: %s}{2N|Suffix: %s}{2N|Rank(#): {6|%s}{2N|Players: }{%s}{2N|Permissions: }{%s}{9N|-----------------------------------------------------}
+constitution.format.group.long.hover={%s}{2N|Desc: {6|%s}{2N|Rank: {6|%s}{2N|Prefix: %s}{2N|Suffix: %s}{2N|Permissions: }%s}
 constitution.format.group.short={c|%s}
 constitution.format.group.parent={c|%s}
 constitution.format.user.short={c|%s}
 constitution.format.permission={7| - %s}
 constitution.format.list.header={%s}
-constitution.format.user.long={%s}{9N|-----------------------------------------------------}{2N|UUID: {3|%s}{2N|Prefix: %s}{2N|Suffix: %s}{2N|Location: {1|%s}{2N|Group(s): }{%s}{2N|IP Address: {c|%s}{2N|Permissions: }{3N|%s}{9N|-----------------------------------------------------}
-constitution.format.user.long.hover={%s}{2N|ID: {3|%s}{2N|Prefix: %s}{2N|Suffix: %s}{2N|Location: {6|%s}{2N|Group(s): }{%s}{2N|IP Address: {c|%s}{2N|Permissions: {3N|%s}
+constitution.format.user.long={%s}{9N|-----------------------------------------------------}{2N|UUID: {3|%s}{2N|Prefix: %s}{2N|Suffix: %s}{2N|Location: {1|%s}{2N|Group(s): }{%s}{2N|IP Address: {c|%s}{2N|Permissions: }{%s}{9N|-----------------------------------------------------}
+constitution.format.user.long.hover={%s}{2N|ID: {3|%s}{2N|Prefix: %s}{2N|Suffix: %s}{2N|Location: {6|%s}{2N|Group(s): }{%s}{2N|IP Address: {c|%s}{2N|Permissions: }{%s}
 constitution.format.user.list={%s}{2N|%s}
 constitution.format.short={6|%s << %s}
-constitution.format.channel.long.hover={%s}{2N|Enabled: {4|%s}{2N|Forced: {4|%s}{2N|Hidden: {4|%s}{2N|Verbose: {4|%s}{2N|Dimensions: {4|%s}{2N|Password: {4|%s}{2N|User(s): }{%s}{2N|Moderators: }{%s}{2N|MuteList: }{%s}{2N|BlackList: }{%s}{2N|WhiteList: }{%s}
+constitution.format.channel.long.hover={%s}{2N|Enabled: {4|%s}{2N|Forced: {4|%s}{2N|Hidden: {4|%s}{2N|Verbose: {4|%s}{2N|Dimensions: {4|%s}{2N|Password: {4|%s}{2N|Moderators: }{%s}{2N|MuteList: }{%s}{2N|BlackList: }{%s}{2N|WhiteList: }{%s}{2N|User(s): }{%s}
 #=================================================Errors=============================================================
 constitution.cmd.perm.err.group.notExist={6|[CN] }{c|The Group }{%s}{c| Does Not Exist}
 constituion.perm.cmd.err.player.notExist={6|[CN] }{c|The Player }{%s}{c| Does Not Exist}
@@ -81,7 +81,6 @@ constitution.cmd.perm.user.perm.help={6|[CN] }{a|Base Permission Editing Command
 constitution.cmd.perm.user.perm.add.help={6|[CN] }{a|Adds Selected Permission Nodes to Users}
 constitution.cmd.perm.user.perm.remove.help={6|[CN] }{a|Removes Selected Permission Nodes From Users}
 constitution.cmd.perm.user.perm.list.help={6|[CN] }{a|Lists Permission Nodes of Selected User}
-
 #>>>>>>>>>>>>>>>>>>>>>>Other:
 constitution.cmd.channel.help={6|[CN] }{a|Base Channel Command}
 constitution.cmd.channel.create.help={6|[CN] }{a|Creates a Channel}

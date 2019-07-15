@@ -32,65 +32,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.configuration;
+package constitution.events;
 
-
-
-import com.google.common.reflect.TypeToken;
-import com.google.gson.GsonBuilder;
-
-import constitution.configuration.json.JSONConfig;
-import constitution.permissions.Group;
-import constitution.permissions.Meta;
+import constitution.ConstitutionMain;
 import constitution.permissions.PermissionManager;
+import constitution.permissions.User;
+import constitution.utilities.ServerUtilities;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.event.CommandEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.server.command.TextComponentHelper;
 
-public class GroupConfig extends JSONConfig<Group, Group.Container> {
+public class SendCommandEvent {
 
-	private PermissionManager permissionsManager;
-	public GroupConfig(String path, PermissionManager manager) {
-		super(path, "Groups");
-		this.permissionsManager = manager;
-		this.gsonType = new TypeToken<Group.Container>() {
-		}.getType();
-		JSONConfig.gson = new GsonBuilder().registerTypeAdapter(Group.class, new Group.Serializer())
-				.registerTypeAdapter(Meta.Container.class, new Meta.Container.Serializer())
-				.setPrettyPrinting()
-				.create();
-	}
+	public static SendCommandEvent instance = new SendCommandEvent();
 
-	@Override
-	protected Group.Container newList() {
-		return new Group.Container();
-	}
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public void onPlayerSendCommand(CommandEvent event) {
+		PermissionManager manager = ServerUtilities.getManager();
+		User user = manager.users.get(event.getSender().getCommandSenderEntity().getUniqueID());
+		Boolean hasPermission = false;	
 
-	@Override
-	public void create(Group.Container items) {
-		items.add(new Group());
-		super.create(items);
-	}
-
-	@Override
-	public Group.Container read() {
-		Group.Container groups = super.read();
-		if (groups==null) {
-			return new Group.Container();
+		if (!manager.checkPermission(event.getSender(), event.getCommand())) {
+			ConstitutionMain.logger.info("Command Canceled For:" + event.getSender().toString() + ": Command: " + event.getCommand().toString());
+			event.setCanceled(true);
+			ITextComponent msg = TextComponentHelper.createComponentTranslation(event.getSender(), "commands.generic.permission", new Object[0]);
+			msg.getStyle().setColor(TextFormatting.RED);
+			event.getSender().sendMessage(msg);
 		} else {
-			permissionsManager.groups.addAll(groups);
+			if (manager.users.get(event.getSender().getCommandSenderEntity().getUniqueID()).isOp() == true) {
+				ConstitutionMain.logger.info("OP Firing Command:");
+				event.setCanceled(false);
+			}
 		}
-		return null;
-	}
-
-	@Override
-	public boolean validate(Group.Container items) {
-		if (items.size() == 0) {
-			Group group = new Group();
-			items.add(group);
-			return false;
-		}
-		return true;
-	}
-	@Override
-	public void clearGsonCache() {
-		JSONConfig.gson = null;
 	}
 }

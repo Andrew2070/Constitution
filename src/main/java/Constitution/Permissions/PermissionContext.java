@@ -1,3 +1,37 @@
+/*******************************************************************************
+ * Copyright (C) July/14/2019, Andrew2070
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 
+ * 3. All advertising materials mentioning features or use of this software must
+ *    display the following acknowledgement:
+ *    This product includes software developed by Andrew2070.
+ * 
+ * 4. Neither the name of the copyright holder nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ ******************************************************************************/
 package constitution.permissions;
 
 import net.minecraft.command.ICommand;
@@ -6,8 +40,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.minecraftforge.server.permission.context.ContextKey;
+import net.minecraftforge.server.permission.context.ContextKeys;
+import net.minecraftforge.server.permission.context.IContext;
 
-public class PermissionContext {
+public class PermissionContext implements IContext {
 
 	private EntityPlayer player;
 
@@ -28,6 +66,8 @@ public class PermissionContext {
 	private Entity sourceEntity;
 
 	private Entity targetEntity;
+
+	private World world;
 
 	public PermissionContext() {
 	}
@@ -51,6 +91,7 @@ public class PermissionContext {
 		return sender;
 	}
 
+	@Override
 	public EntityPlayer getPlayer() {
 		return player;
 	}
@@ -145,6 +186,39 @@ public class PermissionContext {
 
 	public boolean isPlayer() {
 		return player instanceof EntityPlayer;
+	}
+
+	@Override
+	public World getWorld() {
+		return this.world;
+	}
+
+	@Override
+	public <T> T get(ContextKey<T> key) {
+		if (key.equals(ContextKeys.TARGET)) {
+			return (T) targetEntity;
+		}
+		if (key.equals(ContextKeys.POS)) {
+			return (T) sourceEntity.getPosition();
+		}
+		String unknownKey = "invalid key";
+		return (T) unknownKey;
+	}
+
+	@Override
+	public boolean has(ContextKey<?> key) {
+		if (key.equals(ContextKeys.TARGET)) {
+			if (targetEntity!=null) {
+				return true;
+			}
+		}
+
+		if (key.equals(ContextKeys.POS)) {
+			if (sourceEntity.getPosition()!=null) {
+				return false;
+			}
+		}
+		return false;
 	}
 
 }

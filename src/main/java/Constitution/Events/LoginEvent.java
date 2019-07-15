@@ -1,3 +1,37 @@
+/*******************************************************************************
+ * Copyright (C) July/14/2019, Andrew2070
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 
+ * 3. All advertising materials mentioning features or use of this software must
+ *    display the following acknowledgement:
+ *    This product includes software developed by Andrew2070.
+ * 
+ * 4. Neither the name of the copyright holder nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ ******************************************************************************/
 package constitution.events;
 import java.net.SocketAddress;
 import java.util.Date;
@@ -6,12 +40,12 @@ import java.util.UUID;
 import com.mojang.authlib.GameProfile;
 
 import constitution.ConstitutionMain;
+import constitution.chat.channels.Channel;
 import constitution.configuration.Config;
-import constitution.permissions.ConstitutionBridge;
 import constitution.permissions.Group;
+import constitution.permissions.PermissionManager;
 import constitution.permissions.User;
-import constitution.utilities.PlayerUtilities;
-import constitution.utilities.VanillaUtilities;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -20,8 +54,8 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 public class LoginEvent {
-	
-	public static final  LoginEvent instance = new  LoginEvent();
+
+	public static final LoginEvent instance = new  LoginEvent();
 	/**
 	 * @param AuthenticatePlayerLogIn
 	 * Check For Non Existing User Status:
@@ -32,16 +66,16 @@ public class LoginEvent {
 	 */
 	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
 	public void AuthenticatePlayerLogIn(PlayerLoggedInEvent event) {
-		ConstitutionBridge manager = PlayerUtilities.getManager();
+		PermissionManager manager = ServerUtilities.getManager();
 		if (event.player instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP) event.player;
 			String displayName = player.getDisplayNameString();
 			UUID playerUUID = player.getPersistentID();
 			GameProfile profile = player.getGameProfile();
 			SocketAddress socketAddress = player.connection.getNetworkManager().getRemoteAddress();
-			if (!VanillaUtilities.getMinecraftServer().isSinglePlayer()) {
+			if (!ServerUtilities.getMinecraftServer().isSinglePlayer()) {
 				ITextComponent crackedMessage = new TextComponentString("Cracked Clients Not Supported By Constitution Mod");
-				if (VanillaUtilities.getMinecraftServer().isServerInOnlineMode()) {
+				if (ServerUtilities.getMinecraftServer().isServerInOnlineMode()) {
 					ITextComponent banMessage = new TextComponentString("You Are Currently Banned From This Server");
 					if (manager.users != null) {
 						if (!isPlayerBanned(player)) {
@@ -51,7 +85,9 @@ public class LoginEvent {
 								newUser.setChannel(Config.instance.defaultChatChannel.get());
 								manager.users.add(newUser);
 								manager.saveUsers();
-
+								Channel defaultChannel = manager.channels.get(Config.instance.defaultChatChannel.get());
+								defaultChannel.setUser(newUser);
+								manager.saveChannels();
 								Group defaultGroup = manager.groups.get(Config.instance.defaultGroupName.get());
 								defaultGroup.setUser(playerUUID);
 								manager.saveGroups();
@@ -88,10 +124,10 @@ public class LoginEvent {
 						} else {
 							//Case 5: Banned Player Connecting:
 							User user = manager.users.get(playerUUID);
-							if (VanillaUtilities.getMinecraftServer().getPlayerList().getBannedPlayers().isBanned(profile)) {
+							if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedPlayers().isBanned(profile)) {
 								user.setBanned(true);
 							}
-							if (VanillaUtilities.getMinecraftServer().getPlayerList().getBannedIPs().isBanned(socketAddress)) {
+							if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedIPs().isBanned(socketAddress)) {
 								user.setIPBanned(true);
 							}
 							manager.saveUsers();
@@ -100,21 +136,32 @@ public class LoginEvent {
 						}
 					}
 				} else {
-					//Case 4: Offline Mode Enabled: Disconnect All Connecting Players:
-					player.connection.disconnect(crackedMessage);
-					event.setCanceled(true);
+					//Case 4: Offline Mode Enabled: Disconnect All Non Operator Connecting Players:
+					if (!ServerUtilities.isOP(playerUUID)) {
+						player.connection.disconnect(crackedMessage);
+						event.setCanceled(true);
+					}
 				}
 			} else {
 				//Case 5: First Join on SinglePlayer or Developer Environment With This UUID (Mod Testing Purposes):
 				if (!manager.users.contains(playerUUID)) {
 					User newUser = new User(player, new Date(System.currentTimeMillis()), System.currentTimeMillis());
+					Channel defaultChannel = manager.channels.get(Config.instance.defaultChatChannel.get());
+					Group defaultGroup = manager.groups.get(Config.instance.defaultGroupName.get());
+
 					newUser.setOP(true);
 					newUser.setChannel(Config.instance.defaultChatChannel.get());
+					newUser.setDominantGroup();
 					manager.users.add(newUser);
 					manager.saveUsers();
-					Group defaultGroup = manager.groups.get(Config.instance.defaultGroupName.get());
+
+					defaultChannel.setUser(newUser);
+					manager.saveChannels();
+
+
 					defaultGroup.setUser(playerUUID);
 					manager.saveGroups();
+
 					ConstitutionMain.logger.info("New User Created For: " + displayName);
 				} 
 				//Case 6: Returning Join on SinglePlayer or Developer Environment With This UUID (Mod Testing Purposes):
@@ -137,18 +184,17 @@ public class LoginEvent {
 		}
 	}
 	public Boolean isPlayerBanned(EntityPlayerMP player) {
-		ConstitutionBridge manager = PlayerUtilities.getManager();
-		String displayName = player.getDisplayNameString();
+		PermissionManager manager = ServerUtilities.getManager();
 		UUID playerUUID = player.getPersistentID();
 		GameProfile profile = player.getGameProfile();
 		SocketAddress socketAddress = player.connection.getNetworkManager().getRemoteAddress();
 		User existingUser = manager.users.get(playerUUID);
 		Boolean banned = false;
-		if (VanillaUtilities.getMinecraftServer().getPlayerList().getBannedIPs().isBanned(socketAddress)) {
+		if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedIPs().isBanned(socketAddress)) {
 			existingUser.setIPBanned(true);
 			banned = true;
 		}
-		if (VanillaUtilities.getMinecraftServer().getPlayerList().getBannedPlayers().isBanned(profile)) {
+		if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedPlayers().isBanned(profile)) {
 			existingUser.setBanned(true);
 			banned = true;
 		}

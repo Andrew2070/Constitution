@@ -1,3 +1,37 @@
+/*******************************************************************************
+ * Copyright (C) July/14/2019, Andrew2070
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 
+ * 3. All advertising materials mentioning features or use of this software must
+ *    display the following acknowledgement:
+ *    This product includes software developed by Andrew2070.
+ * 
+ * 4. Neither the name of the copyright holder nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ ******************************************************************************/
 package constitution.permissions;
 
 
@@ -5,6 +39,7 @@ import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -18,13 +53,12 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
 import constitution.chat.IChatFormat;
-import constitution.chat.channels.Channel;
 import constitution.chat.component.ChatComponentBorders;
 import constitution.chat.component.ChatComponentFormatted;
 import constitution.configuration.Config;
 import constitution.configuration.json.JSONSerializerTemplate;
 import constitution.localization.LocalizationManager;
-import constitution.utilities.PlayerUtilities;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -32,10 +66,11 @@ import net.minecraft.util.text.TextComponentString;
 
 public class User implements IChatFormat {
 
-	public 					UUID 							uuid				 = null;
+	private 				UUID 							uuid				 = null;
 	private				    String 							UserName 		     = "";
 	private					String							LastName			 = "";
 	private					Group							DominantGroup		 = null;
+	private					String							ChannelName		     = "";
 	private					String 							Nick 				 = "";
 	private 				Date 							JoinDate 			 = new Date();
 	private				    Date 							LastOnline			 = new Date();
@@ -43,7 +78,6 @@ public class User implements IChatFormat {
 	private					String 							IPAddress 			 = "";
 	private					Integer							Dimension			 = null;
 	private					BlockPos						Location			 = null;
-	private					Double							Balance				 = Config.instance.defaultUserBalance.get();
 	private 				Boolean 						Operator 			 = false;
 	private 				Boolean 						FakePlayer 			 = false;
 	private					Boolean							GodMode				 = false;
@@ -53,9 +87,6 @@ public class User implements IChatFormat {
 	private					Integer							XPTotal				 = 0;
 	private 				String 							Prefix 				 = "";
 	private 				String						 	Suffix 				 = "";
-	private					String							Channel				 = Config.instance.defaultChatChannel.get();
-	private					String							BanReason			 = Config.instance.defaultBanMessage.get();
-	private					Date							BanDuration			 = new Date();
 	private					Boolean							Banned				 = false;
 	private					Boolean							IPBanned			 = false;
 	public final			List<Group> 					Groups 				 = new ArrayList<Group>();
@@ -72,7 +103,7 @@ public class User implements IChatFormat {
 		this.IPAddress = player.getPlayerIP();
 		this.LastName = player.getDisplayNameString();
 		this.JoinDate = joinDate;
-		this.LastOnline.setTime(lastOnline * 1000L);
+		this.LastOnline.setTime(lastOnline);
 		this.Location = player.getPosition();
 		this.GodMode = player.getIsInvulnerable();
 		this.Creative = player.isCreative();
@@ -81,10 +112,11 @@ public class User implements IChatFormat {
 		this.LastActivity = player.getLastActiveTime();
 		this.Health = player.getHealth();
 		this.XPTotal = player.experienceTotal;
-		this.setGroup(PlayerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
-		this.setDominantGroup(PlayerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
-		this.Operator = PlayerUtilities.isOP(player.getPersistentID());
+		this.Groups.add(ServerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
+		this.setDominantGroup(ServerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
+		this.Operator = ServerUtilities.isOP(player.getPersistentID());
 	}
+
 
 	public User(UUID uuid) {
 		this.uuid = uuid;
@@ -122,6 +154,9 @@ public class User implements IChatFormat {
 		return this.Nick.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1");
 	}
 
+	public String getChannel() {
+		return this.ChannelName;
+	}
 	public String getLastPlayerName() {
 		return this.LastName;
 	}
@@ -160,6 +195,13 @@ public class User implements IChatFormat {
 		}
 		return null;
 	}
+	public Collection<String> getGroupNamesList() {
+		List<String> groups = new ArrayList<String>();
+		for (Group group : this.Groups) {
+			groups.add(group.getName());
+		}
+		return groups;
+	}
 	public List<Group> Groups() {
 		return this.Groups;
 	}
@@ -167,10 +209,6 @@ public class User implements IChatFormat {
 	public String getIP() {
 		return this.IPAddress;
 	}
-	
-//	public Long getBanDuration() {
-	//	return this.BanDuration;
-	//}
 
 	public Boolean canFly() {
 		return this.canFly;
@@ -223,20 +261,12 @@ public class User implements IChatFormat {
 	public Group getDominantGroup() {
 		return this.DominantGroup;
 	}
-	
-	public String getBanReason() {
-		return this.BanReason;
+	public String getDominantGroupName() {
+		return this.DominantGroup.getName();
 	}
 
-	public String getChannelName() {
-		return this.Channel;
-	}
-	public Channel getChannelObject() {
-		return PlayerUtilities.getManager().channels.get(this.Channel);
-	}
-	
 	public String getLocationAsString() {
-		String location = "X: " + this.getLocation().getX() + " Y: " + this.getLocation().getY() + " Z: " + this.getLocation().getZ();
+		String location = "X: " + this.getLocation().getX() + " Y: " + this.getLocation().getY() + " Z:" + this.getLocation().getZ();
 		return location;
 	}
 	//Set Methods:
@@ -244,19 +274,13 @@ public class User implements IChatFormat {
 	public void setUUID(UUID uuid) {
 		this.uuid = uuid;
 	}
-	
-	public void setChannel(String channel) {
-		this.Channel = channel;
-		if (PlayerUtilities.getManager().channels.contains(channel)) {
-			if (!PlayerUtilities.getManager().channels.get(channel).users.contains(this)) {
-				PlayerUtilities.getManager().channels.get(channel).users.add(this);
-				PlayerUtilities.getManager().saveChannels();
-			}
-		}
-	}
 
 	public void setIP(EntityPlayerMP player) {
 		this.IPAddress = player.getPlayerIP();
+	}
+
+	public void setChannel(String channel) {
+		this.ChannelName = channel;
 	}
 
 	public void setIP(String string) {
@@ -351,16 +375,8 @@ public class User implements IChatFormat {
 		this.Banned = val;
 	}
 
-	//public void setBanDuration(Long long) {
-	//	this.BanDuration = long;
-	//}
-	
 	public void setIPBanned(Boolean val) {
 		this.IPBanned = val;
-	}
-	
-	public void setBanReason(String reason) {
-		this.BanReason = reason;
 	}
 
 	public void setDominantGroup() {
@@ -377,26 +393,11 @@ public class User implements IChatFormat {
 	}
 
 	public Boolean isOP(UUID uuid) {
-		return PlayerUtilities.isOP(uuid);
+		return ServerUtilities.isOP(uuid);
 	}
-
-	public boolean hasPermission(String permission) {
-		Level permLevel = permsContainer.hasPermission(permission);
-
-		if (permLevel == Level.ALLOWED) {
-			return true;
-		} else if (permLevel == Level.DENIED) {
-			return false;
-		}
-		Group group = getGroups();
-		return (group != null && group.hasPermission(permission) == Level.ALLOWED)
-				|| (Config.instance.fullAccessForOPS.get() && isOP(uuid));
-	}
-
 
 	@Override
 	public ITextComponent toChatMessage() {
-		String location = "X: " + this.getLocation().getX() + " Y: " + this.getLocation().getY() + " Z: " + this.getLocation().getZ();
 		String modifiedUUID = this.getUUID().toString().replace("-", ""); //Decrease the Character Count by removing "-" between characters.
 
 		ITextComponent header = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover(this.getUserName())));
@@ -405,7 +406,7 @@ public class User implements IChatFormat {
 				modifiedUUID,
 				this.getPrefix(),
 				this.getSuffix(),
-				location,
+				this.getLocationAsString(),
 				this.getGroups().toChatMessage(),
 				this.getIP(),
 				this.getNodes())).applyDelimiter("\n");
@@ -429,30 +430,27 @@ public class User implements IChatFormat {
 			User user = new User(uuid);
 
 			JsonElement playerUserName = jsonObject.get("Player");
-			if (playerUserName != null) {
-				user.UserName = playerUserName.getAsString();
-			}
+			user.setUserName(playerUserName.getAsString());		
 			JsonElement dominantGroup = jsonObject.get("DominantGroup");
 			if (dominantGroup != null) {
-				user.setDominantGroup(((ConstitutionBridge) PermissionProxy.getPermissionManager()).groups.get(jsonObject.get("DominantGroup").getAsString()));
+				user.setDominantGroup(ServerUtilities.getManager().groups.get(jsonObject.get("DominantGroup").getAsString()));
 			} else {
 				user.setDominantGroup();
 			}
-			
-			if (jsonObject.has("groups")) {
-				List<String> groupNames = new ArrayList<String>(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("groups"), String[].class)));	
-				for (int i=0; i<PlayerUtilities.getManager().groups.size(); i++) {
-					if (PlayerUtilities.getManager().groups.get(i).getName().equals(groupNames.get(i))) {
-						user.setGroup(PlayerUtilities.getManager().groups.get(i));
+
+			if (jsonObject.has("Groups")) {
+				List<String> groupNames = new ArrayList<String>(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("Groups"), String[].class)));	
+				for (int i=0; i<ServerUtilities.getManager().groups.size(); i++) {
+					if (ServerUtilities.getManager().groups.get(i).getName().equals(groupNames.get(i))) {
+						user.setGroup(ServerUtilities.getManager().groups.get(i));
 					}
 				}
 			}
-			
-			if (jsonObject.has("permissions")) {
-				user.permsContainer.addAll(ImmutableList.copyOf(context.<String[]>deserialize(jsonObject.get("permissions"), String[].class)));
+			if (jsonObject.has("Permissions")) {
+				user.permsContainer.addAll(context.<PermissionsContainer>deserialize(jsonObject.get("Permissions"), PermissionsContainer.class));
 			}
-			if (jsonObject.has("meta")) {
-				user.metaContainer.addAll(context.<Meta.Container>deserialize(jsonObject.get("meta"), Meta.Container.class));
+			if (jsonObject.has("Meta")) {
+				user.metaContainer.addAll(context.<Meta.Container>deserialize(jsonObject.get("Meta"), Meta.Container.class));
 			}
 			user.setLastPlayerName(jsonObject.get("LastName").getAsString());
 			user.setPrefix(jsonObject.get("Prefix").getAsString());
@@ -471,25 +469,24 @@ public class User implements IChatFormat {
 			user.setDimension(jsonObject.get("Dimension").getAsInt());
 			user.setLocation(new BlockPos(jsonObject.get("LocationX").getAsInt(),jsonObject.get("LocationY").getAsInt(), jsonObject.get("LocationZ").getAsInt()));
 			user.setLastActivity(jsonObject.get("LastActivity").getAsLong());
-			user.setBanReason(jsonObject.get("BanReason").getAsString());
 			try {
 				user.setJoinDate(new SimpleDateFormat().parse(jsonObject.get("JoinDate").getAsString()));
 				user.setLastOnline(new SimpleDateFormat().parse(jsonObject.get("LastOnline").getAsString()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
+
 			return user;
 		}
 
 		@Override
 		public JsonElement serialize(User user, Type typeOfSrc, JsonSerializationContext context) {
 			JsonObject json = new JsonObject();
+
 			json.addProperty("UUID", user.uuid.toString());
-			if (user.getUserName() != null) {
-				json.addProperty("Player", user.getUserName());
-			}
+			json.add("Player", context.serialize(user.getUserName()));
 			json.add("LastName", context.serialize(user.getLastPlayerName()));
-			json.add("DominantGroup", context.serialize(user.getDominantGroup().getName()));
+			json.add("DominantGroup", context.serialize(user.getDominantGroupName()));
 			json.add("Nickname", context.serialize(user.getNick()));
 			json.add("JoinDate", context.serialize(user.joinDate()));
 			json.add("LastOnline", context.serialize(user.lastOnline()));
@@ -510,22 +507,18 @@ public class User implements IChatFormat {
 			json.add("IPBanned", context.serialize(user.isIPBanned()));
 			json.add("Prefix", context.serialize(user.getPrefix()));
 			json.add("Suffix", context.serialize(user.getSuffix()));
-			json.add("BanReason", context.serialize(user.getBanReason()));
+
 			if (!user.Groups.isEmpty()) {
-				List<String> GroupNames = new ArrayList<String>();
-				for (Group group : user.Groups) {
-					GroupNames.add(group.getName());
-				}
-				json.add("groups", context.serialize(GroupNames));
+				json.add("Groups", context.serialize(user.getGroupNamesList()));
 			}
 			if (!user.alternateAccounts.isEmpty()) {
 				json.add("Alternative Accounts", context.serialize(user.alternateAccounts));
 			}
 			if (!user.permsContainer.isEmpty()) {
-				json.add("permissions", context.serialize(user.permsContainer));
+				json.add("Permissions", context.serialize(user.permsContainer));
 			}
 			if (!user.metaContainer.isEmpty()) {
-				json.add("meta", context.serialize(user.metaContainer));
+				json.add("Meta", context.serialize(user.metaContainer));
 			}
 			return json;
 		}
@@ -538,10 +531,10 @@ public class User implements IChatFormat {
 		public boolean add(UUID uuid) {
 			if (get(uuid) == null) {
 				Group group = (defaultGroup == null)
-						? ((ConstitutionBridge) PermissionProxy.getPermissionManager()).groups.get("default")
+						? ServerUtilities.getManager().groups.get("default")
 								: defaultGroup;
 						User newUser = new User(uuid, group);
-						super.add(newUser);
+						add(newUser);
 						return true;
 			}
 			return false;

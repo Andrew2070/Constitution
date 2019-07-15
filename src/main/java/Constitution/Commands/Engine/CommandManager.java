@@ -1,3 +1,37 @@
+/*******************************************************************************
+ * Copyright (C) July/14/2019, Andrew2070
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 
+ * 3. All advertising materials mentioning features or use of this software must
+ *    display the following acknowledgement:
+ *    This product includes software developed by Andrew2070.
+ * 
+ * 4. Neither the name of the copyright holder nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ ******************************************************************************/
 package constitution.commands.engine;
 
 
@@ -10,11 +44,12 @@ import java.util.List;
 import java.util.Map;
 
 import constitution.ConstitutionMain;
+import constitution.commands.engine.registrar.CommandRegistrar;
 import constitution.commands.engine.registrar.ICommandRegistrar;
-import constitution.commands.engine.registrar.VanillaCommandRegistrar;
 import constitution.exceptions.CommandException;
 import constitution.localization.Localization;
-import constitution.permissions.IPermissionBridge;
+import constitution.permissions.PermissionManager;
+import constitution.utilities.WikiUtilities;
 import net.minecraft.command.ICommandSender;
 public class CommandManager {
 
@@ -34,7 +69,7 @@ public class CommandManager {
 	/**
 	 * It is enforced that the class has to contain ONE root command .
 	 */
-	public static void registerCommands(Class clazz, String rootPerm, Localization local, IPermissionBridge customManager) {
+	public static void registerCommands(Class<?> clazz, String rootPerm, Localization local, PermissionManager permissionManager) {
 		CommandTreeNode root = null;
 		CommandTree commandTree = rootPerm == null ? null : getTree(rootPerm);
 		Map<Command, Method> nodes = new HashMap<Command, Method>();
@@ -53,7 +88,7 @@ public class CommandManager {
 					}
 				} else {
 					ConstitutionMain.logger.info("Method " + method.getName() + " from class " + clazz.getName()
-							+ " is not valid for command usage");
+					+ " is not valid for command usage");
 				}
 			}
 		}
@@ -61,14 +96,14 @@ public class CommandManager {
 			if (root == null) {
 				throw new CommandException("Class " + clazz.getName() + " has no root command.");
 			} else {
-				commandTree = new CommandTree(root, local, customManager);
+				commandTree = new CommandTree(root, local, permissionManager);
 				commandTrees.add(commandTree);
 			}
 		}
 
 		registrar.registerCommand(new CommandTemplate(commandTree), commandTree.getRoot().getAnnotation().permission(),
 				false);
-
+		WikiUtilities.nodeDescriptions.put(commandTree.getRoot().getAnnotation().permission(), commandTree.getRoot().getAnnotation().description());
 		constructTree(commandTree.getRoot(), nodes);
 
 		for (Map.Entry<Command, Method> entry : nodes.entrySet()) {
@@ -100,6 +135,16 @@ public class CommandManager {
 			}
 		}
 		return null;
+	}
+
+
+	public static String getDescriptionForCommand(String commandName) {
+		for (CommandTree tree : commandTrees) {
+			if (tree.getRoot().getLocalizedName().equals(commandName)) {
+				return tree.getRoot().getAnnotation().description();
+			}
+		}
+		return "No Description Found";
 	}
 
 	private static CommandTreeNode findNode(CommandTreeNode root, String perm) {
@@ -148,6 +193,6 @@ public class CommandManager {
 	}
 
 	private static ICommandRegistrar makeRegistrar() {
-			return new VanillaCommandRegistrar();
+		return new CommandRegistrar();
 	}
 }

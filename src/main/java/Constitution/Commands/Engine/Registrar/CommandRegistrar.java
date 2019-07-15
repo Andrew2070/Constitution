@@ -32,65 +32,23 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.configuration;
+package constitution.commands.engine.registrar;
 
+import net.minecraft.command.CommandHandler;
+import net.minecraft.command.ICommand;
 
+/**
+ * Standard vanilla command registrar
+ */
+public class CommandRegistrar implements ICommandRegistrar {
+	protected CommandHandler commandHandler;
 
-import com.google.common.reflect.TypeToken;
-import com.google.gson.GsonBuilder;
-
-import constitution.configuration.json.JSONConfig;
-import constitution.permissions.Group;
-import constitution.permissions.Meta;
-import constitution.permissions.PermissionManager;
-
-public class GroupConfig extends JSONConfig<Group, Group.Container> {
-
-	private PermissionManager permissionsManager;
-	public GroupConfig(String path, PermissionManager manager) {
-		super(path, "Groups");
-		this.permissionsManager = manager;
-		this.gsonType = new TypeToken<Group.Container>() {
-		}.getType();
-		JSONConfig.gson = new GsonBuilder().registerTypeAdapter(Group.class, new Group.Serializer())
-				.registerTypeAdapter(Meta.Container.class, new Meta.Container.Serializer())
-				.setPrettyPrinting()
-				.create();
+	public CommandRegistrar() {
+		this.commandHandler = (CommandHandler) constitution.utilities.ServerUtilities.getMinecraftServer().getCommandManager();
 	}
 
 	@Override
-	protected Group.Container newList() {
-		return new Group.Container();
-	}
-
-	@Override
-	public void create(Group.Container items) {
-		items.add(new Group());
-		super.create(items);
-	}
-
-	@Override
-	public Group.Container read() {
-		Group.Container groups = super.read();
-		if (groups==null) {
-			return new Group.Container();
-		} else {
-			permissionsManager.groups.addAll(groups);
-		}
-		return null;
-	}
-
-	@Override
-	public boolean validate(Group.Container items) {
-		if (items.size() == 0) {
-			Group group = new Group();
-			items.add(group);
-			return false;
-		}
-		return true;
-	}
-	@Override
-	public void clearGsonCache() {
-		JSONConfig.gson = null;
+	public void registerCommand(ICommand cmd, String permNode, boolean defaultPerm) {
+		this.commandHandler.registerCommand(cmd);
 	}
 }
