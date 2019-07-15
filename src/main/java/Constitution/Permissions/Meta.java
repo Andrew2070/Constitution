@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2019, Andrew2070
+ * Copyright (C) July/14/2019, Andrew2070
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -14,7 +14,7 @@
  * 
  * 3. All advertising materials mentioning features or use of this software must
  *    display the following acknowledgement:
- *    This product includes software developed by [the] Auxility Project.
+ *    This product includes software developed by Andrew2070.
  * 
  * 4. Neither the name of the copyright holder nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
