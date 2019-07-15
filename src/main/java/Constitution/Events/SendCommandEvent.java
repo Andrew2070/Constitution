@@ -35,8 +35,9 @@
 package constitution.events;
 
 import constitution.ConstitutionMain;
+import constitution.commands.engine.CommandManager;
+import constitution.permissions.PermissionContext;
 import constitution.permissions.PermissionManager;
-import constitution.permissions.User;
 import constitution.utilities.ServerUtilities;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -50,22 +51,27 @@ public class SendCommandEvent {
 	public static SendCommandEvent instance = new SendCommandEvent();
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onPlayerSendCommand(CommandEvent event) {
+	public Boolean onPlayerSendCommand(CommandEvent event) {
 		PermissionManager manager = ServerUtilities.getManager();
-		User user = manager.users.get(event.getSender().getCommandSenderEntity().getUniqueID());
-		Boolean hasPermission = false;	
-
-		if (!manager.checkPermission(event.getSender(), event.getCommand())) {
+		PermissionContext context = new PermissionContext(event.getSender());
+		if (!manager.checkPermission(context, CommandManager.getPermForCommand(event.getCommand().getName()))) {
 			ConstitutionMain.logger.info("Command Canceled For:" + event.getSender().toString() + ": Command: " + event.getCommand().toString());
 			event.setCanceled(true);
 			ITextComponent msg = TextComponentHelper.createComponentTranslation(event.getSender(), "commands.generic.permission", new Object[0]);
 			msg.getStyle().setColor(TextFormatting.RED);
 			event.getSender().sendMessage(msg);
+			return false;
 		} else {
+			if (context.isConsole() == true) {
+				event.setCanceled(false);
+				return true;
+			}
 			if (manager.users.get(event.getSender().getCommandSenderEntity().getUniqueID()).isOp() == true) {
 				ConstitutionMain.logger.info("OP Firing Command:");
 				event.setCanceled(false);
+				return true;
 			}
 		}
+		return false;
 	}
 }

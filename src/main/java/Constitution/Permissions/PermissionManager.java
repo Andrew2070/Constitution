@@ -155,6 +155,9 @@ public class PermissionManager {
 	}
 
 	public Boolean hasPermission(PermissionContext context, String node) {
+		if (context.isConsole()) {
+			return true;
+		}
 		return permProvider.hasPermission(context.getPlayer().getGameProfile(), node, context);
 	}
 
