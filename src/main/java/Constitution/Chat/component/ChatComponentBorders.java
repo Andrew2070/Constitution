@@ -40,13 +40,11 @@ public class ChatComponentBorders {
 					    //0123456789012345678901234567
 		String border1 = "==========================[";
 		String border2 = "]=========================";
-		int border1chars = border1.length();
 		int border2chars = border2.length();
 		int stringchars = string.length()/2;
 		//lets say the word is Empire, it has 6 characters.
 		//I want it to take 3 characters from border1
 		//			   take 3 characters from border2
-		int b1diff = (border1chars - stringchars);
 		int b2diff = (border2chars - stringchars);
 		String leftborder = border1.substring(stringchars, 27); //cut from 3, 27
 		String rightborder = border2.substring(0, b2diff); //cut from 0 to 24

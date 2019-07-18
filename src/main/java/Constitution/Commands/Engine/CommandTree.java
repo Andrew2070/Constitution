@@ -100,7 +100,6 @@ public class CommandTree extends Tree<CommandTreeNode> {
 		if (perm.equals(current.getAnnotation().permission()))
 			return true;
 
-		boolean exists = false;
 		for (CommandTreeNode child : current.getChildren()) {
 			if (hasCommandNode(child, perm))
 				return true;

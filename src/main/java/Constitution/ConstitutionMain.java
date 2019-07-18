@@ -156,9 +156,9 @@ public class ConstitutionMain
 
 	public static void registerCommands() {
 		//Needs Work (CommandManager is persistent on each Command Class Having A Root Command);
-		List<Class<?>> commandClazzes = (ClassUtilities.getClassesInPackage(COMMAND_FOLDER));
-		for (Class<?> clazz : commandClazzes) {
-		}
+		//List<Class<?>> commandClazzes = (ClassUtilities.getClassesInPackage(COMMAND_FOLDER));
+		//for (Class<?> clazz : commandClazzes) {
+		//}
 	}
 	public void loadConfig() {
 		Config.instance.reload();
