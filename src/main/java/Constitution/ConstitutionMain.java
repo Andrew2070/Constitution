@@ -64,14 +64,14 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 
-@Mod(modid = ConstitutionMain.MODID, name = "Constitution", version = ConstitutionMain.VERSION, dependencies = "after:worldedit", updateJSON = ConstitutionMain.UPDATEURL, acceptableRemoteVersions = "*", acceptedMinecraftVersions = ConstitutionMain.MCVERSIONS)
+@Mod(modid = ConstitutionMain.MODID, name = "Constitution Mod", version = ConstitutionMain.VERSION, dependencies = "after:worldedit", updateJSON = ConstitutionMain.UPDATEURL, acceptableRemoteVersions = "*", acceptedMinecraftVersions = ConstitutionMain.MCVERSIONS)
 public class ConstitutionMain
 {
 	@Mod.Instance(ConstitutionMain.MODID)
-	public static 						   ConstitutionMain 	   instance;
+	public static 						   ConstitutionMain    instance;
 	public 								   Localization		   LOCAL;
-	public static final 				   String              MODID              = "constitution";
-	public static final 				   String              VERSION            = "1.12.2";
+	public static final 				   String              MODID              = Constants.MODID;
+	public static final 				   String              VERSION            = Constants.VERSION;
 	public static final 				   String              UPDATEURL          = "";
 	public final static 				   String              MCVERSIONS         = "[1.9.4, 1.13]";
 	public static 						   File                configFile         = null;
@@ -81,8 +81,9 @@ public class ConstitutionMain
 	public static						   String			   COMMAND_FOLDER     = "constitution.commands.executable";
 	public static 					       Logger              logger             = Logger.getLogger(MODID);
 	public static boolean                  debug             					  = false;
-	private final List<JSONConfig> 		   jsonConfigs 							  = new ArrayList<JSONConfig>();
-	public static PermissionManager permissionManager = new PermissionManager();
+	private final                          List<JSONConfig>    jsonConfigs 		  = new ArrayList<JSONConfig>();
+	public static                          PermissionManager   permissionManager  = new PermissionManager();
+	
 	public ConstitutionMain() {
 		initLogger();
 	}
