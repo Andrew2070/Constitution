@@ -38,7 +38,9 @@ import java.util.List;
 import constitution.chat.channels.Channel;
 import constitution.commands.engine.Command;
 import constitution.commands.engine.CommandResponse;
+import constitution.configuration.Config;
 import constitution.permissions.PermissionManager;
+import constitution.permissions.User;
 import constitution.utilities.ServerUtilities;
 import net.minecraft.command.ICommandSender;
 public class channel {
@@ -49,6 +51,17 @@ public class channel {
 	
 	@Command(name = "channel", permission = "constitution.cmd.channel", syntax = "/channel", alias = {"ch", "CH", "Ch"}, description = "")
 	public static CommandResponse channelCommandMethod(ICommandSender sender, List<String> args) {
+		if (args.size() == 1) {
+			User user = getManager().users.get(sender.getCommandSenderEntity().getUniqueID());
+			for (Channel channel : getManager().channels) {
+				if (channel.getName().equals(args.get(0)) || channel.getName().substring(0, 1).equals(args.get(0))) {
+					user.setChannel(channel.getName());
+					channel.setUser(user);
+					getManager().saveUsers();
+					getManager().saveChannels();
+				}
+			}
+		}
 		return CommandResponse.SEND_HELP_MESSAGE;
 	}
 	
