@@ -165,8 +165,6 @@ public class PermissionCommands {
 			syntax = "/cnp group list",
 			description = "Displays a List of Existing Groups and Their Properties")
 	public static CommandResponse groupListCommand(ICommandSender sender, List<String> args) {
-		JSONMessageBuilder msgBuilder = new JSONMessageBuilder();
-		JSONMessageBuilder extraBuilder = msgBuilder.addExtra();
 
 		for (Group group : getManager().groups) {
 			ChatManager.send(sender, group.toChatMessage());
