@@ -114,14 +114,14 @@ public class ConstitutionMain
 		CONFIG_FOLDER = event.getModConfigurationDirectory().getPath() + "/Constitution/";
 		DATABASE_FOLDER = event.getModConfigurationDirectory().getParent() + "/databases/";
 		Config.instance.init(CONFIG_FOLDER + "/Constitution.cfg", "Constitution");
-		LOCAL = new Localization(CONFIG_FOLDER + "/Localization/", Config.instance.localization.get(),
-				"/Constitution/Localization/", ConstitutionMain.class);
+		LOCAL = new Localization("/assets/constitution/lang/", Config.instance.localization.get(),
+				"/assets/constitution/lang/", ConstitutionMain.class);
 		LocalizationManager.register(LOCAL, "constitution");
+		permissionManager.preInitialization();
 		MinecraftForge.EVENT_BUS.register(ChatEvent.instance);
 		MinecraftForge.EVENT_BUS.register(LoginEvent.instance);
 		MinecraftForge.EVENT_BUS.register(LogoutEvent.instance);
 		MinecraftForge.EVENT_BUS.register(SendCommandEvent.instance);
-		permissionManager.preInitialization();
 
 	}
 

@@ -102,7 +102,7 @@ curseforge {
     changelog = "<h2>+${build_changelog}+</h2>"
     changelogType = "${curse_changelog_type}"
     releaseType = config.build_type.equals('[A]') ? "alpha" : (config.build_type.equals('[B]') ? "beta" : "release")
-    addGameVersion '1.12.2'
+    addGameVersion "${version_mcsupport}"
   }
 }
 

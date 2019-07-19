@@ -84,8 +84,6 @@ public class Localization {
 		}
 		try {
 		if (is == null) {
-
-			
 			is = clazz.getResourceAsStream(classPath + lang + ".lang");
 			ConstitutionMain.logger.info("Reverting to en_US.lang because " + lang + ".lang does not exist");
 			

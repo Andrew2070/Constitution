@@ -672,7 +672,6 @@ public class PermissionCommands {
 			ChatManager.send(sender, LocalizationManager.get("constitution.cmd.perm.err.player.notExist", args.get(0)));
 			return CommandResponse.DONE;
 		}
-
 		UUID uuid = getUUIDFromUsername(args.get(0));
 		User user = getManager().users.get(uuid);
 		user.permsContainer.add(args.get(1));
