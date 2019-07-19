@@ -329,7 +329,9 @@ public class Channel {
 			EntityPlayerMP receivingPlayer = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(user.getUUID());
 			if (!this.mutelist.contains(user)) {
 				if (!this.blacklist.contains(user)) {
+					if (receivingPlayer!=null) {
 					receivingPlayer.sendMessage(message);
+					}
 				}
 			}
 		}
