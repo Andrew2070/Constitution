@@ -72,9 +72,10 @@ curseforge {
   apiKey = "${curse_key}"
   project {
     id = "${curse_id}"
-    changelogType = "${curse_changelog_type}"
     changelog = "<h2>+${build_changelog}+</h2>"
+    changelogType = "${curse_changelog_type}"
     releaseType = config.build_type.equals('[A]') ? "alpha" : (config.build_type.equals('[B]') ? "beta" : "release")
+    addGameVersion '1.12.2'
 }
 
 //########################################[My Dependency Loader]########################################
