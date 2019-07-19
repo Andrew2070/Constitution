@@ -48,18 +48,22 @@ public class LogoutEvent {
 	@SubscribeEvent
 	public void AuthenticatePlayerLogout(PlayerLoggedOutEvent event) {
 		PermissionManager manager = ServerUtilities.getManager();
-		if (event.player instanceof EntityPlayerMP) {
+		if (event.player instanceof EntityPlayerMP && event.player !=null) {
 			EntityPlayerMP player = (EntityPlayerMP) event.player;
 			UUID uuid = player.getUniqueID();
-			User user = manager.users.get(uuid);
-			user.setCanFly(player.capabilities.isFlying);
-			user.setCreative(player.capabilities.isCreativeMode);
-			user.setDimension(player.dimension);
-			user.setGodMode(player.getIsInvulnerable());
-			user.setHealth(player.getHealth());
-			user.setLocation(player.getPosition());
-			user.setXPTotal(player.experienceTotal);	 
-			user.setIP(player.getPlayerIP());
+			if (uuid !=null) {
+				User user = manager.users.get(uuid);
+				if (user !=null) {
+					user.setCanFly(player.capabilities.isFlying);
+					user.setCreative(player.capabilities.isCreativeMode);
+					user.setDimension(player.dimension);
+					user.setGodMode(player.getIsInvulnerable());
+					user.setHealth(player.getHealth());
+					user.setLocation(player.getPosition());
+					user.setXPTotal(player.experienceTotal);	 
+					user.setIP(player.getPlayerIP());
+				}
+			}
 		}
 	}
 }

@@ -188,8 +188,9 @@ public class LoginEvent {
 		UUID playerUUID = player.getPersistentID();
 		GameProfile profile = player.getGameProfile();
 		SocketAddress socketAddress = player.connection.getNetworkManager().getRemoteAddress();
-		User existingUser = manager.users.get(playerUUID);
 		Boolean banned = false;
+		if (manager.users.get(playerUUID) != null) {
+			User existingUser = manager.users.get(playerUUID);
 		if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedIPs().isBanned(socketAddress)) {
 			existingUser.setIPBanned(true);
 			banned = true;
@@ -201,6 +202,7 @@ public class LoginEvent {
 
 		if (existingUser.isBanned() || existingUser.isIPBanned()) {
 			banned = true;
+		}
 		}
 		return banned;
 	}
