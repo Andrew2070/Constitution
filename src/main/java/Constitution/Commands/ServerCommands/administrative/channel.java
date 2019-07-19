@@ -38,6 +38,7 @@ import java.util.List;
 import constitution.chat.channels.Channel;
 import constitution.commands.engine.Command;
 import constitution.commands.engine.CommandResponse;
+import constitution.configuration.Config;
 import constitution.permissions.PermissionManager;
 import constitution.permissions.User;
 import constitution.utilities.ServerUtilities;

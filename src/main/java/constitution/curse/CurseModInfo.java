@@ -1,4 +1,4 @@
-package constitution.curse;
+package curse;
 
 
 import java.util.Map;
