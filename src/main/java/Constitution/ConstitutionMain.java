@@ -54,7 +54,6 @@ import constitution.events.SendCommandEvent;
 import constitution.localization.Localization;
 import constitution.localization.LocalizationManager;
 import constitution.permissions.PermissionManager;
-import constitution.utilities.ClassUtilities;
 import constitution.utilities.LogFormatter;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
