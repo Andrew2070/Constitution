@@ -1,4 +1,4 @@
-package constitution.curse;
+package curse;
 
 import com.google.gson.Gson;
 
