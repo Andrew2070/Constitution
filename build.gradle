@@ -1,3 +1,14 @@
+//   ______                 __  _ __        __  _           
+//  / ____/___  ____  _____/ /_(_) /___  __/ /_(_)___  ____ 
+// / /   / __ \/ __ \/ ___/ __/ / __/ / / / __/ / __ \/ __ \
+/// /___/ /_/ / / / (__  ) /_/ / /_/ /_/ / /_/ / /_/ / / / /
+//\____/\____/_/ /_/_____\____/\__/\__,_____/_/\____/_/ /_/ 
+//                    /  |/  /___  ____/ /                  
+//                   / /|_/ / __ \/ __  /                   
+//                  / /  / / /_/ / /_/ /                    
+//                 /_/  /_/\____/\__,_/      
+//
+//##############################################[Constitution BuildScript]##############################################
 buildscript {
     repositories {
         jcenter()
@@ -7,12 +18,13 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
-//######################################[Plugin(s) Configuration]######################################
+
+//##############################################[Plugin(s) Configuration]##############################################
 plugins {
     id 'com.matthewprenger.cursegradle' version '1.3.0'
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
-//######################################[External Configuration]######################################
+//##############################################[External Configuration]##############################################
 ext.configFile = file "gradle.properties"
 ext.configFile.withReader {
     def prop = new Properties()
@@ -20,24 +32,24 @@ ext.configFile.withReader {
     ext.config = new ConfigSlurper().parse prop
 }
 
-//#######################################[TravisCI Integration]#######################################
+//###############################################[TravisCI Integration]###############################################
 if (System.env.TRAVIS_TAG != null && !System.env.TRAVIS_TAG.isEmpty()) {
     ext.config.build_version = System.env.TRAVIS_TAG.substring(0, System.env.TRAVIS_TAG.length()-1)
     ext.config.build_type = System.env.TRAVIS_TAG.substring(System.env.TRAVIS_TAG.length()-1)
 }
 
-//########################################[Project Versioning]########################################
+//################################################[Project Versioning]################################################
 group= ""
 version = "${version_minecraft}-${build_version}${build_type}"
 archivesBaseName = "${build_name}"
 
-//########################################[JAVA Compatability]########################################
+//################################################[JAVA Compatability]################################################
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
 
-//########################################[Minecraft Versions]########################################
+//################################################[Minecraft Versions]################################################
 minecraft {
     version = "${version_long}"
     mappings = "${version_mappings}"
@@ -47,14 +59,14 @@ minecraft {
     replaceIn "Constants.java"
 }
 
-//########################################[Dependency Controls]########################################
+//################################################[Dependency Controls]################################################
 dependencies {
     compile "org.xerial:sqlite-jdbc:3.8.5-pre1"
     compile "mysql:mysql-connector-java:5.1.32"
     compile "org.beanshell:bsh:2.0b5"
 }
 
-//########################################[Resource Processing]########################################
+//################################################[Resource Processing]################################################
 processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
@@ -67,7 +79,7 @@ processResources {
         exclude 'mcmod.info'
 }
 
-//########################################[CurseForge Uploading]########################################
+//################################################[CurseForge Uploading]################################################
 curseforge {
   apiKey = "${curse_key}"
   project {
@@ -78,7 +90,7 @@ curseforge {
     addGameVersion '1.12.2'
 }
 
-//########################################[My Dependency Loader]########################################
+//################################################[My Dependency Loader]################################################
 jar {
     classifier = ''
     manifest {
@@ -88,5 +100,6 @@ jar {
         )
     }
 }
+//######################################################################################################################
 }
 }
