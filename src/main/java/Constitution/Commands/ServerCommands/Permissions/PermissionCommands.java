@@ -91,7 +91,8 @@ public class PermissionCommands {
 
 	@Command(name = "config",
 			permission = "constitution.cmd.perm.config",
-			parentName = "constitution.cmd.perm", syntax = "/cnp config <command>",
+			parentName = "constitution.cmd.perm",
+			syntax = "/cnp config <command>",
 			description = "Base Configuration Parent Command")
 	public static CommandResponse configCommand(ICommandSender sender, List<String> args) {
 		return CommandResponse.SEND_HELP_MESSAGE;
@@ -656,7 +657,7 @@ public class PermissionCommands {
 	public static CommandResponse userPermCommand(ICommandSender sender, List<String> args) {
 		return CommandResponse.SEND_HELP_MESSAGE;
 	}
-
+ 
 	@Command(name = "add",
 			permission = "constitution.cmd.perm.user.perm.add",
 			parentName = "constitution.cmd.perm.user.perm",
