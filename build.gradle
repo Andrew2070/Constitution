@@ -7,7 +7,12 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
-
+//######################################[Plugin(s) Configuration]######################################
+plugins {
+    id 'com.matthewprenger.cursegradle' version '1.3.0'
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+//######################################[External Configuration]######################################
 ext.configFile = file "gradle.properties"
 ext.configFile.withReader {
     def prop = new Properties()
@@ -15,71 +20,64 @@ ext.configFile.withReader {
     ext.config = new ConfigSlurper().parse prop
 }
 
+//#######################################[TravisCI Integration]#######################################
 if (System.env.TRAVIS_TAG != null && !System.env.TRAVIS_TAG.isEmpty()) {
-    ext.config.version_compile = System.env.TRAVIS_TAG.substring(0, System.env.TRAVIS_TAG.length()-1)
+    ext.config.build_version = System.env.TRAVIS_TAG.substring(0, System.env.TRAVIS_TAG.length()-1)
     ext.config.build_type = System.env.TRAVIS_TAG.substring(System.env.TRAVIS_TAG.length()-1)
 }
-plugins {
-id "com.matthewprenger.cursegradle" version "1.1.0"
-}
-apply plugin: "curseforge"
-apply plugin: 'net.minecraftforge.gradle.forge'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-
-version = "${version_minecraft}-${version_compile}${build_type}"
+//########################################[Project Versioning]########################################
 group= ""
-archivesBaseName = "${compile_name}"
-sourceCompatibility = targetCompatibility = '1.8'
+version = "${version_minecraft}-${build_version}${build_type}"
+archivesBaseName = "${build_name}"
 
+//########################################[JAVA Compatability]########################################
+sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
 
+//########################################[Minecraft Versions]########################################
 minecraft {
     version = "${version_long}"
     mappings = "${version_mappings}"
     useDepAts = false
     runDir = "run"
-    
-    replace "@VERSION", project.version_compile
+    replace "@VERSION", project.build_version
     replaceIn "Constants.java"
 }
 
+//########################################[Dependency Controls]########################################
 dependencies {
-    // Database engines
     compile "org.xerial:sqlite-jdbc:3.8.5-pre1"
     compile "mysql:mysql-connector-java:5.1.32"
-
-    // Other deps
     compile "org.beanshell:bsh:2.0b5"
 }
 
+//########################################[Resource Processing]########################################
 processResources {
-    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
-
-    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
-        // replace version and mcversion
         expand 'version'           : project.version,
                'mcversion'         : project.minecraft.version
     }
-        
-    // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
 }
-curse {
-    apiKey = config.curse_key
-    projectId = config.curse_id
-    changelog = "" // TODO Add changelog support
+
+//########################################[CurseForge Uploading]########################################
+curseforge {
+  apiKey = "${curse_key}"
+  project {
+    id = "${curse_id}"
+    changelogType = "${curse_changelog_type}"
+    changelog = "<h2>+${build_changelog}+</h2>"
     releaseType = config.build_type.equals('[A]') ? "alpha" : (config.build_type.equals('[B]') ? "beta" : "release")
 }
 
+//########################################[My Dependency Loader]########################################
 jar {
     classifier = ''
     manifest {
@@ -89,5 +87,5 @@ jar {
         )
     }
 }
-
+}
 }
