@@ -1,14 +1,20 @@
-//   ______                 __  _ __        __  _           
-//  / ____/___  ____  _____/ /_(_) /___  __/ /_(_)___  ____ 
-// / /   / __ \/ __ \/ ___/ __/ / __/ / / / __/ / __ \/ __ \
-/// /___/ /_/ / / / (__  ) /_/ / /_/ /_/ / /_/ / /_/ / / / /
-//\____/\____/_/ /_/_____\____/\__/\__,_____/_/\____/_/ /_/ 
-//                    /  |/  /___  ____/ /                  
-//                   / /|_/ / __ \/ __  /                   
-//                  / /  / / /_/ / /_/ /                    
-//                 /_/  /_/\____/\__,_/      
-//
-//##############################################[Constitution BuildScript]##############################################
+//                ______                 __  _ __        __  _                               
+//               / ____/___  ____  _____/ /_(_) /___  __/ /_(_)___  ____                     
+//              / /   / __ \/ __ \/ ___/ __/ / __/ / / / __/ / __ \/ __ \                    
+//             / /___/ /_/ / / / (__  ) /_/ / /_/ /_/ / /_/ / /_/ / / / /                    
+//             \____/\____/_/ /_/____/\__/_/\__/\__,_/\__/_/\____/_/ /_/                     
+//                               __  ___          __                                        
+//                              /  |/  /___  ____/ /                                        
+//                             / /|_/ / __ \/ __  /                                         
+//                            / /  / / /_/ / /_/ /                                          
+//                           /_/  /_/\____/\__,_/                                           
+//                                     ____        _ __    _______           _       __ 
+//                                    / __ )__  __(_) /___/ / ___/__________(_)___  / /_
+//                                   / __  / / / / / / __  /\__ \/ ___/ ___/ / __ \/ __/                             
+//                                  / /_/ / /_/ / / / /_/ /___/ / /__/ /  / / /_/ / /_  
+//                                 /_____/\__,_/_/_/\__,_//____/\___/_/  /_/ .___/\__/  
+//                                                                        /_/                                       
+//#####################################################################################################################        
 buildscript {
     repositories {
         jcenter()
@@ -24,7 +30,9 @@ plugins {
     id 'com.matthewprenger.cursegradle' version '1.3.0'
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
+
 //##############################################[External Configuration]##############################################
+
 ext.configFile = file "gradle.properties"
 ext.configFile.withReader {
     def prop = new Properties()
@@ -33,23 +41,27 @@ ext.configFile.withReader {
 }
 
 //###############################################[TravisCI Integration]###############################################
+
 if (System.env.TRAVIS_TAG != null && !System.env.TRAVIS_TAG.isEmpty()) {
     ext.config.build_version = System.env.TRAVIS_TAG.substring(0, System.env.TRAVIS_TAG.length()-1)
     ext.config.build_type = System.env.TRAVIS_TAG.substring(System.env.TRAVIS_TAG.length()-1)
 }
 
 //################################################[Project Versioning]################################################
+
 group= ""
 version = "${version_minecraft}-${build_version}${build_type}"
 archivesBaseName = "${build_name}"
 
 //################################################[JAVA Compatability]################################################
+
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
 
 //################################################[Minecraft Versions]################################################
+
 minecraft {
     version = "${version_long}"
     mappings = "${version_mappings}"
@@ -60,6 +72,7 @@ minecraft {
 }
 
 //################################################[Dependency Controls]################################################
+
 dependencies {
     compile "org.xerial:sqlite-jdbc:3.8.5-pre1"
     compile "mysql:mysql-connector-java:5.1.32"
@@ -67,6 +80,7 @@ dependencies {
 }
 
 //################################################[Resource Processing]################################################
+
 processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
@@ -80,6 +94,7 @@ processResources {
 }
 
 //################################################[CurseForge Uploading]################################################
+
 curseforge {
   apiKey = "${curse_key}"
   project {
@@ -88,9 +103,11 @@ curseforge {
     changelogType = "${curse_changelog_type}"
     releaseType = config.build_type.equals('[A]') ? "alpha" : (config.build_type.equals('[B]') ? "beta" : "release")
     addGameVersion '1.12.2'
+  }
 }
 
 //################################################[My Dependency Loader]################################################
+
 jar {
     classifier = ''
     manifest {
@@ -100,6 +117,6 @@ jar {
         )
     }
 }
+
 //######################################################################################################################
-}
 }
