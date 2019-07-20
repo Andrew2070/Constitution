@@ -32,20 +32,20 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.events;
+package Constitution.Events;
 import java.net.SocketAddress;
 import java.util.Date;
 import java.util.UUID;
 
 import com.mojang.authlib.GameProfile;
 
-import constitution.ConstitutionMain;
-import constitution.chat.channels.Channel;
-import constitution.configuration.Config;
-import constitution.permissions.Group;
-import constitution.permissions.PermissionManager;
-import constitution.permissions.User;
-import constitution.utilities.ServerUtilities;
+import Constitution.ConstitutionMain;
+import Constitution.Chat.Channels.Channel;
+import Constitution.Configuration.Config;
+import Constitution.Permissions.Group;
+import Constitution.Permissions.PermissionManager;
+import Constitution.Permissions.User;
+import Constitution.Utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;

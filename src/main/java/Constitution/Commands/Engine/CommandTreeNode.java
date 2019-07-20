@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.commands.engine;
+package Constitution.Commands.Engine;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -45,13 +45,13 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
-import constitution.ConstitutionMain;
-import constitution.chat.ChatManager;
-import constitution.chat.component.ChatComponentHelpMenu;
-import constitution.exceptions.CommandException;
-import constitution.localization.Localization;
-import constitution.permissions.TreeNode;
-import constitution.utilities.StringUtilities;
+import Constitution.ConstitutionMain;
+import Constitution.Chat.ChatManager;
+import Constitution.Chat.Component.ChatComponentHelpMenu;
+import Constitution.Exceptions.CommandException;
+import Constitution.Localization.Localization;
+import Constitution.Permissions.TreeNode;
+import Constitution.Utilities.StringUtilities;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;

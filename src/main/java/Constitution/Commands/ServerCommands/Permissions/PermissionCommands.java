@@ -32,26 +32,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.commands.servercommands.permissions;
+package Constitution.Commands.ServerCommands.permissions;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import constitution.ConstitutionMain;
-import constitution.chat.ChatManager;
-import constitution.chat.component.ChatComponentBorders;
-import constitution.chat.component.ChatComponentFormatted;
-import constitution.commands.engine.Command;
-import constitution.commands.engine.CommandResponse;
-import constitution.configuration.json.JSONMessageBuilder;
-import constitution.exceptions.CommandException;
-import constitution.exceptions.PermissionCommandException;
-import constitution.localization.LocalizationManager;
-import constitution.permissions.Group;
-import constitution.permissions.PermissionManager;
-import constitution.permissions.User;
-import constitution.utilities.ServerUtilities;
+import Constitution.ConstitutionMain;
+import Constitution.Chat.ChatManager;
+import Constitution.Chat.Component.ChatComponentBorders;
+import Constitution.Chat.Component.ChatComponentFormatted;
+import Constitution.Commands.Engine.Command;
+import Constitution.Commands.Engine.CommandResponse;
+import Constitution.Configuration.JSONTemp.JSONMessageBuilder;
+import Constitution.Exceptions.CommandException;
+import Constitution.Exceptions.PermissionCommandException;
+import Constitution.Localization.LocalizationManager;
+import Constitution.Permissions.Group;
+import Constitution.Permissions.PermissionManager;
+import Constitution.Permissions.User;
+import Constitution.Utilities.ServerUtilities;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ITextComponent;

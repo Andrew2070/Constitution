@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.configuration;
+package Constitution.Configuration;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -41,7 +41,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import constitution.ConstitutionMain;
+import Constitution.ConstitutionMain;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;

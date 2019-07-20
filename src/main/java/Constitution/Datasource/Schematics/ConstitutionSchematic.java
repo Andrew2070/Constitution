@@ -32,9 +32,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.datasource.schematics;
+package Constitution.Datasource.Schematics;
 
-import constitution.datasource.bridge.BridgeSQL;
+import Constitution.Datasource.Bridge.BridgeSQL;
 
 public class ConstitutionSchematic extends BaseSchematic {
 

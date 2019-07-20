@@ -1,4 +1,4 @@
-package constitution.curse;
+package Constitution.Curse;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.permissions;
+package Constitution.Permissions;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;

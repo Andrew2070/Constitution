@@ -32,13 +32,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.configuration;
+package Constitution.Configuration;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.GsonBuilder;
 
-import constitution.chat.channels.Channel;
-import constitution.configuration.json.JSONConfig;
-import constitution.permissions.PermissionManager;
+import Constitution.Chat.Channels.Channel;
+import Constitution.Configuration.JSONTemp.JSONConfig;
+import Constitution.Permissions.PermissionManager;
 public class ChannelConfig extends JSONConfig<Channel, Channel.Container> {
 
 	private PermissionManager permissionsManager;

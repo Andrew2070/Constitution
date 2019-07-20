@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.datasource.bridge;
+package Constitution.Datasource.Bridge;
 
 
 import java.sql.DriverManager;
@@ -42,10 +42,10 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import com.mysql.jdbc.Driver;
 
-import constitution.ConstitutionMain;
-import constitution.configuration.Config;
-import constitution.configuration.ConfigProperty;
-import constitution.configuration.ConfigTemplate;
+import Constitution.ConstitutionMain;
+import Constitution.Configuration.Config;
+import Constitution.Configuration.ConfigProperty;
+import Constitution.Configuration.ConfigTemplate;
 
 public class BridgeMySQL extends BridgeSQL {
 

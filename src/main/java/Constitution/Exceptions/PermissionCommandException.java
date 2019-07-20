@@ -32,8 +32,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.exceptions;
-import constitution.ConstitutionMain;
+package Constitution.Exceptions;
+import Constitution.ConstitutionMain;
 public class PermissionCommandException extends CommandException {
 	public PermissionCommandException(String localKey, Object... args) {
 		super(ConstitutionMain.instance.LOCAL.getLocalization(localKey, args).getUnformattedText());

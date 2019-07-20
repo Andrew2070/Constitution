@@ -32,14 +32,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.configuration;
+package Constitution.Configuration;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.GsonBuilder;
 
-import constitution.configuration.json.JSONConfig;
-import constitution.permissions.Meta;
-import constitution.permissions.PermissionManager;
-import constitution.permissions.User;
+import Constitution.Configuration.JSONTemp.JSONConfig;
+import Constitution.Permissions.Meta;
+import Constitution.Permissions.PermissionManager;
+import Constitution.Permissions.User;
 
 public class UserConfig extends JSONConfig<User, User.Container> {
 

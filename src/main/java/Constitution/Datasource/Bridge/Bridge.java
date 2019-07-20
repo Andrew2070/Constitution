@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.datasource.bridge;
+package Constitution.Datasource.Bridge;
 
 /**
  * Used for handling connection to a database through a database engine

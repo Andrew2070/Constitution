@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.chat.component;
+package Constitution.Chat.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,9 +42,9 @@ import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
 
-import constitution.chat.IChatFormat;
-import constitution.exceptions.FormatException;
-import constitution.utilities.ColorUtilities;
+import Constitution.Chat.IChatFormat;
+import Constitution.Exceptions.FormatException;
+import Constitution.Utilities.ColorUtilities;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;

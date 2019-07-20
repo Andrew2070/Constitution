@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.commands.engine.registrar;
+package Constitution.Commands.Engine.Registrar;
 
 import net.minecraft.command.CommandHandler;
 import net.minecraft.command.ICommand;
@@ -44,7 +44,7 @@ public class CommandRegistrar implements ICommandRegistrar {
 	protected CommandHandler commandHandler;
 
 	public CommandRegistrar() {
-		this.commandHandler = (CommandHandler) constitution.utilities.ServerUtilities.getMinecraftServer().getCommandManager();
+		this.commandHandler = (CommandHandler) Constitution.Utilities.ServerUtilities.getMinecraftServer().getCommandManager();
 	}
 
 	@Override

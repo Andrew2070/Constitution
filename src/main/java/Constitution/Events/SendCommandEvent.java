@@ -32,13 +32,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.events;
+package Constitution.Events;
 
-import constitution.ConstitutionMain;
-import constitution.commands.engine.CommandManager;
-import constitution.permissions.PermissionContext;
-import constitution.permissions.PermissionManager;
-import constitution.utilities.ServerUtilities;
+import Constitution.ConstitutionMain;
+import Constitution.Commands.Engine.CommandManager;
+import Constitution.Permissions.PermissionContext;
+import Constitution.Permissions.PermissionManager;
+import Constitution.Utilities.ServerUtilities;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.CommandEvent;

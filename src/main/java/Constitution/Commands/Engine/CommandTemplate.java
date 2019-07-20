@@ -32,14 +32,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.commands.engine;
+package Constitution.Commands.Engine;
 
 import java.util.Arrays;
 import java.util.List;
 
-import constitution.permissions.PermissionContext;
-import constitution.permissions.PermissionObject;
-import constitution.utilities.ServerUtilities;
+import Constitution.Permissions.PermissionContext;
+import Constitution.Permissions.PermissionObject;
+import Constitution.Utilities.ServerUtilities;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;

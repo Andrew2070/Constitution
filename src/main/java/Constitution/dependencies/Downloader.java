@@ -1,4 +1,4 @@
-package constitution.dependencies;
+package Constitution.Dependencies;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

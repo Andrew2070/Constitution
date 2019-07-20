@@ -32,18 +32,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.chat;
+package Constitution.Chat;
 
 
 import java.util.UUID;
 
-import constitution.chat.channels.Channel;
-import constitution.chat.component.ChatComponentBorders;
-import constitution.chat.component.ChatComponentFormatted;
-import constitution.localization.LocalizationManager;
-import constitution.permissions.Group;
-import constitution.permissions.PermissionManager;
-import constitution.permissions.User;
+import Constitution.Chat.Channels.Channel;
+import Constitution.Chat.Component.ChatComponentBorders;
+import Constitution.Chat.Component.ChatComponentFormatted;
+import Constitution.Localization.LocalizationManager;
+import Constitution.Permissions.Group;
+import Constitution.Permissions.PermissionManager;
+import Constitution.Permissions.User;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;

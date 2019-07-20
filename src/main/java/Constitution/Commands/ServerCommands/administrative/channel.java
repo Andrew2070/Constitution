@@ -32,16 +32,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.commands.servercommands.administrative;
+package Constitution.Commands.ServerCommands.administrative;
 import java.util.List;
 
-import constitution.chat.channels.Channel;
-import constitution.commands.engine.Command;
-import constitution.commands.engine.CommandResponse;
-import constitution.configuration.Config;
-import constitution.permissions.PermissionManager;
-import constitution.permissions.User;
-import constitution.utilities.ServerUtilities;
+import Constitution.Chat.Channels.Channel;
+import Constitution.Commands.Engine.Command;
+import Constitution.Commands.Engine.CommandResponse;
+import Constitution.Configuration.Config;
+import Constitution.Permissions.PermissionManager;
+import Constitution.Permissions.User;
+import Constitution.Utilities.ServerUtilities;
 import net.minecraft.command.ICommandSender;
 public class channel {
 	

@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.utilities;
+package Constitution.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +44,11 @@ import javax.annotation.Nullable;
 
 import com.mojang.authlib.GameProfile;
 
-import constitution.ConstitutionMain;
-import constitution.exceptions.PermissionCommandException;
-import constitution.localization.LocalizationManager;
-import constitution.permissions.Group;
-import constitution.permissions.PermissionManager;
+import Constitution.ConstitutionMain;
+import Constitution.Exceptions.PermissionCommandException;
+import Constitution.Localization.LocalizationManager;
+import Constitution.Permissions.Group;
+import Constitution.Permissions.PermissionManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;

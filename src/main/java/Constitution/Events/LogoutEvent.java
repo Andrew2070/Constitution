@@ -32,12 +32,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.events;
+package Constitution.Events;
 import java.util.UUID;
 
-import constitution.permissions.PermissionManager;
-import constitution.permissions.User;
-import constitution.utilities.ServerUtilities;
+import Constitution.Permissions.PermissionManager;
+import Constitution.Permissions.User;
+import Constitution.Utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;

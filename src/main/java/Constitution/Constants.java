@@ -1,4 +1,4 @@
-package constitution;
+package Constitution;
 
 public class Constants {
 	    public static final String MODID   = "constitution";
