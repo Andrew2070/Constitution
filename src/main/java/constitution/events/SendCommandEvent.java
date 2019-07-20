@@ -54,8 +54,8 @@ public class SendCommandEvent {
 	public Boolean onPlayerSendCommand(CommandEvent event) {
 		PermissionManager manager = ServerUtilities.getManager();
 		PermissionContext context = new PermissionContext(event.getSender());
-		if (!manager.checkPermission(context, CommandManager.getPermForCommand(event.getCommand().getName()))) {
-			ConstitutionMain.logger.info("Command Canceled For:" + event.getSender().toString() + ": Command: " + event.getCommand().toString());
+		if (!manager.checkPermission(event.getSender(), event.getCommand())) {
+			ConstitutionMain.logger.info("Command Canceled For:" + event.getSender().toString() + ": Command: " + event.getCommand().getName());
 			event.setCanceled(true);
 			ITextComponent msg = TextComponentHelper.createComponentTranslation(event.getSender(), "commands.generic.permission", new Object[0]);
 			msg.getStyle().setColor(TextFormatting.RED);
@@ -72,6 +72,7 @@ public class SendCommandEvent {
 				return true;
 			}
 		}
-		return false;
+		ConstitutionMain.logger.info("Command Succesfully Fired By: " + context.getPlayer().getDisplayNameString());
+		return true;
 	}
 }

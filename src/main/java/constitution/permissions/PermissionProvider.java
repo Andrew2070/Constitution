@@ -79,18 +79,21 @@ public class PermissionProvider implements IPermissionHandler{
 		PermissionManager manager = ServerUtilities.getManager();
 		if (profile.getId() == context.getPlayer().getUniqueID()) {
 			User user = manager.users.get(profile.getId());
-			if (!user.permsContainer.isEmpty() && user.permsContainer!=null & user.permsContainer.contains(node)) {
+			if (!user.permsContainer.isEmpty() && user.permsContainer!=null) {
 				if (searchNodes(user.permsContainer, node)) {
 					permLevel = true;
+					return true;
 				} else {
 					if (user.getDominantGroup()!=null && manager.groups.contains(user.getDominantGroup())) {
 						Group group = user.getDominantGroup();
 						if (searchNodes(group.permsContainer, node)) {
 							permLevel = true;
+							return true;
 						} else {
 							for (Group parent : group.parents) {
 								if (searchNodes(parent.permsContainer, node)) {
 									permLevel = true;
+									return true;
 								}
 							}
 						}
@@ -103,6 +106,7 @@ public class PermissionProvider implements IPermissionHandler{
 								for (Group parent : group.parents) {
 									if (searchNodes(parent.permsContainer, node)) {
 										permLevel = true;
+										return true;
 									}
 								}
 							}
