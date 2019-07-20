@@ -49,6 +49,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
 import constitution.configuration.json.JSONSerializerTemplate;
+import constitution.permissions.User;
 import constitution.utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
