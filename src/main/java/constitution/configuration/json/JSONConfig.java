@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution.Configuration.JSONTemp;
+package constitution.configuration.json;
 
 
 
@@ -50,7 +50,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import Constitution.ConstitutionMain;
+import constitution.ConstitutionMain;
 
 /**
  * An abstract class for all JSON configs.

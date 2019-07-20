@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution.Configuration.JSONTemp;
+package constitution.configuration.json;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;

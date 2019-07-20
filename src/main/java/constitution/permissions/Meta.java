@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution.Permissions;
+package constitution.permissions;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
-import Constitution.Configuration.JSONTemp.JSONSerializerTemplate;
+import constitution.configuration.json.JSONSerializerTemplate;
 
 /**
  * Variables inside permission strings.

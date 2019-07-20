@@ -32,8 +32,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution.Exceptions;
-import Constitution.Localization.LocalizationManager;
+package constitution.exceptions;
+import constitution.localization.LocalizationManager;
 import net.minecraft.util.text.ITextComponent;
 
 public abstract class FormattedException extends RuntimeException {

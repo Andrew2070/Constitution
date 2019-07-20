@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution.Datasource;
+package constitution.datasource;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,10 +43,10 @@ import java.util.List;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.Logger;
 
-import Constitution.Configuration.ConfigTemplate;
-import Constitution.Datasource.Schematics.BaseSchematic;
-import Constitution.Datasource.Schematics.DatasourceSQL;
-import Constitution.Permissions.Group;
+import constitution.configuration.ConfigTemplate;
+import constitution.datasource.schematics.BaseSchematic;
+import constitution.datasource.schematics.DatasourceSQL;
+import constitution.permissions.Group;
 
 public class ConstitutionDatasource extends DatasourceSQL {
 

@@ -1,4 +1,4 @@
-package Constitution.Curse;
+package constitution.curse;
 
 
 public class VersionInfo {

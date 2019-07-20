@@ -43,13 +43,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import Constitution.ConstitutionMain;
-import Constitution.Commands.Engine.Registrar.CommandRegistrar;
-import Constitution.Commands.Engine.Registrar.ICommandRegistrar;
-import Constitution.Exceptions.CommandException;
-import Constitution.Localization.Localization;
-import Constitution.Permissions.PermissionManager;
-import Constitution.Utilities.WikiUtilities;
+import constitution.ConstitutionMain;
+import constitution.commands.engine.registrar.CommandRegistrar;
+import constitution.commands.engine.registrar.ICommandRegistrar;
+import constitution.localization.Localization;
+import constitution.permissions.PermissionManager;
+import constitution.utilities.WikiUtilities;
 import net.minecraft.command.ICommandSender;
 public class CommandManager {
 

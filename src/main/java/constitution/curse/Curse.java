@@ -1,12 +1,12 @@
-package Constitution.Curse;
-
-import com.google.gson.Gson;
+package constitution.curse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import com.google.gson.Gson;
 
 public final class Curse {
     private Curse() {

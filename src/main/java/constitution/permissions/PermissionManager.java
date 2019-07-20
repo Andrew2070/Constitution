@@ -32,20 +32,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution.Permissions;
+package constitution.permissions;
 
 import java.util.Map;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-import Constitution.ConstitutionMain;
-import Constitution.Chat.Channels.Channel;
-import Constitution.Commands.Engine.CommandManager;
-import Constitution.Commands.Engine.CommandTemplate;
-import Constitution.Configuration.ChannelConfig;
-import Constitution.Configuration.GroupConfig;
-import Constitution.Configuration.UserConfig;
-import Constitution.Utilities.ServerUtilities;
+import constitution.ConstitutionMain;
+import constitution.chat.channels.Channel;
+import constitution.commands.engine.CommandManager;
+import constitution.configuration.ChannelConfig;
+import constitution.configuration.GroupConfig;
+import constitution.configuration.UserConfig;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;

@@ -32,16 +32,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution.Permissions;
-
+package constitution.permissions;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import Constitution.Chat.IChatFormat;
-import Constitution.Chat.Component.ChatComponentFormatted;
-import Constitution.Chat.Component.ChatComponentList;
-import Constitution.Localization.LocalizationManager;
+import constitution.chat.IChatFormat;
+import constitution.chat.component.ChatComponentFormatted;
+import constitution.chat.component.ChatComponentList;
+import constitution.localization.LocalizationManager;
 import net.minecraft.util.text.ITextComponent;
 
 public class PermissionsContainer extends ArrayList<String> implements IChatFormat {

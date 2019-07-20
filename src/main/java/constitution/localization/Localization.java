@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution.Localization;
+package constitution.localization;
 
 
 import java.io.BufferedReader;
@@ -48,8 +48,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import Constitution.ConstitutionMain;
-import Constitution.Chat.Component.ChatComponentFormatted;
+import constitution.ConstitutionMain;
+import constitution.chat.component.ChatComponentFormatted;
 import net.minecraft.util.text.ITextComponent;
 /**
  * Loads and handles Localization files

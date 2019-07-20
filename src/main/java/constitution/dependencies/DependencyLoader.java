@@ -1,23 +1,29 @@
-package Constitution.Dependencies;
+package constitution.dependencies;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import net.minecraft.launchwrapper.LaunchClassLoader;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.FMLInjectionData;
-
-
-import net.minecraft.launchwrapper.LaunchClassLoader;
-
-import java.io.*;
-import java.net.MalformedURLException;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 public class DependencyLoader {
     private static final FilenameFilter jarFilter = new FilenameFilter() {

@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution.Permissions;
+package constitution.permissions;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -49,13 +49,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
-import Constitution.Chat.IChatFormat;
-import Constitution.Chat.Component.ChatComponentBorders;
-import Constitution.Chat.Component.ChatComponentFormatted;
-import Constitution.Configuration.Config;
-import Constitution.Configuration.JSONTemp.JSONSerializerTemplate;
-import Constitution.Localization.LocalizationManager;
-import Constitution.Utilities.ServerUtilities;
+import constitution.chat.IChatFormat;
+import constitution.chat.component.ChatComponentBorders;
+import constitution.chat.component.ChatComponentFormatted;
+import constitution.configuration.json.JSONSerializerTemplate;
+import constitution.localization.LocalizationManager;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 

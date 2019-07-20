@@ -1,8 +1,9 @@
-package Constitution.Dependencies;
+package constitution.dependencies;
 
-import net.minecraftforge.fml.common.versioning.ComparableVersion;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.minecraftforge.fml.common.versioning.ComparableVersion;
 
 /**
  */

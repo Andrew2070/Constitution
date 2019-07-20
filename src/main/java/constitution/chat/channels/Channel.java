@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution.Chat.Channels;
+package constitution.chat.channels;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -48,10 +48,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
-import Constitution.Configuration.Config;
-import Constitution.Configuration.JSONTemp.JSONSerializerTemplate;
-import Constitution.Permissions.User;
-import Constitution.Utilities.ServerUtilities;
+import constitution.configuration.json.JSONSerializerTemplate;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.common.FMLCommonHandler;

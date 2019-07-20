@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution.Permissions;
+package constitution.permissions;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -41,9 +41,8 @@ import java.util.Map;
 
 import com.mojang.authlib.GameProfile;
 
-import Constitution.ConstitutionMain;
-import Constitution.Configuration.Config;
-import Constitution.Utilities.ServerUtilities;
+import constitution.ConstitutionMain;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.UserListOpsEntry;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;

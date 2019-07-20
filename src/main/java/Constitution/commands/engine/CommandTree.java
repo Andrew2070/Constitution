@@ -37,9 +37,8 @@ package Constitution.Commands.Engine;
 import java.util.List;
 import java.util.UUID;
 
-import Constitution.Localization.Localization;
-import Constitution.Permissions.PermissionManager;
-import Constitution.Permissions.Tree;
+import constitution.localization.Localization;
+import constitution.permissions.PermissionManager;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;

@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution;
+package constitution;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,19 +42,19 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Constitution.Commands.Engine.CommandManager;
-import Constitution.Commands.ServerCommands.administrative.channel;
 import Constitution.Commands.ServerCommands.permissions.PermissionCommands;
-import Constitution.Configuration.Config;
-import Constitution.Configuration.JSONTemp.JSONConfig;
-import Constitution.Events.ChatEvent;
-import Constitution.Events.LoginEvent;
-import Constitution.Events.LogoutEvent;
-import Constitution.Events.SendCommandEvent;
-import Constitution.Localization.Localization;
-import Constitution.Localization.LocalizationManager;
-import Constitution.Permissions.PermissionManager;
-import Constitution.Utilities.LogFormatter;
+import constitution.commands.engine.CommandManager;
+import constitution.commands.servercommands.administrative.channel;
+import constitution.configuration.Config;
+import constitution.configuration.json.JSONConfig;
+import constitution.events.ChatEvent;
+import constitution.events.LoginEvent;
+import constitution.events.LogoutEvent;
+import constitution.events.SendCommandEvent;
+import constitution.localization.Localization;
+import constitution.localization.LocalizationManager;
+import constitution.permissions.PermissionManager;
+import constitution.utilities.LogFormatter;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;

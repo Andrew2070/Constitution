@@ -32,9 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution.Chat.Component;
-
-import Constitution.Permissions.User;
+package constitution.chat.component;
 
 public class ChatComponentUserList extends ChatComponentMultiPage {
 	private User.Container users;

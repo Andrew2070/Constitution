@@ -1,4 +1,4 @@
-package Constitution.Dependencies;
+package constitution.dependencies;
 
 import net.minecraftforge.fml.common.versioning.ComparableVersion;
 

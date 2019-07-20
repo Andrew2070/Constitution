@@ -32,11 +32,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution.Events;
+package constitution.events;
 
-import Constitution.Chat.ChatManager;
-import Constitution.Permissions.PermissionManager;
-import Constitution.Utilities.ServerUtilities;
+import constitution.chat.ChatManager;
+import constitution.permissions.PermissionManager;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.event.ServerChatEvent;

@@ -32,10 +32,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package Constitution.Chat.Component;
+package constitution.chat.component;
 
 public class ChatComponentBorders {
-
+ 
+	
 	public static String borderEditor(String string) {
 					    //0123456789012345678901234567
 		String border1 = "==========================[";

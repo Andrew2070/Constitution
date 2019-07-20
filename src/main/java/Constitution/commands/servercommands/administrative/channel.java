@@ -35,13 +35,10 @@
 package Constitution.Commands.ServerCommands.administrative;
 import java.util.List;
 
-import Constitution.Chat.Channels.Channel;
-import Constitution.Commands.Engine.Command;
-import Constitution.Commands.Engine.CommandResponse;
-import Constitution.Configuration.Config;
-import Constitution.Permissions.PermissionManager;
-import Constitution.Permissions.User;
-import Constitution.Utilities.ServerUtilities;
+import constitution.commands.engine.Command;
+import constitution.commands.engine.CommandResponse;
+import constitution.permissions.PermissionManager;
+import constitution.utilities.ServerUtilities;
 import net.minecraft.command.ICommandSender;
 public class channel {
 	
