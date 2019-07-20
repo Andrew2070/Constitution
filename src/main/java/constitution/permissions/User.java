@@ -55,6 +55,7 @@ import com.google.gson.JsonSerializationContext;
 import constitution.chat.IChatFormat;
 import constitution.chat.component.ChatComponentBorders;
 import constitution.chat.component.ChatComponentFormatted;
+import constitution.configuration.Config;
 import constitution.configuration.json.JSONSerializerTemplate;
 import constitution.localization.LocalizationManager;
 import constitution.utilities.ServerUtilities;

@@ -37,10 +37,13 @@ package constitution.chat;
 
 import java.util.UUID;
 
+import constitution.chat.channels.Channel;
 import constitution.chat.component.ChatComponentBorders;
 import constitution.chat.component.ChatComponentFormatted;
 import constitution.localization.LocalizationManager;
+import constitution.permissions.Group;
 import constitution.permissions.PermissionManager;
+import constitution.permissions.User;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;

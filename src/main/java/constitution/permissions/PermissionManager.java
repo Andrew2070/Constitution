@@ -41,6 +41,7 @@ import java.util.WeakHashMap;
 import constitution.ConstitutionMain;
 import constitution.chat.channels.Channel;
 import constitution.commands.engine.CommandManager;
+import constitution.commands.engine.CommandTemplate;
 import constitution.configuration.ChannelConfig;
 import constitution.configuration.GroupConfig;
 import constitution.configuration.UserConfig;

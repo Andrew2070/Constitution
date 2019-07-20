@@ -43,6 +43,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.sqlite.JDBC;
 
 import constitution.ConstitutionMain;
+import constitution.configuration.Config;
 import constitution.configuration.ConfigProperty;
 import constitution.configuration.ConfigTemplate;
 public class BridgeSQLite extends BridgeSQL {

@@ -34,6 +34,8 @@
  ******************************************************************************/
 package constitution.chat.component;
 
+import constitution.permissions.Group;
+
 public class ChatComponentGroupList extends ChatComponentMultiPage {
 	private Group.Container groups;
 

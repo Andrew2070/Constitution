@@ -40,7 +40,11 @@ import java.util.UUID;
 import com.mojang.authlib.GameProfile;
 
 import constitution.ConstitutionMain;
+import constitution.chat.channels.Channel;
+import constitution.configuration.Config;
+import constitution.permissions.Group;
 import constitution.permissions.PermissionManager;
+import constitution.permissions.User;
 import constitution.utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;

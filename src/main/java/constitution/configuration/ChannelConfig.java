@@ -36,6 +36,7 @@ package constitution.configuration;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.GsonBuilder;
 
+import constitution.chat.channels.Channel;
 import constitution.configuration.json.JSONConfig;
 import constitution.permissions.PermissionManager;
 public class ChannelConfig extends JSONConfig<Channel, Channel.Container> {

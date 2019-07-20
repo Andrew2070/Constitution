@@ -36,6 +36,7 @@ package constitution.events;
 import java.util.UUID;
 
 import constitution.permissions.PermissionManager;
+import constitution.permissions.User;
 import constitution.utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

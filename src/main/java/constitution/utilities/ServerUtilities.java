@@ -47,6 +47,7 @@ import com.mojang.authlib.GameProfile;
 import constitution.ConstitutionMain;
 import constitution.exceptions.PermissionCommandException;
 import constitution.localization.LocalizationManager;
+import constitution.permissions.Group;
 import constitution.permissions.PermissionManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;

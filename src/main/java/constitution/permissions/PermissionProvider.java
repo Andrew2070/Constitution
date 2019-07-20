@@ -42,6 +42,7 @@ import java.util.Map;
 import com.mojang.authlib.GameProfile;
 
 import constitution.ConstitutionMain;
+import constitution.configuration.Config;
 import constitution.utilities.ServerUtilities;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.UserListOpsEntry;
