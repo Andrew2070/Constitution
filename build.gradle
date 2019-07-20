@@ -96,7 +96,7 @@ processResources {
 //################################################[CurseForge Uploading]################################################
 
 curseforge {
-  apiKey = "${CURSEFORGEKEY}" ?: System.env.CURSEFORGEKEY
+  apiKey = "${CURSEFORGEKEY}" ?: '00000000-0000-0000-0000-000000000000'
   project {
     id = "${curse_id}"
     changelog = "<h2>+${build_changelog}+</h2>"
