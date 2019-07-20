@@ -37,6 +37,7 @@ package constitution.chat;
 
 import java.util.UUID;
 
+import constitution.ConstitutionMain;
 import constitution.chat.channels.Channel;
 import constitution.chat.component.ChatComponentBorders;
 import constitution.chat.component.ChatComponentFormatted;
@@ -207,7 +208,8 @@ public class ChatManager {
 						.appendSibling(Colon)
 						.appendSibling(message);
 
-					if (manager.checkPermission(player, "constitution.cmd.perm.list")) {
+					if (manager.checkPermission(player, ""
+							+ "")) {
 						channel.sendMessage(finalComponentWithHover);
 					} else {
 						if (manager.checkPermission(player, "constitution.cmd.perm.user.list.partial")) {
@@ -220,6 +222,7 @@ public class ChatManager {
 						} else {
 						channel.sendMessage(finalComponentWithoutHover);
 						}
+					ConstitutionMain.logger.info("[CHAT] " + finalComponentWithoutHover.getUnformattedText());
 				}
 			}
 		}
