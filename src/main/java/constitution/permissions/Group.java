@@ -79,8 +79,8 @@ public class Group implements IChatFormat {
 		this.prefix = Config.instance.defaultGroupPrefix.get();
 		this.suffix = Config.instance.defaultGroupSuffix.get();
 		this.permsContainer.add("command.help");
-		this.permsContainer.add("consitutiton.cmd");
-		this.permsContainer.add("consitutiton.cmd.perm");
+		this.permsContainer.add("constitution.cmd");
+		this.permsContainer.add("constitution.cmd.perm");
 	}
 
 	public Group(String name) {
