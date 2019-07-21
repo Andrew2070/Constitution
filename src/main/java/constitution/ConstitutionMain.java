@@ -43,7 +43,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import constitution.commands.engine.CommandManager;
-import constitution.commands.servercommands.administrative.channel;
+import constitution.commands.servercommands.executive.channel;
 import constitution.commands.servercommands.permissions.PermissionCommands;
 import constitution.configuration.Config;
 import constitution.configuration.json.JSONConfig;
