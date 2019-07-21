@@ -59,10 +59,9 @@ public class PermissionsContainer extends ArrayList<String> implements IChatForm
 	@Override
 	public ITextComponent toChatMessage() {
 		ITextComponent root = new ChatComponentList();
-		root.appendSibling(
-				LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|PERMISSIONS}")));
+		//root.appendSibling(LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9N|PERMISSIONS}")));
 		for (String perm : this) {
-			root.appendSibling(LocalizationManager.get("Constitution.format.permission", perm));
+				root.appendSibling(new ChatComponentFormatted("{7N|  }{7N|%s}", perm).applyDelimiter("\n"));
 		}
 		return root;
 	}

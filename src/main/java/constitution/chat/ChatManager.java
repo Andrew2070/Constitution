@@ -44,6 +44,7 @@ import constitution.chat.component.ChatComponentFormatted;
 import constitution.localization.LocalizationManager;
 import constitution.permissions.Group;
 import constitution.permissions.PermissionManager;
+import constitution.permissions.PermissionsContainer;
 import constitution.permissions.User;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -121,7 +122,7 @@ public class ChatManager {
 				//User:
 				String userPrefixAC = user.getPrefix();
 				String userSuffixAC = user.getSuffix();
-				String userNodesAC = user.getNodes();
+				PermissionsContainer userNodesAC = user.permsContainer;
 				String userUUIDAC = user.getUUID().toString().replace("-", "");
 				String userLocationAC = user.getLocationAsString();
 				String userIPAC = user.getIP();
@@ -132,7 +133,7 @@ public class ChatManager {
 				String groupDescAC = group.getDesc();
 				String groupPrefixAC = group.getPrefix();
 				String groupSuffixAC = group.getSuffix();
-				String groupNodesAC = group.getNodes();
+				PermissionsContainer groupNodesAC = group.permsContainer;
 				
 				//TODO: Channel?
 
@@ -216,8 +217,10 @@ public class ChatManager {
 							userUUIDAC = "Insufficient Viewership Permissions";
 							userIPAC = "Insufficient Viewership Permissions";
 							userLocationAC = "Insufficient Viewership Permissions";
-							userNodesAC = "Insufficient Viewership Permissions";
-							groupNodesAC ="Insufficient Viewership Permissions";
+							userNodesAC.clear();
+							userNodesAC.add("Insufficient Viewership Permissions");
+							groupNodesAC.clear();
+							groupNodesAC.add("Insufficient Viewership Permissions");
 							channel.sendMessage(finalComponentWithHover);
 						} else {
 						channel.sendMessage(finalComponentWithoutHover);

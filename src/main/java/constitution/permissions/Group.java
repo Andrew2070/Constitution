@@ -78,10 +78,13 @@ public class Group implements IChatFormat {
 		this.desc = Config.instance.defaultGroupDesc.get();
 		this.prefix = Config.instance.defaultGroupPrefix.get();
 		this.suffix = Config.instance.defaultGroupSuffix.get();
+		this.permsContainer.add("command.help");
+		this.permsContainer.add("consitutiton.cmd");
+		this.permsContainer.add("consitutiton.cmd.perm");
 	}
 
 	public Group(String name) {
-		this.name = Config.instance.defaultGroupName.get();
+		this.name = name;
 		this.rank = Config.instance.defaultGroupRank.get();
 		this.desc = Config.instance.defaultGroupDesc.get();
 		this.prefix = Config.instance.defaultGroupPrefix.get();
@@ -203,7 +206,7 @@ public class Group implements IChatFormat {
 				this.getRank(),
 				this.getPrefix(),
 				this.getSuffix(),
-				this.getNodes())).applyDelimiter("\n");
+				this.permsContainer)).applyDelimiter("\n");
 		return LocalizationManager.get("constitution.format.short", this.getName(), hoverComponent);
 	}
 

@@ -409,7 +409,7 @@ public class User implements IChatFormat {
 				this.getLocationAsString(),
 				this.getGroups().toChatMessage(),
 				this.getIP(),
-				this.getNodes())).applyDelimiter("\n");
+				this.permsContainer)).applyDelimiter("\n");
 		return LocalizationManager.get("constitution.format.short", this.getUserName(), hoverComponent);
 	}
 
