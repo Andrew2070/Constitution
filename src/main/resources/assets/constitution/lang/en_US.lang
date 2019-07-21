@@ -86,7 +86,7 @@ constitution.cmd.channel.help={6|[CN] }{a|Base Channel Command}
 constitution.cmd.channel.create.help={6|[CN] }{a|Creates a Channel}
 constitution.cmd.channel.prefix.help={6|[CN] }{a|Base Channel Prefix Editing Command}
 constitution.cmd.channel.prefix.set.help={6|[CN] }{a|Set The Selected Channel's Prefix}
-constitution.cmd.channel.prefix.remove.help={6|[CN] }{a|Clear The Selected Channel's Prefix}
+constitution.cmd.channel.prefix.clear.help={6|[CN] }{a|Clear The Selected Channel's Prefix}
 
 
 
