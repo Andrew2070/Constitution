@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
-package constitution.commands.servercommands.administrative;
+package constitution.commands.servercommands.executive;
 import java.util.List;
 
 import constitution.chat.channels.Channel;
