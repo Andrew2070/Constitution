@@ -36,6 +36,7 @@ package constitution.events;
 
 import constitution.ConstitutionMain;
 import constitution.commands.engine.CommandManager;
+import constitution.configuration.Config;
 import constitution.permissions.PermissionContext;
 import constitution.permissions.PermissionManager;
 import constitution.utilities.ServerUtilities;
@@ -66,7 +67,7 @@ public class SendCommandEvent {
 				event.setCanceled(false);
 				return true;
 			}
-			if (manager.users.get(event.getSender().getCommandSenderEntity().getUniqueID()).isOp() == true) {
+			if (manager.users.get(event.getSender().getCommandSenderEntity().getUniqueID()).isOp() == true && Config.instance.fullAccessForOPS.get() == true) {
 				ConstitutionMain.logger.info("OP Firing Command:");
 				event.setCanceled(false);
 				return true;
