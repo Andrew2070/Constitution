@@ -46,6 +46,7 @@ import constitution.permissions.Group;
 import constitution.permissions.PermissionManager;
 import constitution.permissions.PermissionsContainer;
 import constitution.permissions.User;
+import constitution.utilities.Formatter;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
@@ -105,7 +106,7 @@ public class ChatManager {
 	public static void sendUniversalChanneledMessage(PermissionManager manager, EntityPlayerMP player, ITextComponent component, String msg) {
 		if (player!=null) {
 			if (msg!=null && !msg.isEmpty()) {
-				
+
 				String playerName = player.getDisplayNameString();
 				UUID playerUUID = player.getUniqueID();
 				User user = manager.users.get(playerUUID);
@@ -116,25 +117,28 @@ public class ChatManager {
 				String colorCode = "";
 				Channel channel = manager.channels.get(user.getChannel());
 				String userName = colorCode + player.getDisplayNameString();
-				
-				//Access Control Strings:
-				
+				Float health = player.getHealth();
+				//ACCESS CONTROL: Switch Values Here Before Generating ITextComponents To Fullfill Permission Contexts.
+
 				//User:
+				String userUUIDAC = user.getUUID().toString().replace("-", "");
 				String userPrefixAC = user.getPrefix();
 				String userSuffixAC = user.getSuffix();
-				PermissionsContainer userNodesAC = user.permsContainer;
-				String userUUIDAC = user.getUUID().toString().replace("-", "");
+				String userHealthAC = Float.toString(health);
+				String userJoinDateAC = Formatter.formatDate(user.getJoined());
+				String userActivityAC = Formatter.formatDate(user.lastOnline());
 				String userLocationAC = user.getLocationAsString();
-				String userIPAC = user.getIP();
 				Group userGroupsAC = user.getGroups();
-				
+				String userIPAC = user.getIP();
+				PermissionsContainer userNodesAC = user.permsContainer;
+
 				//Group:
-				Integer groupRankAC = group.getRank();
 				String groupDescAC = group.getDesc();
+				String groupRankAC = group.getRank().toString();
 				String groupPrefixAC = group.getPrefix();
 				String groupSuffixAC = group.getSuffix();
 				PermissionsContainer groupNodesAC = group.permsContainer;
-				
+
 				//TODO: Channel?
 
 				ITextComponent channelPrefix = new TextComponentString(channel.getPrefix());
@@ -177,6 +181,9 @@ public class ChatManager {
 						userUUIDAC,
 						userPrefixAC,
 						userSuffixAC,
+						userHealthAC,
+						userActivityAC,
+						userJoinDateAC,
 						userLocationAC,
 						userGroupsAC,
 						userIPAC,
@@ -208,24 +215,94 @@ public class ChatManager {
 						.appendSibling(groupSuffix)
 						.appendSibling(Colon)
 						.appendSibling(message);
+				boolean userFull = false;
+				boolean userPartial = false;
+				boolean groupFull = false;
+				boolean groupPartial = false;
+				boolean channelFull = false;
+				boolean finalized = true;
 
-					if (manager.checkPermission(player, ""
-							+ "")) {
-						channel.sendMessage(finalComponentWithHover);
-					} else {
-						if (manager.checkPermission(player, "constitution.cmd.perm.user.list.partial")) {
-							userUUIDAC = "Insufficient Viewership Permissions";
-							userIPAC = "Insufficient Viewership Permissions";
-							userLocationAC = "Insufficient Viewership Permissions";
-							userNodesAC.clear();
-							userNodesAC.add("Insufficient Viewership Permissions");
-							groupNodesAC.clear();
-							groupNodesAC.add("Insufficient Viewership Permissions");
-							channel.sendMessage(finalComponentWithHover);
-						} else {
-						channel.sendMessage(finalComponentWithoutHover);
-						}
+				for (String node : user.permsContainer) {
+					switch (node) {
+					case "constitution.cmd.perm.user.list":
+						userPartial = manager.checkPermission(player, node);
+					case "constitution.cmd.perm.user.info":
+						userFull = manager.checkPermission(player, node);
+						if (userFull)
+						userPartial = false;
+					case "constitution.cmd.perm.group.list":
+						groupPartial = manager.checkPermission(player, node);
+					case "constitution.cmd.perm.group.info":
+						groupFull = manager.checkPermission(player, node);
+						groupPartial = false;
+					case "constitution.cmd.channel.info":
+						channelFull = manager.checkPermission(player, node);
+					}
+				}
+				if (userFull && groupFull) {
+					if (!channelFull) {
+						//TODO: Add channel controls
+					}
+					channel.sendMessage(finalComponentWithHover);
 					ConstitutionMain.logger.info("[CHAT] " + finalComponentWithoutHover.getUnformattedText());
+					finalized = true;
+				}
+				if (userPartial && groupFull) {
+					if (!channelFull) {
+						//TODO: Add channel controls
+					}
+					userUUIDAC = "Insufficient Access";
+					userIPAC = "Insufficient Access";
+					userLocationAC = "Insufficient Access";
+					userNodesAC.clear();
+					userNodesAC.add("Insufficient Access");
+					channel.sendMessage(finalComponentWithHover);
+					ConstitutionMain.logger.info("[CHAT] " + finalComponentWithoutHover.getUnformattedText());
+					finalized = true;
+				}
+				if (userFull && groupPartial) {
+					if (!channelFull) {
+						//TODO: Add channel controls
+					}
+					groupNodesAC.clear();
+					groupNodesAC.add("Insufficient Access");
+					channel.sendMessage(finalComponentWithHover);
+					ConstitutionMain.logger.info("[CHAT] " + finalComponentWithoutHover.getUnformattedText());
+					finalized = true;
+				}
+				if (userPartial && groupFull) {
+					if (!channelFull) {
+						//TODO: Add channel controls
+					}
+					userUUIDAC = "Insufficient Access";
+					userIPAC = "Insufficient Access";
+					userLocationAC = "Insufficient Access";
+					userNodesAC.clear();
+					userNodesAC.add("Insufficient Access");
+					channel.sendMessage(finalComponentWithHover);
+					ConstitutionMain.logger.info("[CHAT] " + finalComponentWithoutHover.getUnformattedText());
+					finalized = true;
+				}
+				if (userPartial && groupPartial) {
+					if (!channelFull) {
+						//TODO: Add channel controls
+					}
+					userUUIDAC = "Insufficient Access";
+					userIPAC = "Insufficient Access";
+					userLocationAC = "Insufficient Access";
+					userNodesAC.clear();
+					userNodesAC.add("Insufficient Access");
+					groupNodesAC.clear();
+					groupNodesAC.add("Insufficient Access");
+					channel.sendMessage(finalComponentWithHover);
+					ConstitutionMain.logger.info("[CHAT] " + finalComponentWithoutHover.getUnformattedText());
+					finalized = true;
+				}
+				if (finalized = false) {
+					//Send default player no perm message
+					channel.sendMessage(finalComponentWithoutHover);
+					ConstitutionMain.logger.info("[CHAT] " + finalComponentWithoutHover.getUnformattedText());
+					finalized = true;
 				}
 			}
 		}
