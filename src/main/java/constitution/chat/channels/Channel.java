@@ -49,6 +49,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
 import constitution.ConstitutionMain;
+import constitution.chat.ChatManager;
 import constitution.configuration.Config;
 import constitution.configuration.json.JSONSerializerTemplate;
 import constitution.permissions.User;
@@ -331,7 +332,7 @@ public class Channel {
 			if (!this.mutelist.contains(user)) {
 				if (!this.blacklist.contains(user)) {
 					if (receivingPlayer!=null) {
-					receivingPlayer.sendMessage(message);
+						receivingPlayer.sendMessage(message);
 					}
 				}
 			}
@@ -352,6 +353,7 @@ public class Channel {
 			Channel channel = new Channel("", "");
 			channel.setName(jsonObject.get("Name").getAsString());
 			channel.setPassword(jsonObject.get("Password").getAsString());
+			channel.setPrefix(jsonObject.get("Prefix").getAsString());
 			channel.setEnabled(jsonObject.get("Enabled").getAsBoolean());
 			channel.setHidden(jsonObject.get("Hidden").getAsBoolean());
 			channel.setVerbose(jsonObject.get("Verbose").getAsBoolean());
@@ -435,6 +437,7 @@ public class Channel {
 
 			json.addProperty("Name", channel.getName());
 			json.add("Password", context.serialize(channel.getPassword()));
+			json.add("Prefix", context.serialize(channel.getPrefix()));
 			json.add("Enabled", context.serialize(channel.getEnabled()));
 			json.add("Hidden", context.serialize(channel.getHidden()));
 			json.add("Verbose", context.serialize(channel.getVerbose()));
