@@ -58,9 +58,7 @@ public class LogoutEvent {
 					user.setCreative(player.capabilities.isCreativeMode);
 					user.setDimension(player.dimension);
 					user.setGodMode(player.getIsInvulnerable());
-					user.setHealth(player.getHealth());
-					user.setLocation(player.getPosition());
-					user.setXPTotal(player.experienceTotal);	 
+					user.setLocation(player.getPosition());	 
 					user.setIP(player.getPlayerIP());
 				}
 			}
