@@ -58,11 +58,13 @@ import constitution.chat.component.ChatComponentFormatted;
 import constitution.configuration.Config;
 import constitution.configuration.json.JSONSerializerTemplate;
 import constitution.localization.LocalizationManager;
+import constitution.utilities.Formatter;
 import constitution.utilities.ServerUtilities;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class User implements IChatFormat {
 
@@ -74,7 +76,6 @@ public class User implements IChatFormat {
 	private					String 							Nick 				 = "";
 	private 				Date 							JoinDate 			 = new Date();
 	private				    Date 							LastOnline			 = new Date();
-	private					Long							LastActivity		 = null;
 	private					String 							IPAddress 			 = "";
 	private					Integer							Dimension			 = null;
 	private					BlockPos						Location			 = null;
@@ -83,8 +84,6 @@ public class User implements IChatFormat {
 	private					Boolean							GodMode				 = false;
 	private					Boolean							canFly				 = false;
 	private					Boolean							Creative			 = false;
-	private					Float							Health				 = null;
-	private					Integer							XPTotal				 = 0;
 	private 				String 							Prefix 				 = "";
 	private 				String						 	Suffix 				 = "";
 	private					Boolean							Banned				 = false;
@@ -96,22 +95,19 @@ public class User implements IChatFormat {
 
 	// UUID, Name, JoinDate, LastOnline, LastActive, Location, IPAddress, Operator, FakePlayer, GodMode, Gamemode, Prefix, Suffix, Nick, Banned, IPBanned, Nodes, Groups, Alts, etc
 
-	public User(EntityPlayerMP player, Date joinDate, long lastOnline) {
+	public User(EntityPlayerMP player, long joinDate, long lastOnline) {
 		this.UserName = player.getDisplayNameString();
 		this.LastName = player.getDisplayNameString();
 		this.uuid = player.getUniqueID();
 		this.IPAddress = player.getPlayerIP();
 		this.LastName = player.getDisplayNameString();
-		this.JoinDate = joinDate;
-		this.LastOnline.setTime(lastOnline);
+		this.JoinDate.setTime(joinDate * 1000L);
+		this.LastOnline.setTime(joinDate);
 		this.Location = player.getPosition();
 		this.GodMode = player.getIsInvulnerable();
 		this.Creative = player.isCreative();
 		this.Dimension = player.dimension;
 		this.canFly = player.capabilities.allowFlying;
-		this.LastActivity = player.getLastActiveTime();
-		this.Health = player.getHealth();
-		this.XPTotal = player.experienceTotal;
 		this.Groups.add(ServerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
 		this.setDominantGroup(ServerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
 		this.Operator = ServerUtilities.isOP(player.getPersistentID());
@@ -148,6 +144,10 @@ public class User implements IChatFormat {
 
 	public String getSuffix() {
 		return this.Suffix.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1");
+	}
+	
+	public Date getJoined() {
+		return this.JoinDate;
 	}
 
 	public String getNick() {
@@ -238,18 +238,6 @@ public class User implements IChatFormat {
 		return this.LastOnline;
 	}
 
-	public Long lastActivity() {
-		return this.LastActivity;
-	}
-
-	public Float getHealth() {
-		return this.Health;
-	}
-
-	public Integer getXPTotal() {
-		return this.XPTotal;
-	}
-
 	public BlockPos getLocation() {
 		return this.Location;
 	}
@@ -315,10 +303,6 @@ public class User implements IChatFormat {
 		this.Groups.add(group);
 	}
 
-	public void setXPTotal(Integer total) {
-		this.XPTotal = total;
-	}
-
 	public void setLocation(BlockPos position) {
 		this.Location = position;
 	}
@@ -339,10 +323,6 @@ public class User implements IChatFormat {
 		this.FakePlayer = value;
 	}
 
-	public void setHealth(Float value) {
-		this.Health = value;
-	}
-
 	public void setDimension(Integer dim) {
 		this.Dimension = dim;
 	}
@@ -353,10 +333,6 @@ public class User implements IChatFormat {
 
 	public void setLastOnline(Date date) {
 		this.LastOnline = date;
-	}
-
-	public void setLastActivity(Long time) {
-		this.LastActivity = time;
 	}
 
 	public void setNode(String node) {
@@ -399,13 +375,16 @@ public class User implements IChatFormat {
 	@Override
 	public ITextComponent toChatMessage() {
 		String modifiedUUID = this.getUUID().toString().replace("-", ""); //Decrease the Character Count by removing "-" between characters.
-
+		Float health = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(this.uuid).getHealth();
 		ITextComponent header = LocalizationManager.get("constitution.format.list.header", new ChatComponentFormatted("{9|%s}", ChatComponentBorders.borderEditorHover(this.getUserName())));
 		ITextComponent hoverComponent = ((ChatComponentFormatted)LocalizationManager.get("constitution.format.user.long.hover",
 				header, 						
 				modifiedUUID,
 				this.getPrefix(),
 				this.getSuffix(),
+				Float.toString(health),
+				Formatter.formatDate(this.getJoined()),
+				Formatter.formatDate(this.lastOnline()),
 				this.getLocationAsString(),
 				this.getGroups().toChatMessage(),
 				this.getIP(),
@@ -453,6 +432,7 @@ public class User implements IChatFormat {
 				user.metaContainer.addAll(context.<Meta.Container>deserialize(jsonObject.get("Meta"), Meta.Container.class));
 			}
 			user.setLastPlayerName(jsonObject.get("LastName").getAsString());
+			user.setChannel(jsonObject.get("Channel").getAsString());
 			user.setPrefix(jsonObject.get("Prefix").getAsString());
 			user.setSuffix(jsonObject.get("Suffix").getAsString());
 			user.setNick(jsonObject.get("Nickname").getAsString());
@@ -461,21 +441,19 @@ public class User implements IChatFormat {
 			user.setGodMode(jsonObject.get("GodMode").getAsBoolean());
 			user.setCanFly(jsonObject.get("CanFly").getAsBoolean());
 			user.setCreative(jsonObject.get("Creative").getAsBoolean());
-			user.setHealth(jsonObject.get("Health").getAsFloat());
-			user.setXPTotal(jsonObject.get("XPTotal").getAsInt());
 			user.setBanned(jsonObject.get("Banned").getAsBoolean());
 			user.setIPBanned(jsonObject.get("IPBanned").getAsBoolean());
 			user.setIP(jsonObject.get("IPAddress").getAsString());
 			user.setDimension(jsonObject.get("Dimension").getAsInt());
 			user.setLocation(new BlockPos(jsonObject.get("LocationX").getAsInt(),jsonObject.get("LocationY").getAsInt(), jsonObject.get("LocationZ").getAsInt()));
-			user.setLastActivity(jsonObject.get("LastActivity").getAsLong());
 			try {
-				user.setJoinDate(new SimpleDateFormat().parse(jsonObject.get("JoinDate").getAsString()));
-				user.setLastOnline(new SimpleDateFormat().parse(jsonObject.get("LastOnline").getAsString()));
+				SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss a");
+				user.setJoinDate(format.parse(jsonObject.get("JoinDate").getAsString()));
+				user.setLastOnline(format.parse(jsonObject.get("LastOnline").getAsString()));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-
+			
 			return user;
 		}
 
@@ -486,11 +464,11 @@ public class User implements IChatFormat {
 			json.addProperty("UUID", user.uuid.toString());
 			json.add("Player", context.serialize(user.getUserName()));
 			json.add("LastName", context.serialize(user.getLastPlayerName()));
+			json.add("Channel", context.serialize(user.getChannel()));
 			json.add("DominantGroup", context.serialize(user.getDominantGroupName()));
 			json.add("Nickname", context.serialize(user.getNick()));
 			json.add("JoinDate", context.serialize(user.joinDate()));
 			json.add("LastOnline", context.serialize(user.lastOnline()));
-			json.add("LastActivity", context.serialize(user.lastActivity()));
 			json.add("IPAddress", context.serialize(user.IPAddress));
 			json.add("Dimension", context.serialize(user.Dimension));
 			json.add("LocationX", context.serialize(user.getLocation().getX()));
@@ -501,8 +479,6 @@ public class User implements IChatFormat {
 			json.add("GodMode", context.serialize(user.godMode()));
 			json.add("CanFly", context.serialize(user.canFly()));
 			json.add("Creative", context.serialize(user.isCreative()));
-			json.add("Health", context.serialize(user.getHealth()));
-			json.add("XPTotal", context.serialize(user.getXPTotal()));
 			json.add("Banned", context.serialize(user.isBanned()));
 			json.add("IPBanned", context.serialize(user.isIPBanned()));
 			json.add("Prefix", context.serialize(user.getPrefix()));
