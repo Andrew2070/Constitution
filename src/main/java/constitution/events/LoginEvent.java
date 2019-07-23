@@ -81,7 +81,7 @@ public class LoginEvent {
 						if (!isPlayerBanned(player)) {
 							//Case 1: UUID and DisplayName don't exist in array:
 							if (!manager.users.contains(playerUUID) || !manager.users.contains(displayName)) {
-								User newUser = new User(player, new Date(System.currentTimeMillis()), System.currentTimeMillis());
+								User newUser = new User(player, System.currentTimeMillis(), System.currentTimeMillis());
 								newUser.setChannel(Config.instance.defaultChatChannel.get());
 								manager.users.add(newUser);
 								manager.saveUsers();
@@ -96,15 +96,8 @@ public class LoginEvent {
 								//Case 2: UUID exists (Existing User Returning):
 								if(manager.users.contains(playerUUID)) {
 									User existingUser = manager.users.get(playerUUID);
-									if (Config.instance.forceDefaultChannelLogin.get() == true) {
-										existingUser.setChannel(Config.instance.defaultChatChannel.get());
-									}
+									Channel defaultChannel = manager.channels.get(Config.instance.defaultChatChannel.get());
 									//Case 3: UUID exists but DisplayName is different (Alternative Account or Player Changed Their Username):
-									if(!manager.users.contains(displayName)) {
-										existingUser.setLastPlayerName(existingUser.getUserName());
-										existingUser.setUserName(displayName);
-										ConstitutionMain.logger.info("Existing User Modified For Alt: " + displayName);
-									}
 									//Do a bunch of stuff for returning User:
 									if (Config.instance.setLastGameMode.get() == true) {
 										if (existingUser.isCreative() == true) {
@@ -113,7 +106,19 @@ public class LoginEvent {
 											player.setGameType(GameType.SURVIVAL);
 										}
 									}
+									if (Config.instance.forceDefaultChannelLogin.get() == true) {
+										existingUser.setChannel(Config.instance.defaultChatChannel.get());
+									}
+									if(!manager.users.contains(displayName)) {
+										existingUser.setLastPlayerName(existingUser.getUserName());
+										existingUser.setUserName(displayName);
+										ConstitutionMain.logger.info("Existing User Modified For Alt: " + displayName);
+									}
+									existingUser.setLastOnline(new Date());
+									existingUser.setIP(player.getPlayerIP());
 									manager.saveUsers();
+									defaultChannel.setUser(existingUser);
+									manager.saveChannels();
 								}
 								//Case 4: DisplayName exists but UUID is different (Cracked Player Attempting Connection):
 								if(!manager.users.contains(playerUUID) && manager.users.contains(displayName)) {
@@ -145,7 +150,7 @@ public class LoginEvent {
 			} else {
 				//Case 5: First Join on SinglePlayer or Developer Environment With This UUID (Mod Testing Purposes):
 				if (!manager.users.contains(playerUUID)) {
-					User newUser = new User(player, new Date(System.currentTimeMillis()), System.currentTimeMillis());
+					User newUser = new User(player, System.currentTimeMillis(), System.currentTimeMillis());
 					Channel defaultChannel = manager.channels.get(Config.instance.defaultChatChannel.get());
 					Group defaultGroup = manager.groups.get(Config.instance.defaultGroupName.get());
 
@@ -158,7 +163,6 @@ public class LoginEvent {
 					defaultChannel.setUser(newUser);
 					manager.saveChannels();
 
-
 					defaultGroup.setUser(playerUUID);
 					manager.saveGroups();
 
@@ -168,6 +172,7 @@ public class LoginEvent {
 				else {
 					//Do stuff for returning player:
 					User existingUser = manager.users.get(playerUUID);
+					Channel defaultChannel = manager.channels.get(Config.instance.defaultChatChannel.get());
 					if (Config.instance.forceDefaultChannelLogin.get() == true) {
 						existingUser.setChannel(Config.instance.defaultChatChannel.get());
 					}
@@ -178,7 +183,12 @@ public class LoginEvent {
 							player.setGameType(GameType.SURVIVAL);
 						}
 					}
+					existingUser.setChannel(Config.instance.defaultChatChannel.get());
+					existingUser.setLastOnline(new Date());
+					existingUser.setIP(player.getPlayerIP());
 					manager.saveUsers();
+					defaultChannel.setUser(existingUser);
+					manager.saveChannels();
 				}
 			}
 		}
