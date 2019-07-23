@@ -144,6 +144,7 @@ public class PermissionProvider implements IPermissionHandler{
 	protected boolean searchNodes(PermissionsContainer container, String permission) {
 		Boolean permLevel = false;
 		if (container.contains(permission)) {
+			permLevel = true;
 			return true;
 		}
 		for (String p : container) {
@@ -162,9 +163,5 @@ public class PermissionProvider implements IPermissionHandler{
 			}
 		}
 		return permLevel;
-	}
-	protected boolean searchNodes2(PermissionsContainer container, String permission) {
-		
-		return false;
 	}
 }	
