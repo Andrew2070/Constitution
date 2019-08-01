@@ -93,6 +93,7 @@ public class Channel {
 	public Channel(String name, String password) {
 		this.name = name;
 		this.password = password;
+		this.prefix = "[" + name + "]";
 	}
 	public String getName() {
 		return this.name;
@@ -295,23 +296,33 @@ public class Channel {
 	}
 
 	public void setUser(User user) {
-		this.users.add(user);
+		if (!this.users.contains(user)) {
+			this.users.add(user);
+		}
 	}
 
 	public void setModerator(User user) {
-		this.moderators.add(user);
+		if (!this.moderators.contains(user)) {
+			this.moderators.add(user);
+		}
 	}
 
 	public void setBlackListedUser(User user) {
-		this.blacklist.add(user);
+		if (!this.blacklist.contains(user)) {
+			this.blacklist.add(user);
+		}
 	}
 
 	public void setWhiteListedUser(User user) {
-		this.whitelist.add(user);
+		if (!this.whitelist.contains(user)) {
+			this.whitelist.add(user);
+		}
 	}
 
 	public void setMuteListedUser(User user) {
-		this.mutelist.add(user);
+		if (!this.mutelist.contains(user)) {
+			this.mutelist.add(user);
+		}
 	}
 
 	public void setDimension(int dimension) {
@@ -329,10 +340,24 @@ public class Channel {
 	public void sendMessage(ITextComponent message) {
 		for (User user : this.users) {
 			EntityPlayerMP receivingPlayer = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(user.getUUID());
-			if (!this.mutelist.contains(user)) {
-				if (!this.blacklist.contains(user)) {
-					if (receivingPlayer!=null) {
+			if (!this.mutelist.contains(user) && !this.blacklist.contains(user)) {
+				if (receivingPlayer!=null) {
+					receivingPlayer.sendMessage(message);
+					ConstitutionMain.logger.info("[CHAT] "+ message.getUnformattedText());
+				}
+			}
+		}
+	}
+
+	//Send A Message To Players That Have This Permission Node:
+	public void sendConditionalMessage(ITextComponent message, String permission) {
+		for (User user : this.users) {
+			EntityPlayerMP receivingPlayer = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(user.getUUID());
+			if (!this.mutelist.contains(user) && !this.blacklist.contains(user)) {
+				if (receivingPlayer!=null) {
+					if (ServerUtilities.getManager().checkPermission(receivingPlayer, permission)) {
 						receivingPlayer.sendMessage(message);
+						ConstitutionMain.logger.info("[CHAT] "+ message.getUnformattedText());
 					}
 				}
 			}

@@ -239,7 +239,10 @@ public class User implements IChatFormat {
 	}
 
 	public BlockPos getLocation() {
-		return this.Location;
+		if (FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(this.getUUID()).getPosition() != this.Location) {
+			return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(this.getUUID()).getPosition();
+		}
+	return this.Location;
 	}
 
 	public Integer getDimension() {

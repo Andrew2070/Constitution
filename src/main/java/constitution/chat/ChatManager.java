@@ -33,11 +33,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 package constitution.chat;
-
-
 import java.util.UUID;
-
-import constitution.ConstitutionMain;
 import constitution.chat.channels.Channel;
 import constitution.chat.component.ChatComponentBorders;
 import constitution.chat.component.ChatComponentFormatted;
@@ -117,14 +113,14 @@ public class ChatManager {
 				String colorCode = "";
 				Channel channel = manager.channels.get(user.getChannel());
 				String userName = colorCode + player.getDisplayNameString();
-				Float health = player.getHealth();
+				Integer health = Math.round(player.getHealth());
 				//ACCESS CONTROL: Switch Values Here Before Generating ITextComponents To Fullfill Permission Contexts.
 
 				//User:
 				String userUUIDAC = user.getUUID().toString().replace("-", "");
 				String userPrefixAC = user.getPrefix();
 				String userSuffixAC = user.getSuffix();
-				String userHealthAC = Float.toString(health);
+				String userHealthAC = health.toString();
 				String userJoinDateAC = Formatter.formatDate(user.getJoined());
 				String userActivityAC = Formatter.formatDate(user.lastOnline());
 				String userLocationAC = user.getLocationAsString();
@@ -215,94 +211,10 @@ public class ChatManager {
 						.appendSibling(groupSuffix)
 						.appendSibling(Colon)
 						.appendSibling(message);
-				boolean userFull = false;
-				boolean userPartial = false;
-				boolean groupFull = false;
-				boolean groupPartial = false;
-				boolean channelFull = false;
-				boolean finalized = true;
-
-				for (String node : user.permsContainer) {
-					switch (node) {
-					case "constitution.cmd.perm.user.list":
-						userPartial = manager.checkPermission(player, node);
-					case "constitution.cmd.perm.user.info":
-						userFull = manager.checkPermission(player, node);
-						if (userFull)
-						userPartial = false;
-					case "constitution.cmd.perm.group.list":
-						groupPartial = manager.checkPermission(player, node);
-					case "constitution.cmd.perm.group.info":
-						groupFull = manager.checkPermission(player, node);
-						groupPartial = false;
-					case "constitution.cmd.channel.info":
-						channelFull = manager.checkPermission(player, node);
-					}
-				}
-				if (userFull && groupFull) {
-					if (!channelFull) {
-						//TODO: Add channel controls
-					}
-					channel.sendMessage(finalComponentWithHover);
-					ConstitutionMain.logger.info("[CHAT] " + finalComponentWithoutHover.getUnformattedText());
-					finalized = true;
-				}
-				if (userPartial && groupFull) {
-					if (!channelFull) {
-						//TODO: Add channel controls
-					}
-					userUUIDAC = "Insufficient Access";
-					userIPAC = "Insufficient Access";
-					userLocationAC = "Insufficient Access";
-					userNodesAC.clear();
-					userNodesAC.add("Insufficient Access");
-					channel.sendMessage(finalComponentWithHover);
-					ConstitutionMain.logger.info("[CHAT] " + finalComponentWithoutHover.getUnformattedText());
-					finalized = true;
-				}
-				if (userFull && groupPartial) {
-					if (!channelFull) {
-						//TODO: Add channel controls
-					}
-					groupNodesAC.clear();
-					groupNodesAC.add("Insufficient Access");
-					channel.sendMessage(finalComponentWithHover);
-					ConstitutionMain.logger.info("[CHAT] " + finalComponentWithoutHover.getUnformattedText());
-					finalized = true;
-				}
-				if (userPartial && groupFull) {
-					if (!channelFull) {
-						//TODO: Add channel controls
-					}
-					userUUIDAC = "Insufficient Access";
-					userIPAC = "Insufficient Access";
-					userLocationAC = "Insufficient Access";
-					userNodesAC.clear();
-					userNodesAC.add("Insufficient Access");
-					channel.sendMessage(finalComponentWithHover);
-					ConstitutionMain.logger.info("[CHAT] " + finalComponentWithoutHover.getUnformattedText());
-					finalized = true;
-				}
-				if (userPartial && groupPartial) {
-					if (!channelFull) {
-						//TODO: Add channel controls
-					}
-					userUUIDAC = "Insufficient Access";
-					userIPAC = "Insufficient Access";
-					userLocationAC = "Insufficient Access";
-					userNodesAC.clear();
-					userNodesAC.add("Insufficient Access");
-					groupNodesAC.clear();
-					groupNodesAC.add("Insufficient Access");
-					channel.sendMessage(finalComponentWithHover);
-					ConstitutionMain.logger.info("[CHAT] " + finalComponentWithoutHover.getUnformattedText());
-					finalized = true;
-				}
-				if (finalized = false) {
-					//Send default player no perm message
+				if (manager.checkPermission(player, "constitution.cmd.perm.user.list")) {
+					channel.sendConditionalMessage(finalComponentWithHover, "constitution.cmd.perm.user.list");
+				} else {
 					channel.sendMessage(finalComponentWithoutHover);
-					ConstitutionMain.logger.info("[CHAT] " + finalComponentWithoutHover.getUnformattedText());
-					finalized = true;
 				}
 			}
 		}

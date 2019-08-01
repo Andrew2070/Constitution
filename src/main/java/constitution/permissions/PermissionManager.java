@@ -180,7 +180,6 @@ public class PermissionManager {
 	public boolean checkPermission(ICommandSender sender, String permission) {
 		return checkPermission(new PermissionContext(sender), permission);
 	}
-
 	public void loadUsers() {
 		this.userConfig = new UserConfig(ConstitutionMain.CONFIG_FOLDER + "JSON/Users.json", this);
 		users.clear();
