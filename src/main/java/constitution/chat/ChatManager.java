@@ -121,12 +121,12 @@ public class ChatManager {
 				String userPrefixAC = user.getPrefix();
 				String userSuffixAC = user.getSuffix();
 				String userHealthAC = health.toString();
-				String userJoinDateAC = Formatter.formatDate(user.getJoined());
+				String userJoinDateAC = Formatter.formatDate(user.getJoinDate());
 				String userActivityAC = Formatter.formatDate(user.lastOnline());
 				String userLocationAC = user.getLocationAsString();
 				Group userGroupsAC = user.getGroups();
 				String userIPAC = user.getIP();
-				PermissionsContainer userNodesAC = user.permsContainer;
+				PermissionsContainer userNodesAC = user.getPermsContainer();
 
 				//Group:
 				String groupDescAC = group.getDesc();

@@ -79,8 +79,8 @@ public class PermissionProvider implements IPermissionHandler{
 		PermissionManager manager = ServerUtilities.getManager();
 		if (profile.getId() == context.getPlayer().getUniqueID()) {
 			User user = manager.users.get(profile.getId());
-			if (!user.permsContainer.isEmpty() && user.permsContainer!=null) {
-				if (searchNodes(user.permsContainer, node)) {
+			if (!user.getPermsContainer().isEmpty() && user.getPermsContainer()!=null) {
+				if (searchNodes(user.getPermsContainer(), node)) {
 					permLevel = true;
 					return true;
 				} else {

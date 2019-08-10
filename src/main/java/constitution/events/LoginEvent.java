@@ -100,7 +100,7 @@ public class LoginEvent {
 									//Case 3: UUID exists but DisplayName is different (Alternative Account or Player Changed Their Username):
 									//Do a bunch of stuff for returning User:
 									if (Config.instance.setLastGameMode.get() == true) {
-										if (existingUser.isCreative() == true) {
+										if (existingUser.getCreative() == true) {
 											player.setGameType(GameType.CREATIVE);
 										} else {
 											player.setGameType(GameType.SURVIVAL);
@@ -177,7 +177,7 @@ public class LoginEvent {
 						existingUser.setChannel(Config.instance.defaultChatChannel.get());
 					}
 					if (Config.instance.setLastGameMode.get() == true) {
-						if (existingUser.isCreative() == true) {
+						if (existingUser.getCreative() == true) {
 							player.setGameType(GameType.CREATIVE);
 						} else {
 							player.setGameType(GameType.SURVIVAL);
@@ -201,18 +201,18 @@ public class LoginEvent {
 		Boolean banned = false;
 		if (manager.users.get(playerUUID) != null) {
 			User existingUser = manager.users.get(playerUUID);
-		if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedIPs().isBanned(socketAddress)) {
-			existingUser.setIPBanned(true);
-			banned = true;
-		}
-		if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedPlayers().isBanned(profile)) {
-			existingUser.setBanned(true);
-			banned = true;
-		}
+			if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedIPs().isBanned(socketAddress)) {
+				existingUser.setIPBanned(true);
+				banned = true;
+			}
+			if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedPlayers().isBanned(profile)) {
+				existingUser.setBanned(true);
+				banned = true;
+			}
 
-		if (existingUser.isBanned() || existingUser.isIPBanned()) {
-			banned = true;
-		}
+			if (existingUser.getBanned() || existingUser.getIPBanned()) {
+				banned = true;
+			}
 		}
 		return banned;
 	}

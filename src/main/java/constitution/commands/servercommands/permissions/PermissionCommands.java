@@ -674,7 +674,7 @@ public class PermissionCommands {
 		}
 		UUID uuid = getUUIDFromUsername(args.get(0));
 		User user = getManager().users.get(uuid);
-		user.permsContainer.add(args.get(1));
+		user.setNode(args.get(1));
 		getManager().saveUsers();
 		ChatManager.send(sender, LocalizationManager.get("constitution.notification.perm.added", args.get(1), "User", user.getUserName()));
 		return CommandResponse.DONE;
@@ -697,7 +697,7 @@ public class PermissionCommands {
 
 		UUID uuid = getUUIDFromUsername(args.get(0));
 		User user = getManager().users.get(uuid);
-		user.permsContainer.remove(args.get(1));
+		user.removeNode(args.get(1));
 		getManager().saveUsers();
 		ChatManager.send(sender, LocalizationManager.get("constitution.notification.perm.removed", args.get(1),"User", user.getUserName()));
 		return CommandResponse.DONE;
@@ -721,20 +721,7 @@ public class PermissionCommands {
 		UUID uuid = getUUIDFromUsername(args.get(0));
 		User user = getManager().users.get(uuid);
 		getManager().saveUsers();
-		ChatManager.send(sender, user.permsContainer.toChatMessage());
+		ChatManager.send(sender, user.getPermsContainer().toChatMessage());
 		return CommandResponse.DONE;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

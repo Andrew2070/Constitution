@@ -100,7 +100,7 @@ public class PermissionManager {
 		}
 		if (this.users!=null) {
 			for (User user : this.users) {
-				for (String node : user.permsContainer) {
+				for (String node : user.getPermsContainer()) {
 					if (!permProvider.getRegisteredNodes().contains(node)) {
 						permProvider.registerNode(node, DefaultPermissionLevel.ALL, "");
 					}

@@ -36,6 +36,7 @@ package constitution.permissions;
 
 
 import java.lang.reflect.Type;
+import java.net.SocketAddress;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
+import com.mojang.authlib.GameProfile;
 
 import constitution.chat.IChatFormat;
 import constitution.chat.component.ChatComponentBorders;
@@ -67,7 +69,6 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class User implements IChatFormat {
-
 	private 				UUID 							uuid				 = null;
 	private				    String 							UserName 		     = "";
 	private					String							LastName			 = "";
@@ -78,45 +79,45 @@ public class User implements IChatFormat {
 	private				    Date 							LastOnline			 = new Date();
 	private					String 							IPAddress 			 = "";
 	private					Integer							Dimension			 = null;
+	private					Integer							LastDimension		 = null;
 	private					BlockPos						Location			 = null;
+	private					BlockPos						LastLocation		 = null;
 	private 				Boolean 						Operator 			 = false;
 	private 				Boolean 						FakePlayer 			 = false;
 	private					Boolean							GodMode				 = false;
-	private					Boolean							canFly				 = false;
+	private					Boolean							Flight				 = false;
 	private					Boolean							Creative			 = false;
+	private					Boolean							afk					 = false;
 	private 				String 							Prefix 				 = "";
 	private 				String						 	Suffix 				 = "";
 	private					Boolean							Banned				 = false;
 	private					Boolean							IPBanned			 = false;
-	public final			List<Group> 					Groups 				 = new ArrayList<Group>();
-	public final			List<String> 					alternateAccounts 	 = new ArrayList<String>();
-	public final		    PermissionsContainer 			permsContainer		 = new PermissionsContainer();
-	public final 			Meta.Container 					metaContainer 		 = new Meta.Container();
+	private final			List<Group> 					Groups 				 = new ArrayList<Group>();
+	private final			List<String> 					alternateAccounts 	 = new ArrayList<String>();
+	private final		    PermissionsContainer 			permsContainer		 = new PermissionsContainer();
+	private final 			Meta.Container 					metaContainer 		 = new Meta.Container();
 
 	// UUID, Name, JoinDate, LastOnline, LastActive, Location, IPAddress, Operator, FakePlayer, GodMode, Gamemode, Prefix, Suffix, Nick, Banned, IPBanned, Nodes, Groups, Alts, etc
 
 	public User(EntityPlayerMP player, long joinDate, long lastOnline) {
-		this.UserName = player.getDisplayNameString();
-		this.LastName = player.getDisplayNameString();
-		this.uuid = player.getUniqueID();
-		this.IPAddress = player.getPlayerIP();
-		this.LastName = player.getDisplayNameString();
+		setUUID(player.getUniqueID());
+		setUserName(player.getDisplayNameString());
+		setLastPlayerName(player.getDisplayNameString());
+		setDominantGroup(ServerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
+		setIP(player.getPlayerIP());
+		setDimension(player.dimension);
+		setLocation(player.getPosition());
+		setOP(ServerUtilities.isOP(player.getPersistentID()));
+		setGodMode(player.getIsInvulnerable());
+		setFlight(player.capabilities.allowFlying);
+		setCreative(player.isCreative());
+		setGroup(ServerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
 		this.JoinDate.setTime(joinDate * 1000L);
 		this.LastOnline.setTime(joinDate);
-		this.Location = player.getPosition();
-		this.GodMode = player.getIsInvulnerable();
-		this.Creative = player.isCreative();
-		this.Dimension = player.dimension;
-		this.canFly = player.capabilities.allowFlying;
-		this.Groups.add(ServerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
-		this.setDominantGroup(ServerUtilities.getManager().groups.get(Config.instance.defaultGroupName.get()));
-		this.Operator = ServerUtilities.isOP(player.getPersistentID());
 	}
-
 
 	public User(UUID uuid) {
 		this.uuid = uuid;
-
 	}
 
 	public User(UUID uuid, Group group) {
@@ -124,7 +125,16 @@ public class User implements IChatFormat {
 		this.Groups.add(group);
 	}
 
-	//Get Methods:
+	public String getformattedUserInfo() {
+		String location = "X: " + this.getLocation().getX() + " Y: " + this.getLocation().getY() + " Z:" + this.getLocation().getZ();
+		return String.format(" ----------%1$s----------\nUUID: %2$s\nPrefix: %3$s\nSuffix: %4$s\nLocation: %5$s\nGroup(s): %6$s\nIPAddress: %7$s\nPermissions: %8$s",
+				this.getUserName(), this.getUUID(), this.getPrefix(), this.getSuffix(), location, this.getGroups().getName(), this.getIP(), this.getNodes());
+	}
+
+	public Boolean getAFK() {
+		return this.afk;
+	}
+
 	public UUID getUUID() {
 		return this.uuid;
 	}
@@ -133,11 +143,84 @@ public class User implements IChatFormat {
 		return this.UserName;
 	}
 
-	public String getformattedUserInfo() {
-		String location = "X: " + this.getLocation().getX() + " Y: " + this.getLocation().getY() + " Z:" + this.getLocation().getZ();
-		return String.format(" ----------%1$s----------\nUUID: %2$s\nPrefix: %3$s\nSuffix: %4$s\nLocation: %5$s\nGroup(s): %6$s\nIPAddress: %7$s\nPermissions: %8$s",
-				this.getUserName(), this.getUUID(), this.getPrefix(), this.getSuffix(), location, this.getGroups().getName(), this.getIP(), this.getNodes());
+	public String getLastPlayerName() {
+		return this.LastName;
 	}
+
+	public Group getDominantGroup() {
+		return this.DominantGroup;
+	}
+
+	public String getDominantGroupName() {
+		return this.DominantGroup.getName();
+	}
+
+	public String getChannel() {
+		return this.ChannelName;
+	}
+
+	public String getNick() {
+		return this.Nick.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1");
+	}
+
+	public Date getJoinDate() {
+		return this.JoinDate;
+	}
+
+	public Date lastOnline() {
+		return this.LastOnline;
+	}
+
+	public String getIP() {
+		return this.IPAddress;
+	}
+
+	public Integer getDimension() {
+		return this.Dimension;
+	}
+
+	public Integer getLastDimension() {
+		return this.LastDimension;
+	}
+
+	public BlockPos getLocation() {
+		if (FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(this.getUUID()).getPosition() != this.Location) {
+			BlockPos location = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(this.getUUID()).getPosition();
+			setLocation(location);
+			return location;
+		}
+		return this.Location;
+	}
+
+	public BlockPos getLastLocation() {
+		return this.Location;
+	}
+
+	public String getLocationAsString() {
+		String location = "X: " + this.getLocation().getX() + " Y: " + this.getLocation().getY() + " Z:" + this.getLocation().getZ();
+		return location;
+	}
+
+	public Boolean getIsOp() {
+		return this.Operator;
+	}
+
+	public Boolean getIsfakePlayer() {
+		return this.FakePlayer;
+	}
+
+	public Boolean getGodMode() {
+		return this.GodMode;
+	}
+
+	public Boolean getFlight() {
+		return this.Flight;
+	}
+
+	public Boolean getCreative() {
+		return this.Creative;
+	}
+
 	public String getPrefix() {
 		return this.Prefix.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1");
 	}
@@ -145,41 +228,13 @@ public class User implements IChatFormat {
 	public String getSuffix() {
 		return this.Suffix.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1");
 	}
-	
-	public Date getJoined() {
-		return this.JoinDate;
+
+	public Boolean getBanned() {
+		return this.Banned;
 	}
 
-	public String getNick() {
-		return this.Nick.replaceAll("\u0026([\\da-fk-or])", "\u00A7$1");
-	}
-
-	public String getChannel() {
-		return this.ChannelName;
-	}
-	public String getLastPlayerName() {
-		return this.LastName;
-	}
-	public Boolean isOp() {
-		return this.Operator;
-	}
-
-	public Boolean isfakePlayer() {
-		return this.FakePlayer;
-	}
-
-	public String getNodes() {
-		for (String node : this.permsContainer) {
-			return node;
-		}
-		return "No Permissions Assigned";
-	}
-
-	public String getAlts() {
-		for (String alternateName : this.alternateAccounts) {
-			return alternateName;
-		}
-		return "No Alternative Account Names";
+	public Boolean getIPBanned() {
+		return this.IPBanned;
 	}
 
 	public Group getGroups() {
@@ -189,12 +244,17 @@ public class User implements IChatFormat {
 		return null;
 	}
 
+	public List<Group> getGroupsList() {
+		return this.Groups;
+	}
+
 	public String getGroupNames() {
 		for (Group group : this.Groups) {
 			return group.getName();
 		}
 		return null;
 	}
+
 	public Collection<String> getGroupNamesList() {
 		List<String> groups = new ArrayList<String>();
 		for (Group group : this.Groups) {
@@ -202,160 +262,43 @@ public class User implements IChatFormat {
 		}
 		return groups;
 	}
-	public List<Group> Groups() {
-		return this.Groups;
-	}
 
-	public String getIP() {
-		return this.IPAddress;
-	}
-
-	public Boolean canFly() {
-		return this.canFly;
-	}
-
-	public Boolean godMode() {
-		return this.GodMode;
-	}
-
-	public Boolean isCreative() {
-		return this.Creative;
-	}
-
-	public Boolean isBanned() {
-		return this.Banned;
-	}
-
-	public Boolean isIPBanned() {
-		return this.IPBanned;
-	}
-
-	public Date joinDate() {
-		return this.JoinDate;
-	}
-
-	public Date lastOnline() {
-		return this.LastOnline;
-	}
-
-	public BlockPos getLocation() {
-		if (FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(this.getUUID()).getPosition() != this.Location) {
-			return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(this.getUUID()).getPosition();
+	public String getAlts() {
+		for (String alternateName : this.alternateAccounts) {
+			return alternateName;
 		}
-	return this.Location;
+		return "No Alternative Account Names";
 	}
 
-	public Integer getDimension() {
-		return this.Dimension;
+	public String getNodes() {
+		for (String node : this.permsContainer) {
+			return node;
+		}
+		return "No Permissions Assigned";
 	}
 
-	public Group getDominantGroup() {
-		return this.DominantGroup;
-	}
-	public String getDominantGroupName() {
-		return this.DominantGroup.getName();
+	public PermissionsContainer getPermsContainer() {
+		return this.permsContainer;
 	}
 
-	public String getLocationAsString() {
-		String location = "X: " + this.getLocation().getX() + " Y: " + this.getLocation().getY() + " Z:" + this.getLocation().getZ();
-		return location;
+	public void setAFK(Boolean value) {
+		this.afk = value;
 	}
-	//Set Methods:
 
 	public void setUUID(UUID uuid) {
 		this.uuid = uuid;
-	}
-
-	public void setIP(EntityPlayerMP player) {
-		this.IPAddress = player.getPlayerIP();
-	}
-
-	public void setChannel(String channel) {
-		this.ChannelName = channel;
-	}
-
-	public void setIP(String string) {
-		this.IPAddress = string;
-	}
-
-	public void setLastPlayerName(String name) {
-		this.LastName = name;
 	}
 
 	public void setUserName(String username) {
 		this.UserName = username;
 	}
 
-	public void setPrefix(String prefix) {
-		this.Prefix = prefix;
-	}
-
-	public void setSuffix(String suffix) {
-		this.Suffix = suffix;
-	}
-
-	public void setNick(String nick) {
-		this.Nick = nick;
-	}
-
-	public void setOP(Boolean value) {
-		this.Operator = value;
-	}
-
-	public void setGroup(Group group) {
-		this.Groups.add(group);
-	}
-
-	public void setLocation(BlockPos position) {
-		this.Location = position;
-	}
-
-	public void setGodMode(Boolean value) {
-		this.GodMode = value;
-	}
-
-	public void setCanFly(Boolean value) {
-		this.canFly = value;
-	}
-
-	public void setCreative(Boolean value) {
-		this.Creative = value;
-	}
-
-	public void setFakePlayer(Boolean value) {
-		this.FakePlayer = value;
-	}
-
-	public void setDimension(Integer dim) {
-		this.Dimension = dim;
-	}
-
-	public void setJoinDate(Date date) {
-		this.JoinDate = date;
-	}
-
-	public void setLastOnline(Date date) {
-		this.LastOnline = date;
-	}
-
-	public void setNode(String node) {
-		this.permsContainer.add(node);
-	}
-
-	public void setAlt(String alternateName) {
-		this.alternateAccounts.add(alternateName);
+	public void setLastPlayerName(String name) {
+		this.LastName = name;
 	}
 
 	public void setDominantGroup(Group group) {
 		this.DominantGroup = group;
-	}
-
-	public void setBanned(Boolean val) {
-		this.Banned = val;
-	}
-
-	public void setIPBanned(Boolean val) {
-		this.IPBanned = val;
 	}
 
 	public void setDominantGroup() {
@@ -371,8 +314,121 @@ public class User implements IChatFormat {
 		}
 	}
 
+	public void setChannel(String channel) {
+		this.ChannelName = channel;
+	}
+
+	public void setJoinDate(Date date) {
+		this.JoinDate = date;
+	}
+
+	public void setLastOnline(Date date) {
+		this.LastOnline = date;
+	}
+
+	public void setNick(String nick) {
+		this.Nick = nick;
+	}
+
+	public void setIP(EntityPlayerMP player) {
+		this.IPAddress = player.getPlayerIP();
+	}
+
+	public void setIP(String string) {
+		this.IPAddress = string;
+	}
+
+	public void setDimension(Integer dim) {
+		this.Dimension = dim;
+	}
+
+	public void setLastDimension(Integer dim) {
+		this.LastDimension = dim;
+	}
+
+	public void setLocation(BlockPos position) {
+		this.Location = position;
+	}
+
+	public void setLastLocation(BlockPos location) {
+		this.LastLocation = location;
+	}
+
+	public void setPrefix(String prefix) {
+		this.Prefix = prefix;
+	}
+
+	public void setSuffix(String suffix) {
+		this.Suffix = suffix;
+	}
+
+	public void setOP(Boolean value) {
+		this.Operator = value;
+	}
+
+	public void setGroup(Group group) {
+		this.Groups.add(group);
+	}
+
+	public void setFakePlayer(Boolean value) {
+		this.FakePlayer = value;
+	}
+
+	public void setGodMode(Boolean value) {
+		this.GodMode = value;
+	}
+
+	public void setFlight(Boolean value) {
+		this.Flight = value;
+	}
+
+	public void setCreative(Boolean value) {
+		this.Creative = value;
+	}
+
+	public void setBanned(Boolean val) {
+		this.Banned = val;
+	}
+
+	public void setIPBanned(Boolean val) {
+		this.IPBanned = val;
+	}
+
+	public void setAlt(String alternateName) {
+		this.alternateAccounts.add(alternateName);
+	}
+
+	public void setNode(String node) {
+		this.permsContainer.add(node);
+	}
+
+	public void removeNode(String node) {
+		this.permsContainer.remove(node);
+	}
+
 	public Boolean isOP(UUID uuid) {
 		return ServerUtilities.isOP(uuid);
+	}
+
+	public Boolean getBanStatus() {
+		UUID playerUUID = getUUID();
+		EntityPlayerMP player = ServerUtilities.getMinecraftServer().getPlayerList().getPlayerByUUID(playerUUID);
+		GameProfile profile = player.getGameProfile();
+		SocketAddress socketAddress = player.connection.getNetworkManager().getRemoteAddress();
+		Boolean banned = false;
+			if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedIPs().isBanned(socketAddress)) {
+				setIPBanned(true);
+				banned = true;
+			}
+			if (ServerUtilities.getMinecraftServer().getPlayerList().getBannedPlayers().isBanned(profile)) {
+				setBanned(true);
+				banned = true;
+			}
+
+			if (getBanned() || getIPBanned()) {
+				banned = true;
+			}
+		return banned;
 	}
 
 	@Override
@@ -386,7 +442,7 @@ public class User implements IChatFormat {
 				this.getPrefix(),
 				this.getSuffix(),
 				Float.toString(health),
-				Formatter.formatDate(this.getJoined()),
+				Formatter.formatDate(this.getJoinDate()),
 				Formatter.formatDate(this.lastOnline()),
 				this.getLocationAsString(),
 				this.getGroups().toChatMessage(),
@@ -442,7 +498,7 @@ public class User implements IChatFormat {
 			user.setOP(jsonObject.get("Operator").getAsBoolean());
 			user.setFakePlayer(jsonObject.get("FakePlayer").getAsBoolean());
 			user.setGodMode(jsonObject.get("GodMode").getAsBoolean());
-			user.setCanFly(jsonObject.get("CanFly").getAsBoolean());
+			user.setFlight(jsonObject.get("Flight").getAsBoolean());
 			user.setCreative(jsonObject.get("Creative").getAsBoolean());
 			user.setBanned(jsonObject.get("Banned").getAsBoolean());
 			user.setIPBanned(jsonObject.get("IPBanned").getAsBoolean());
@@ -456,7 +512,7 @@ public class User implements IChatFormat {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			
+
 			return user;
 		}
 
@@ -470,7 +526,7 @@ public class User implements IChatFormat {
 			json.add("Channel", context.serialize(user.getChannel()));
 			json.add("DominantGroup", context.serialize(user.getDominantGroupName()));
 			json.add("Nickname", context.serialize(user.getNick()));
-			json.add("JoinDate", context.serialize(user.joinDate()));
+			json.add("JoinDate", context.serialize(user.getJoinDate()));
 			json.add("LastOnline", context.serialize(user.lastOnline()));
 			json.add("IPAddress", context.serialize(user.IPAddress));
 			json.add("Dimension", context.serialize(user.Dimension));
@@ -478,12 +534,12 @@ public class User implements IChatFormat {
 			json.add("LocationY", context.serialize(user.getLocation().getY()));
 			json.add("LocationZ", context.serialize(user.getLocation().getZ()));
 			json.add("Operator", context.serialize(user.Operator));
-			json.add("FakePlayer", context.serialize(user.isfakePlayer()));
-			json.add("GodMode", context.serialize(user.godMode()));
-			json.add("CanFly", context.serialize(user.canFly()));
-			json.add("Creative", context.serialize(user.isCreative()));
-			json.add("Banned", context.serialize(user.isBanned()));
-			json.add("IPBanned", context.serialize(user.isIPBanned()));
+			json.add("FakePlayer", context.serialize(user.getIsfakePlayer()));
+			json.add("GodMode", context.serialize(user.getGodMode()));
+			json.add("Flight", context.serialize(user.getFlight()));
+			json.add("Creative", context.serialize(user.getCreative()));
+			json.add("Banned", context.serialize(user.getBanned()));
+			json.add("IPBanned", context.serialize(user.getIPBanned()));
 			json.add("Prefix", context.serialize(user.getPrefix()));
 			json.add("Suffix", context.serialize(user.getSuffix()));
 

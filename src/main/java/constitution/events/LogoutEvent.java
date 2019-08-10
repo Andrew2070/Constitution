@@ -54,7 +54,7 @@ public class LogoutEvent {
 			if (uuid !=null) {
 				User user = manager.users.get(uuid);
 				if (user !=null) {
-					user.setCanFly(player.capabilities.isFlying);
+					user.setFlight(player.capabilities.isFlying);
 					user.setCreative(player.capabilities.isCreativeMode);
 					user.setDimension(player.dimension);
 					user.setGodMode(player.getIsInvulnerable());
