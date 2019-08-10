@@ -49,13 +49,26 @@ import constitution.exceptions.PermissionCommandException;
 import constitution.localization.LocalizationManager;
 import constitution.permissions.Group;
 import constitution.permissions.PermissionManager;
+import constitution.permissions.User;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class ServerUtilities {
 
-
+	public static PermissionManager getManager() {
+		return ConstitutionMain.getPermissionManager();
+	}
+	
+	public static EntityPlayerMP getPlayerFromUser(User user) {
+		return getMinecraftServer().getPlayerList().getPlayerByUUID(user.getUUID());
+	}
+	
+	public static EntityPlayerMP getPlayerFromName(String name) {
+		return getMinecraftServer().getPlayerList().getPlayerByUsername(name);
+	}
+	
 	protected static UUID getUUIDFromUsername(String username) {
 		UUID uuid = ServerUtilities.getUUIDFromName(username);
 		if (uuid == null) {
@@ -64,10 +77,7 @@ public class ServerUtilities {
 		}
 		return uuid;
 	}
-	public static PermissionManager getManager() {
-		return ConstitutionMain.getPermissionManager();
-	}
-
+	
 	public static Group getGroupFromName(String name) {
 		Group group = getManager().groups.get(name);
 		return group;
@@ -84,16 +94,17 @@ public class ServerUtilities {
 		return null;
 	}
 
+	
 	public static Boolean isOP(UUID uuid) {
 
 		if (uuid != null) {
-			if (!ServerUtilities.getMinecraftServer().isSinglePlayer()) {
-				EntityPlayer player = ServerUtilities.getMinecraftServer().getPlayerList().getPlayerByUUID(uuid);
+			if (!getMinecraftServer().isSinglePlayer()) {
+				EntityPlayer player = getMinecraftServer().getPlayerList().getPlayerByUUID(uuid);
 				if (player instanceof EntityPlayer) {
 					if (player != null) {
 						GameProfile profile = player.getGameProfile();
-						Integer permissionLevelOP = ServerUtilities.getMinecraftServer().getOpPermissionLevel();
-						return ServerUtilities.getMinecraftServer().getPlayerList().canSendCommands(profile);
+						Integer permissionLevelOP = getMinecraftServer().getOpPermissionLevel();
+						return getMinecraftServer().getPlayerList().canSendCommands(profile);
 					}
 				}
 			} else {
