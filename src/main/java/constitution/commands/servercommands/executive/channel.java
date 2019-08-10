@@ -35,6 +35,7 @@
 package constitution.commands.servercommands.executive;
 import java.util.List;
 
+import constitution.chat.ChatManager;
 import constitution.chat.channels.Channel;
 import constitution.commands.engine.Command;
 import constitution.commands.engine.CommandResponse;
@@ -49,7 +50,10 @@ public class channel {
 		return ServerUtilities.getManager();
 	}
 	
-	@Command(name = "channel", permission = "constitution.cmd.channel", syntax = "/channel", alias = {"ch", "CH", "Ch"}, description = "")
+	@Command(name = "channel",
+			permission = "constitution.cmd.channel",
+			syntax = "/channel", alias = {"ch", "CH", "Ch"},
+			description = "Base Channel Command")
 	public static CommandResponse channelCommandMethod(ICommandSender sender, List<String> args) {
 		if (args.size() == 1) {
 			User user = getManager().users.get(sender.getCommandSenderEntity().getUniqueID());
@@ -59,6 +63,7 @@ public class channel {
 					channel.setUser(user);
 					getManager().saveUsers();
 					getManager().saveChannels();
+					ChatManager.send(sender, "constitution.cmd.channel.change.succesful", channel.getName());
 				}
 			}
 		}
@@ -70,7 +75,7 @@ public class channel {
 			parentName = "constitution.cmd.channel",
 			syntax = "/ch create <name> <password>",
 			alias = {},
-			description = "")
+			description = "Creates A New Channel")
 	public static CommandResponse channelCreate(ICommandSender sender, List<String> args) {
 		if (args.size()<1) {
 			return CommandResponse.SEND_SYNTAX;
@@ -84,15 +89,37 @@ public class channel {
 		Channel channel = new Channel(name, password);
 		getManager().channels.add(channel);
 		getManager().saveChannels();
+		ChatManager.send(sender, "constitution.cmd.channel.created", name);
 		return CommandResponse.DONE;
 	}
 
+	@Command(name = "remove",
+			permission = "constitution.cmd.channel.remove",
+			parentName = "constitution.cmd.channel",
+			syntax = "/ch remove <name>",
+			alias = {},
+			description = "Deletes Specified Channel")
+	public static CommandResponse channelRemove(ICommandSender sender, List<String> args) {
+		if (args.size()<1) {
+			return CommandResponse.SEND_SYNTAX;
+		}
+		if (getManager().channels.get(args.get(0)) == null) {
+			ChatManager.send(sender, "constitution.cmd.channel.notexist");
+			return CommandResponse.DONE;
+		}
+		Channel channel = getManager().channels.get(0);
+		
+		getManager().channels.remove(channel);
+		getManager().saveChannels();
+		ChatManager.send(sender, "constitution.cmd.channel.remove");
+		return CommandResponse.DONE;
+	}
 	@Command(name = "prefix",
 			permission = "constitution.cmd.channel.prefix",
 			parentName = "constitution.cmd.channel",
 			syntax = "/ch prefix",
 			alias = {},
-			description = "")
+			description = "Base Prefix Editing Command")
 	public static CommandResponse channelPrefix(ICommandSender sender, List<String> args) {
 		return CommandResponse.SEND_HELP_MESSAGE;
 	}
@@ -102,7 +129,7 @@ public class channel {
 			parentName = "constitution.cmd.channel.prefix",
 			syntax = "/ch prefix set <channel> <prefix>",
 			alias = {},
-			description = "")
+			description = "Sets Specified Channel Prefix")
 	public static CommandResponse channelPrefixAdd(ICommandSender sender, List<String> args) {
 		if (args.size()<2) {
 			return CommandResponse.SEND_SYNTAX;
@@ -111,6 +138,7 @@ public class channel {
 			Channel channel = getManager().channels.get(args.get(0));
 			channel.setPrefix(args.get(1));
 			getManager().saveChannels();
+			ChatManager.send(sender, "constitution.cmd.channel.prefix.set.succesful", channel.getName(), channel.getPrefix());
 		}
 		return CommandResponse.DONE;
 	}
@@ -120,7 +148,7 @@ public class channel {
 			parentName = "constitution.cmd.channel.prefix",
 			syntax = "/ch prefix clear <channel>",
 			alias = {},
-			description = "")
+			description = "Clears A Channel's Prefix")
 	public static CommandResponse channelPrefixClear(ICommandSender sender, List<String> args) {
 		if (args.size()<2) {
 			return CommandResponse.SEND_SYNTAX;
@@ -129,6 +157,7 @@ public class channel {
 			Channel channel = getManager().channels.get(args.get(0));
 			channel.setPrefix("");
 			getManager().saveChannels();
+			ChatManager.send(sender, "constitution.cmd.channel.prefix.remove.succesful", channel.getName());
 		}
 		return CommandResponse.DONE;
 	}
